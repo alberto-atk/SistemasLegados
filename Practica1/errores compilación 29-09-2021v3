@@ -1,0 +1,11 @@
+cajero.cbl: 273: error: syntax error, unexpected Identifier, expecting LEADING or TRAILING
+cajero.cbl: in paragraph 'LEER-TECLA':
+cajero.cbl: 834: error: syntax error, unexpected Identifier
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-MOV':
+cajero.cbl: 1022: error: 'LOW' is not defined
+cajero.cbl: in paragraph 'MUESTRA-TRANSF-CANCEL':
+cajero.cbl: 1492: error: syntax error, unexpected Identifier
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-ESPEC':
+cajero.cbl: 1526: error: 'LOW' is not defined
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-COMPRA-ENT':
+cajero.cbl: 1591: error: 'LOW' is not defined

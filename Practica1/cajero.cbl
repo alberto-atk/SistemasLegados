@@ -785,7 +785,7 @@
                   PERFORM RESTAURAR-CAMPOS-ACCESO
                   GO TO BLOQUEO-TARJETA.
                   
-         MENU.
+         MENU-OPCIONES.
             PERFORM RESTAURAR-CAMPOS-ACCESO.
 			DISPLAY PANTALLA-MENU-PRINCIPAL.
 			PERFORM LEER-TECLA.
@@ -816,7 +816,7 @@
 					      IF TECLA = 7
 						    GO TO CAMBIAR-CLAVE
 						  ELSE 
-							GO TO MENU.
+							GO TO MENU-OPCIONES.
 					  
 
    
@@ -944,7 +944,7 @@
              GO TO MUESTRA-SALDO.
 
 		   CLOSE USERFILE.
-           GO TO MENU.
+           GO TO MENU-OPCIONES.
 
                       
 *> Procedimiento consultar-movimientos      
@@ -955,13 +955,13 @@
 		     ON ESCAPE
 		       PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 		       MOVE " " TO MSJ-MOVS
-		       GO TO MENU.		       
+		       GO TO MENU-OPCIONES.		       
 		   
 		   PERFORM LEER-TECLA.
            IF CODIGO-TECLA = 27
               PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 		      MOVE " " TO MSJ-MOVS
-			  GO TO MENU
+			  GO TO MENU-OPCIONES
 		   ELSE
 		      IF CODIGO-TECLA NOT = 13
 				GO TO MOSTRAR-PANTALLA-MOVS
@@ -1026,7 +1026,7 @@
            PERFORM LEER-TECLA.
 		   IF CODIGO-TECLA = 27
 		     PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
-			 GO TO MENU  
+			 GO TO MENU-OPCIONES  
 		   ELSE
 		     IF CODIGO-TECLA = 52
 		       IF NUM-PANTALLA-MOV = 1
@@ -1220,7 +1220,7 @@
            IF CODIGO-TECLA NOT = 13
              GO TO MOSTRAR-ERROR-MOVS
            ELSE
-             GO TO MENU.       
+             GO TO MENU-OPCIONES.       
            
 *> Procedimiento restaurar-campos-movimientos
        RESTAURAR-CAMPOS-MOVIMIENTOS.
@@ -1253,14 +1253,14 @@
 		       MOVE 0 TO EUROSR
 			   MOVE 0 TO CENTR
 		       CLOSE USERFILE
-		       GO TO MENU.
+		       GO TO MENU-OPCIONES.
 		       
            PERFORM LEER-TECLA.
            IF CODIGO-TECLA = 27
              MOVE 0 TO EUROSR
 			 MOVE 0 TO CENTR
 		     CLOSE USERFILE
-	         GO TO MENU
+	         GO TO MENU-OPCIONES
            ELSE
              IF CODIGO-TECLA NOT = 13
                GO TO MOSTRAR-PANTALLA-RE.
@@ -1292,7 +1292,7 @@
            IF CODIGO-TECLA NOT = 13
              GO TO MUESTRA-EFECTIVO-RETIRADO.
         
-           GO TO MENU.
+           GO TO MENU-OPCIONES.
            
 *> Procedimiento guardar-movimiento-de-retirar-efectivo	   
 	   GUARDAR-MOV-RETIRAR-EFECTIVO.
@@ -1324,14 +1324,14 @@
 		     MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 		     CLOSE USERFILE
-		     GO TO MENU.
+		     GO TO MENU-OPCIONES.
 		  
 		  PERFORM LEER-TECLA.
            IF CODIGO-TECLA = 27
              MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 		     CLOSE USERFILE
-	         GO TO MENU
+	         GO TO MENU-OPCIONES
            ELSE
              IF CODIGO-TECLA NOT = 13
                GO TO MOSTRAR-PANTALLA-INI-INGRESO.
@@ -1346,7 +1346,7 @@
               GO TO MUESTRA-EFECTIVO-INGRESADO.
             MOVE 0 TO TOTAL-INGRESADO.
             MOVE 0 TO DINERO-A-INGRESAR.
-            GO TO MENU.
+            GO TO MENU-OPCIONES.
         
 *> Procedimiento gestionar-ingreso     
        GESTIONAR-INGRESO.
@@ -1422,13 +1422,13 @@
             ON ESCAPE
               PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
               CLOSE USERFILE
-              GO TO MENU.
+              GO TO MENU-OPCIONES.
               
            PERFORM LEER-TECLA.
            IF CODIGO-TECLA = 27
              PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
 			 CLOSE USERFILE
-	         GO TO MENU
+	         GO TO MENU-OPCIONES
 	       ELSE
              IF CODIGO-TECLA NOT = 13
 			   GO TO ESPERAR-DATOS-TRANSF.
@@ -1463,7 +1463,7 @@
 		   IF CODIGO-TECLA NOT = 13
 		     GO TO MUESTRA-TRANS-CONFIRMADA
 		   ELSE 
-		     GO TO MENU.
+		     GO TO MENU-OPCIONES.
 
 *> Procedimiento guardar-movimiento-hacer-transferencia  	   
 	   GUARDAR-MOV-TRANSF-EFECTIVO.
@@ -1493,7 +1493,7 @@
            IF CODIGO-TECLA NOT = 13
 			 GO TO MUESTRA-TRANSF-CANCEL
 		   ELSE
-		     GO TO MENU.
+		     GO TO MENU-OPCIONES.
 		
 *> Procedimiento limpiar-campos-transferencia  			   
        LIMPIAR-CAMPOS-TRANSFERENCIA.
@@ -1530,7 +1530,7 @@
            PERFORM LEER-TECLA.
 		   IF CODIGO-TECLA = 27
 		     PERFORM RESTAURAR-CAMPOS-ESPEC
-			 GO TO MENU  
+			 GO TO MENU-OPCIONES  
 		   ELSE
 		     IF CODIGO-TECLA = 52
 		       IF NUM-PANTALLA-ESPEC = 1
@@ -1636,7 +1636,7 @@
 		   IF CODIGO-TECLA = 27
 			 MOVE " " TO MSJ-COMPRAR-ENTRADAS
 			 PERFORM RESTAURAR-CAMPOS-ESPEC
-			 GO TO MENU
+			 GO TO MENU-OPCIONES
 		   ELSE
 			 IF CODIGO-TECLA NOT = 13
                GO TO MOSTRAR-PANTALLA-CONF-COMPRA
@@ -1719,7 +1719,7 @@
 	       ELSE
 	         PERFORM RESTAURAR-CAMPOS-ESPEC
 	         MOVE " " TO MSJ-COMPRAR-ENTRADAS
-	         GO TO MENU.
+	         GO TO MENU-OPCIONES.
        
 *> Procedimiento error-de-saldo-espectaculos             
        ERROR-SALDO-ESPEC.
@@ -1748,7 +1748,7 @@
            IF CODIGO-TECLA NOT = 13
              GO TO MOSTRAR-ERROR-ESPEC
            ELSE
-             GO TO MENU.
+             GO TO MENU-OPCIONES.
 
               
 *> Procedimiento cambiar-clave  
@@ -1761,13 +1761,13 @@
            ACCEPT PANTALLA-CAMBIAR-CLAVE
              ON ESCAPE
                CLOSE USERFILE
-               GO TO MENU.
+               GO TO MENU-OPCIONES.
            
            PERFORM LEER-TECLA.
            IF CODIGO-TECLA = 27
              PERFORM LIMPIAR-CAMPOS-CCLAVE
 			 CLOSE USERFILE
-	         GO TO MENU
+	         GO TO MENU-OPCIONES
 	       ELSE
              IF CODIGO-TECLA NOT = 13
                PERFORM LIMPIAR-CAMPOS-CCLAVE
@@ -1839,7 +1839,7 @@
 		       REWRITE REG-USUARIO 
 		       CLOSE USERFILE
 		       PERFORM LIMPIAR-CAMPOS-CCLAVE
-		       GO TO MENU.
+		       GO TO MENU-OPCIONES.
 
 *> Procedimiento limpiar-campos-cambio-clave  
        LIMPIAR-CAMPOS-CCLAVE.
