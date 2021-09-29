@@ -1,0 +1,49 @@
+cajero.cbl: 273: error: syntax error, unexpected Identifier, expecting LEADING or TRAILING
+cajero.cbl: in paragraph 'LOGIN':
+cajero.cbl: 788: error: syntax error, unexpected MENU
+cajero.cbl: 819: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'LEER-TECLA':
+cajero.cbl: 834: error: syntax error, unexpected Identifier
+cajero.cbl: in paragraph 'MUESTRA-SALDO':
+cajero.cbl: 947: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-MOVS':
+cajero.cbl: 958: error: syntax error, unexpected MENU
+cajero.cbl: 964: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-MOV':
+cajero.cbl: 1022: error: 'LOW' is not defined
+cajero.cbl: 1029: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-ERROR-MOVS':
+cajero.cbl: 1223: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-RE':
+cajero.cbl: 1256: error: syntax error, unexpected MENU
+cajero.cbl: 1263: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-EFECTIVO-RETIRADO':
+cajero.cbl: 1295: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-INI-INGRESO':
+cajero.cbl: 1327: error: syntax error, unexpected MENU
+cajero.cbl: 1334: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-EFECTIVO-INGRESADO':
+cajero.cbl: 1349: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'ESPERAR-DATOS-TRANSF':
+cajero.cbl: 1425: error: syntax error, unexpected MENU
+cajero.cbl: 1431: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-TRANS-CONFIRMADA':
+cajero.cbl: 1466: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-TRANSF-CANCEL':
+cajero.cbl: 1492: error: syntax error, unexpected Identifier
+cajero.cbl: 1496: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-ESPEC':
+cajero.cbl: 1526: error: 'LOW' is not defined
+cajero.cbl: 1533: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-COMPRA-ENT':
+cajero.cbl: 1591: error: 'LOW' is not defined
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-CONF-COMPRA':
+cajero.cbl: 1639: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-ENTRADAS-COMPRADAS':
+cajero.cbl: 1722: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-ERROR-ESPEC':
+cajero.cbl: 1751: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-CC':
+cajero.cbl: 1764: error: syntax error, unexpected MENU
+cajero.cbl: 1770: error: syntax error, unexpected MENU
+cajero.cbl: 1842: error: syntax error, unexpected MENU

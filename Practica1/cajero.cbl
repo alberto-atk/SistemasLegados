@@ -819,27 +819,27 @@
 							GO TO MENU.
 					  
 
-***********************************************************      
+   
 
-*Procedimiento obtener-fecha               
+*> Procedimiento obtener-fecha               
        OBTENER-FECHA.
            ACCEPT FECHA FROM DATE.
            MOVE CORR FECHA TO FECHAF.
 		   ACCEPT HORA FROM TIME.
 		   MOVE CORR HORA TO HORAF.
 
-*Procedimiento leer-tecla
+*> Procedimiento leer-tecla
        LEER-TECLA.
            ACCEPT TECLA LINE 25, POSITION 0 
 				ON EXCEPTION CODIGO-TECLA NEXT SENTENCE.
 
-***********************************************************      
-*Procedimiento restaurar-campos-acceso
+   
+*> Procedimiento restaurar-campos-acceso
        RESTAURAR-CAMPOS-ACCESO.
 		   MOVE 0 TO PIN.
 		   MOVE 0 TO NUM-TARJETA.
 		   
-*Procedimiento comprobar-acceso
+*> Procedimiento comprobar-acceso
 	   COMPROBAR-ACCESO.
            OPEN INPUT USERFILE. 
            OPEN I-O LOGINFILE.   
@@ -865,7 +865,7 @@
 			 CLOSE USERFILE
 			 CLOSE LOGINFILE.
 
-*Procedimiento error-tarjeta-bloqueada	
+*> Procedimiento error-tarjeta-bloqueada	
 	   ERROR-TAJETA-BLOQUEADA.
 	       CLOSE USERFILE.
 	       CLOSE LOGINFILE.
@@ -879,7 +879,7 @@
              ELSE
 			   GO TO INICIO.
 			   
-*Procedimiento error-usuario		    
+*> Procedimiento error-usuario		    
 	   ERROR-USUARIO.
 	       CLOSE USERFILE.
 	       CLOSE LOGINFILE.
@@ -898,7 +898,7 @@
              ELSE 
                GO TO MUESTRA-MENSAJE-ERROR-USUARIO.
 	   
-*Procedimiento error-clave	  
+*> Procedimiento error-clave	  
 	   ERROR-CLAVE.
          MUESTRA-MENSAJE-ERROR-ACCESO.
            DISPLAY PANTALLA-ERROR-ACCESO.
@@ -913,7 +913,7 @@
              ELSE 
                GO TO MUESTRA-MENSAJE-ERROR-ACCESO.
           
-*Procedimiento bloqueo-tarjeta     
+*> Procedimiento bloqueo-tarjeta     
        BLOQUEO-TARJETA.
 		   OPEN I-O USERFILE.
            READ USERFILE.
@@ -931,8 +931,8 @@
 		     CLOSE USERFILE
              GO TO INICIO.
 
-***********************************************************      
-*Procedimiento consultar-saldo  
+   
+*> Procedimiento consultar-saldo  
        CONSULTAR-SALDO.
 		   OPEN INPUT USERFILE.    
            READ USERFILE.
@@ -946,8 +946,8 @@
 		   CLOSE USERFILE.
            GO TO MENU.
 
-***********************************************************                         
-*Procedimiento consultar-movimientos      
+                      
+*> Procedimiento consultar-movimientos      
        CONSULTAR-MOVS.
           MOSTRAR-PANTALLA-MOVS.
 		   DISPLAY PANTALLA-CONSULTA-MOVIMIENTOS.
@@ -968,7 +968,7 @@
 			  ELSE
 				GO TO LEER-MOVIMIENTOS.
 
-*Procedimiento leer-movimientos
+*> Procedimiento leer-movimientos
        LEER-MOVIMIENTOS. 
            COMPUTE CANTIDAD-INICIAL-MOV = (ICENT / 100) + IEUROS.
            COMPUTE CANTIDAD-FINAL-MOV = (FCENT / 100) + FEUROS.                
@@ -1049,7 +1049,7 @@
 			     MOVE 12 TO LINEA-MOV
 		         GO TO MOSTRAR-PANTALLA-MOV.
        
-*Procedimiento comprobar-fechas
+*> Procedimiento comprobar-fechas
        COMPROBAR-FECHAS.
            COMPUTE FECHA-INICIAL-MOV = 
 						(AAI * 10000) + (MMI * 100) + DDI.
@@ -1086,7 +1086,7 @@
        FIN-COMPROBAR-FECHAS.
            EXIT.  
                   
-*Procedimiento comprobar-cantidades
+*> Procedimiento comprobar-cantidades
        COMPROBAR-CANTIDADES.
            IF CANTIDAD-INICIAL-MOV > CANTIDAD-FINAL-MOV
 			 MOVE MSJ-ERROR-CANT TO MSJ-MOVS
@@ -1098,7 +1098,7 @@
        FIN-COMPROBAR-CANTIDADES.
              EXIT.
  
-*Procedimiento buscar-todos-los-movimientos         
+*> Procedimiento buscar-todos-los-movimientos         
        BUSCAR-TODOS-MOVS.
            MOVE 0 TO NUM-TOTAL-MOV.
            MOVE 1 TO J.
@@ -1120,7 +1120,7 @@
 	       CLOSE MOVFILE.
          FIN-BUSCAR-TODOS-MOVS. 
        
-*Procedimiento buscar-movimientos-por-cantidad	         
+*> Procedimiento buscar-movimientos-por-cantidad	         
        BUSCAR-MOVS-POR-CANTIDAD.
            MOVE 0 TO NUM-TOTAL-MOV.
            MOVE 1 TO J.
@@ -1145,7 +1145,7 @@
 	       CLOSE MOVFILE.
          FIN-BUSCAR-MOVS-POR-CANTIDAD. 
 
-*Procedimiento buscar-movimientos-por-fecha	         
+*> Procedimiento buscar-movimientos-por-fecha	         
        BUSCAR-MOVS-POR-FECHA.
            MOVE 0 TO NUM-TOTAL-MOV.
            MOVE 1 TO J.
@@ -1176,7 +1176,7 @@
 	       CLOSE MOVFILE.
          FIN-BUSCAR-MOVS-POR-FECHA.
 
-*Procedimiento buscar-movimientos-por-cantidad-y-fecha	         
+*> Procedimiento buscar-movimientos-por-cantidad-y-fecha	         
        BUSCAR-MOVS-FECHA-CANT.
            MOVE 0 TO NUM-TOTAL-MOV.
            MOVE 1 TO J.
@@ -1211,7 +1211,7 @@
 	       CLOSE MOVFILE.
          FIN-BUSCAR-MOVS-FECHA-CANT.
         
-*Procedimiento error-mostrar-movimientos    
+*> Procedimiento error-mostrar-movimientos    
        ERROR-MOSTRAR-MOVIMIENTOS.
            PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS.
          MOSTRAR-ERROR-MOVS.
@@ -1222,7 +1222,7 @@
            ELSE
              GO TO MENU.       
            
-*Procedimiento restaurar-campos-movimientos
+*> Procedimiento restaurar-campos-movimientos
        RESTAURAR-CAMPOS-MOVIMIENTOS.
            MOVE 12 TO LINEA-MOV.
            MOVE "SI" TO FILTRAR-POR-FECHA.
@@ -1240,8 +1240,8 @@
 		   MOVE 0 TO MMF.
 		   MOVE 0 TO AAF. 
 
-***********************************************************      		   
-*Procedimiento retirar-efectivo
+   		   
+*> Procedimiento retirar-efectivo
        RETIRAR-EFECTIVO.
 		   OPEN I-O USERFILE.
            READ USERFILE. 
@@ -1294,7 +1294,7 @@
         
            GO TO MENU.
            
-*Procedimiento guardar-movimiento-de-retirar-efectivo	   
+*> Procedimiento guardar-movimiento-de-retirar-efectivo	   
 	   GUARDAR-MOV-RETIRAR-EFECTIVO.
 	       OPEN EXTEND MOVFILE.       
 		   COMPUTE CANTIDAD-RET-MOV = 
@@ -1311,8 +1311,8 @@
 	       WRITE REG-MOVIMIENTOS.
 	       CLOSE MOVFILE.
 
-***********************************************************      	   
-*Procedimiento ingresar-efectivo  
+   	   
+*> Procedimiento ingresar-efectivo  
 	   INGRESAR-EFECTIVO.
 	       OPEN I-O USERFILE.
            READ USERFILE.
@@ -1348,7 +1348,7 @@
             MOVE 0 TO DINERO-A-INGRESAR.
             GO TO MENU.
         
-*Procedimiento gestionar-ingreso     
+*> Procedimiento gestionar-ingreso     
        GESTIONAR-INGRESO.
 		    IF DINERO-A-INGRESAR = 0
 		      GO TO MOSTRAR-PANTALLA-INI-INGRESO
@@ -1393,7 +1393,7 @@
            PERFORM GUARDAR-MOV-INGRESAR-EFECTIVO.
            GO TO MUESTRA-EFECTIVO-INGRESADO.
  
-*Procedimiento guardar-movimiento-ingresar-efectivo  
+*> Procedimiento guardar-movimiento-ingresar-efectivo  
 	   GUARDAR-MOV-INGRESAR-EFECTIVO.
 	       OPEN EXTEND MOVFILE.       
 	       			
@@ -1408,8 +1408,8 @@
 	       WRITE REG-MOVIMIENTOS.
 	       CLOSE MOVFILE.            
  
-***********************************************************                 
-*Procedimiento hacer-transferencia     
+              
+*> Procedimiento hacer-transferencia     
        HACER-TRANSFERENCIA.
 		   OPEN I-O USERFILE.
            READ USERFILE.
@@ -1465,7 +1465,7 @@
 		   ELSE 
 		     GO TO MENU.
 
-*Procedimiento guardar-movimiento-hacer-transferencia  	   
+*> Procedimiento guardar-movimiento-hacer-transferencia  	   
 	   GUARDAR-MOV-TRANSF-EFECTIVO.
 	       OPEN EXTEND MOVFILE.       
 	       COMPUTE CANTIDAD-TRANSF-MOV = 
@@ -1484,7 +1484,7 @@
 	       WRITE REG-MOVIMIENTOS.
 	       CLOSE MOVFILE. 
 	            
-*Procedimiento gestionar-transferencia-cancelada       
+*> Procedimiento gestionar-transferencia-cancelada       
        GESTIONAR-TRANSF-CANCELADA.
          MUESTRA-TRANSF-CANCEL.
            DISPLAY PANTALLA-TRANSF-CANCELADA.
@@ -1495,15 +1495,15 @@
 		   ELSE
 		     GO TO MENU.
 		
-*Procedimiento limpiar-campos-transferencia  			   
+*> Procedimiento limpiar-campos-transferencia  			   
        LIMPIAR-CAMPOS-TRANSFERENCIA.
            MOVE " " TO CUENTA-DESTINO.
            MOVE " " TO TITULAR.
            MOVE 0 TO EUROST.
            MOVE 0 TO CENTT.
            
-***********************************************************                
-*Procedimiento comprar-entradas     
+             
+*> Procedimiento comprar-entradas     
        COMPRAR-ENTRADAS.
            PERFORM OBTENER-ESPECTACULOS THRU FIN-OBTENER-ESPECTACULOS.
            
@@ -1557,7 +1557,7 @@
 		           MOVE 12 TO LINEA-ESPEC
 		           GO TO GESTION-COMPRA-ENTRADAS.
 			
-*Procedimiento obtener-espectaculos            
+*> Procedimiento obtener-espectaculos            
        OBTENER-ESPECTACULOS.
            MOVE 0 TO NUM-TOTAL-ESPEC.
            MOVE 1 TO I.
@@ -1579,7 +1579,7 @@
 	       CLOSE ESPECFILE.
        FIN-OBTENER-ESPECTACULOS. 
        
-*Procedimiento gestionar-compra-de-entradas      
+*> Procedimiento gestionar-compra-de-entradas      
        GESTION-COMPRA-ENTRADAS.
          MOSTRAR-PANTALLA-COMPRA-ENT.
            COMPUTE NUM-ULTIMO-ESPEC = NUM-PANTALLA-ESPEC * 6.
@@ -1643,7 +1643,7 @@
 		     ELSE
 		       GO TO HACER-COMPRA-ENTRADAS.
 
-*Procedimiento comprobar-espectaculo  
+*> Procedimiento comprobar-espectaculo  
        COMPROBAR-ESPECTACULO.		   
            MOVE NUM-ESPEC TO ESPEC-NUMERO.
            OPEN INPUT ESPECFILE.
@@ -1657,7 +1657,7 @@
        FIN-COMPROBAR-ESPECTACULO.      
 		   CLOSE ESPECFILE.       			         
        
-*Procedimiento comprobar-entradas-disponibles  
+*> Procedimiento comprobar-entradas-disponibles  
        COMPROBAR-ENTRADAS-DISPO.				   
            OPEN INPUT ESPECFILE.
            READ ESPECFILE.    
@@ -1669,7 +1669,7 @@
 		   CLOSE ESPECFILE.
        FIN-COMPROBAR-ENTRADAS-DISPO.
 
-*Procedimiento calcular-coste-entradas  		    
+*> Procedimiento calcular-coste-entradas  		    
        CALCULAR-COSTE-ENTRADAS.
            OPEN INPUT ESPECFILE.
            READ ESPECFILE.
@@ -1678,7 +1678,7 @@
 		   CLOSE ESPECFILE.
        FIN-CALCULAR-COSTE-ENTRADAS.   
        
-*Procedimiento hacer-compra-entradas  
+*> Procedimiento hacer-compra-entradas  
        HACER-COMPRA-ENTRADAS.
            MOVE NUM-ESPEC TO ESPEC-NUMERO.
            OPEN I-O ESPECFILE.
@@ -1721,7 +1721,7 @@
 	         MOVE " " TO MSJ-COMPRAR-ENTRADAS
 	         GO TO MENU.
        
-*Procedimiento error-de-saldo-espectaculos             
+*> Procedimiento error-de-saldo-espectaculos             
        ERROR-SALDO-ESPEC.
          MOSTRAR-ERROR-SALDO-ESPEC. 
            DISPLAY PANTALLA-ESPEC-SIN-SALDO
@@ -1733,14 +1733,14 @@
 		     MOVE " " TO MSJ-COMPRAR-ENTRADAS
 		     GO TO COMPRAR-ENTRADAS.     
 
-*Procedimiento restaurar-campos-espectaculos       
+*> Procedimiento restaurar-campos-espectaculos       
        RESTAURAR-CAMPOS-ESPEC.
 		   MOVE 12 TO LINEA-ESPEC.
 		   MOVE 1 TO NUM-PANTALLA-ESPEC.
 		   MOVE 0 TO NUM-ESPEC.
 		   MOVE 0 TO NUM-ENTRADAS.
 
-*Procedimiento error-mostrar-espectaculos  	   
+*> Procedimiento error-mostrar-espectaculos  	   
 	   ERROR-MOSTRAR-ESPECTACULOS.
          MOSTRAR-ERROR-ESPEC.
            DISPLAY PANTALLA-SIN-ESPECTACULOS.
@@ -1750,8 +1750,8 @@
            ELSE
              GO TO MENU.
 
-***********************************************************                 
-*Procedimiento cambiar-clave  
+              
+*> Procedimiento cambiar-clave  
        CAMBIAR-CLAVE.
 		   OPEN I-O USERFILE.
            READ USERFILE.
@@ -1841,7 +1841,7 @@
 		       PERFORM LIMPIAR-CAMPOS-CCLAVE
 		       GO TO MENU.
 
-*Procedimiento limpiar-campos-cambio-clave  
+*> Procedimiento limpiar-campos-cambio-clave  
        LIMPIAR-CAMPOS-CCLAVE.
            MOVE 0 TO CLAVE-ACTUAL.
            MOVE 0 TO CLAVE-NUEVA.
