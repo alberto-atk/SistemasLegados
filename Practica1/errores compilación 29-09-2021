@@ -1,0 +1,146 @@
+cajero.cbl: 273: error: syntax error, unexpected Identifier, expecting LEADING or TRAILING
+cajero.cbl: in paragraph 'LOGIN':
+cajero.cbl: 788: error: syntax error, unexpected MENU
+cajero.cbl: 819: error: syntax error, unexpected MENU
+cajero.cbl: 822: error: syntax error, unexpected exponentiation operator
+cajero.cbl: 831: error: syntax error, unexpected *
+cajero.cbl: 834: error: syntax error, unexpected Identifier
+cajero.cbl: 836: error: syntax error, unexpected exponentiation operator
+cajero.cbl: 842: error: syntax error, unexpected *
+cajero.cbl: 868: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MUESTRA-MSJ-TARJETA-BLOQUEADA':
+cajero.cbl: 882: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MUESTRA-MENSAJE-ERROR-USUARIO':
+cajero.cbl: 901: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MUESTRA-MENSAJE-ERROR-ACCESO':
+cajero.cbl: 916: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MUESTRA-MSJ-BLOQUEO-TARJETA':
+cajero.cbl: 934: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'MUESTRA-SALDO':
+cajero.cbl: 947: error: syntax error, unexpected MENU
+cajero.cbl: 949: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-MOVS':
+cajero.cbl: 958: error: syntax error, unexpected MENU
+cajero.cbl: 964: error: syntax error, unexpected MENU
+cajero.cbl: 971: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-MOV':
+cajero.cbl: 1022: error: 'LOW' is not defined
+cajero.cbl: 1029: error: syntax error, unexpected MENU
+cajero.cbl: 1052: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-COMPROBAR-FECHAS':
+cajero.cbl: 1089: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-COMPROBAR-CANTIDADES':
+cajero.cbl: 1101: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-BUSCAR-TODOS-MOVS':
+cajero.cbl: 1123: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-BUSCAR-MOVS-POR-CANTIDAD':
+cajero.cbl: 1148: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-BUSCAR-MOVS-POR-FECHA':
+cajero.cbl: 1179: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-BUSCAR-MOVS-FECHA-CANT':
+cajero.cbl: 1214: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MOSTRAR-ERROR-MOVS':
+cajero.cbl: 1223: error: syntax error, unexpected MENU
+cajero.cbl: 1225: error: syntax error, unexpected *
+cajero.cbl: 1243: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-RE':
+cajero.cbl: 1256: error: syntax error, unexpected MENU
+cajero.cbl: 1263: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-EFECTIVO-RETIRADO':
+cajero.cbl: 1295: error: syntax error, unexpected MENU
+cajero.cbl: 1297: error: syntax error, unexpected *
+cajero.cbl: 1314: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-INI-INGRESO':
+cajero.cbl: 1327: error: syntax error, unexpected MENU
+cajero.cbl: 1334: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-EFECTIVO-INGRESADO':
+cajero.cbl: 1349: error: syntax error, unexpected MENU
+cajero.cbl: 1351: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-INGRESO':
+cajero.cbl: 1396: error: syntax error, unexpected *
+cajero.cbl: 1411: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'ESPERAR-DATOS-TRANSF':
+cajero.cbl: 1425: error: syntax error, unexpected MENU
+cajero.cbl: 1431: error: syntax error, unexpected MENU
+cajero.cbl: in paragraph 'MUESTRA-TRANS-CONFIRMADA':
+cajero.cbl: 1466: error: syntax error, unexpected MENU
+cajero.cbl: 1468: error: syntax error, unexpected *
+cajero.cbl: 1487: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MUESTRA-TRANSF-CANCEL':
+cajero.cbl: 1492: error: syntax error, unexpected Identifier
+cajero.cbl: 1496: error: syntax error, unexpected MENU
+cajero.cbl: 1498: error: syntax error, unexpected *
+cajero.cbl: 1505: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-ESPEC':
+cajero.cbl: 1526: error: 'LOW' is not defined
+cajero.cbl: 1533: error: syntax error, unexpected MENU
+cajero.cbl: 1560: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-OBTENER-ESPECTACULOS':
+cajero.cbl: 1582: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-COMPRA-ENT':
+cajero.cbl: 1591: error: 'LOW' is not defined
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-CONF-COMPRA':
+cajero.cbl: 1639: error: syntax error, unexpected MENU
+cajero.cbl: 1646: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-COMPROBAR-ESPECTACULO':
+cajero.cbl: 1660: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-COMPROBAR-ENTRADAS-DISPO':
+cajero.cbl: 1672: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'FIN-CALCULAR-COSTE-ENTRADAS':
+cajero.cbl: 1681: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MOSTRAR-ENTRADAS-COMPRADAS':
+cajero.cbl: 1722: error: syntax error, unexpected MENU
+cajero.cbl: 1724: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MOSTRAR-ERROR-SALDO-ESPEC':
+cajero.cbl: 1736: error: syntax error, unexpected *
+cajero.cbl: 1743: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'MOSTRAR-ERROR-ESPEC':
+cajero.cbl: 1751: error: syntax error, unexpected MENU
+cajero.cbl: 1753: error: syntax error, unexpected exponentiation operator
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-CC':
+cajero.cbl: 1764: error: syntax error, unexpected MENU
+cajero.cbl: 1770: error: syntax error, unexpected MENU
+cajero.cbl: 1842: error: syntax error, unexpected MENU
+cajero.cbl: 1844: error: syntax error, unexpected *
+cajero.cbl: in paragraph 'INICIO':
+cajero.cbl: 751: error: 'OBTENER-FECHA' is not defined
+cajero.cbl: 753: error: 'LEER-TECLA' is not defined
+cajero.cbl: in paragraph 'LOGIN':
+cajero.cbl: 764: error: 'RESTAURAR-CAMPOS-ACCESO' is not defined
+cajero.cbl: 767: error: 'LEER-TECLA' is not defined
+cajero.cbl: 775: error: 'COMPROBAR-ACCESO' is not defined
+cajero.cbl: 779: error: 'ERROR-CLAVE' is not defined
+cajero.cbl: 783: error: 'ERROR-CLAVE' is not defined
+cajero.cbl: 785: error: 'RESTAURAR-CAMPOS-ACCESO' is not defined
+cajero.cbl: 786: error: 'BLOQUEO-TARJETA' is not defined
+cajero.cbl: 789: error: 'RESTAURAR-CAMPOS-ACCESO' is not defined
+cajero.cbl: 791: error: 'LEER-TECLA' is not defined
+cajero.cbl: 799: error: 'CONSULTAR-SALDO' is not defined
+cajero.cbl: 802: error: 'CONSULTAR-MOVS' is not defined
+cajero.cbl: 805: error: 'RETIRAR-EFECTIVO' is not defined
+cajero.cbl: 808: error: 'INGRESAR-EFECTIVO' is not defined
+cajero.cbl: 811: error: 'HACER-TRANSFERENCIA' is not defined
+cajero.cbl: 814: error: 'COMPRAR-ENTRADAS' is not defined
+cajero.cbl: 817: error: 'CAMBIAR-CLAVE' is not defined
+cajero.cbl: 848: error: 'ERROR-USUARIO' is not defined
+cajero.cbl: 850: error: 'ERROR-TAJETA-BLOQUEADA' is not defined
+cajero.cbl: 853: error: 'ERROR-USUARIO' is not defined
+cajero.cbl: 872: error: 'RESTAURAR-CAMPOS-ACCESO' is not defined
+cajero.cbl: in paragraph 'MUESTRA-MSJ-TARJETA-BLOQUEADA':
+cajero.cbl: 876: error: 'LEER-TECLA' is not defined
+cajero.cbl: in paragraph 'MUESTRA-MENSAJE-ERROR-USUARIO':
+cajero.cbl: 892: error: 'LEER-TECLA' is not defined
+cajero.cbl: in paragraph 'MUESTRA-MENSAJE-ERROR-ACCESO':
+cajero.cbl: 905: error: 'LEER-TECLA' is not defined
+cajero.cbl: 907: error: 'RESTAURAR-CAMPOS-ACCESO' is not defined
+cajero.cbl: in paragraph 'MUESTRA-MSJ-BLOQUEO-TARJETA':
+cajero.cbl: 923: error: 'LEER-TECLA' is not defined
+cajero.cbl: in paragraph 'MUESTRA-SALDO':
+cajero.cbl: 942: error: 'LEER-TECLA' is not defined
+cajero.cbl: in paragraph 'MOSTRAR-PANTALLA-MOVS':
+cajero.cbl: 956: error: 'RESTAURAR-CAMPOS-MOVIMIENTOS' is not defined
+cajero.cbl: 960: error: 'LEER-TECLA' is not defined
+cajero.cbl: 962: error: 'RESTAURAR-CAMPOS-MOVIMIENTOS' is not defined
+cobc: too many errors
+cobc: aborting compile of cajero.cbl at line 1851 (PROGRAM-ID: CAJERO)
+
