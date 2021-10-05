@@ -1,0 +1,5 @@
+cajero.cbl: 273: error: syntax error, unexpected Identifier, expecting LEADING or TRAILING
+cajero.cbl: in paragraph 'LEER-TECLA':
+cajero.cbl: 834: error: syntax error, unexpected Identifier
+cajero.cbl: in paragraph 'MUESTRA-TRANSF-CANCEL':
+cajero.cbl: 1492: error: syntax error, unexpected Identifier
