@@ -831,8 +831,14 @@
 
 *> Procedimiento leer-tecla
        LEER-TECLA.
+<<<<<<< Updated upstream
            ACCEPT TECLA
 				ON EXCEPTION CODIGO-TECLA NEXT SENTENCE.
+=======
+           ACCEPT TECLA LINE 25 COLUMN 1
+                ON EXCEPTION MOVE TECLA TO CODIGO-TECLA.
+            
+>>>>>>> Stashed changes
 
    
 *> Procedimiento restaurar-campos-acceso
@@ -1488,8 +1494,13 @@
        GESTIONAR-TRANSF-CANCELADA.
          MUESTRA-TRANSF-CANCEL.
            DISPLAY PANTALLA-TRANSF-CANCELADA.
+<<<<<<< Updated upstream
            ACCEPT TECLA
 *>				ON EXCEPTION CODIGO-TECLA NEXT SENTENCE.
+=======
+           ACCEPT TECLA LINE 25, POSITION 1
+                ON EXCEPTION MOVE TECLA TO CODIGO-TECLA.
+>>>>>>> Stashed changes
            IF CODIGO-TECLA NOT = 13
 			 GO TO MUESTRA-TRANSF-CANCEL
 		   ELSE
