@@ -1,6 +1,6 @@
-        IDENTIFICATION DIVISION.
-        PROGRAM-ID. CAJERO.
-
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CAJERO.
+       
         ENVIRONMENT DIVISION.
         INPUT-OUTPUT SECTION.
         FILE-CONTROL.
@@ -289,10 +289,10 @@
                 BLANK WHEN ZERO.
             02 LINE 12 COL 37 VALUE "Clave: ".
             02 LINE 12 COL 44 PIC 9(4) USING PIN SECURE
-                BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
-            02 LINE 23 COL 48 VALUE "Enter - Aceptar".
-
+				BLANK WHEN ZERO.
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 48 VALUE "Enter - Aceptar". 
+         
          01 PANTALLA-ERROR-ACCESO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
@@ -300,7 +300,7 @@
             02 LINE 4 COL 39 VALUE "-".
             02 LINE 4 COL 41 PIC X(8) FROM HORAF.
             02 LINE 10 COL 22 PIC X(35) FROM MSJ-INTENTOS-ACC.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-ERROR-USUARIO.
@@ -311,7 +311,7 @@
             02 LINE 4 COL 41 PIC X(8) FROM HORAF.
             02 LINE 10 COL 22
                VALUE "El numero de tarjeta no es correcto".
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-BLOQUEO-TARJETA.
@@ -349,8 +349,8 @@
             02 LINE 13 COL 25 VALUE "5 - Ordenar transferencia".
             02 LINE 14 COL 25 VALUE "6 - Comprar entradas espectaculos".
             02 LINE 16 COL 25 VALUE "7 - Cambiar clave".
-            02 LINE 23 COL 34 VALUE "ESC - Salir".
-
+            02 LINE 23 COL 34 VALUE "F9 - Salir".
+        
          01 PANTALLA-CONSULTA-SALDO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
@@ -399,9 +399,9 @@
                 BLANK WHEN ZERO.
             02 LINE 17 COL 49 PIC 9(6) USING FEUROS UNDERLINE.
             02 LINE 17 COL 56 PIC 99 USING FCENT UNDERLINE FULL
-                BLANK WHEN ZERO.
-            02 LINE 19 COL 15 PIC X(50) FROM MSJ-MOVS HIGHLIGHT.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+				BLANK WHEN ZERO.
+			02 LINE 19 COL 15 PIC X(50) FROM MSJ-MOVS HIGHLIGHT.
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-MUESTRA-MOVIMIENTOS.
@@ -420,7 +420,7 @@
             02 LINE 12 COL 57 VALUE "--------".
             02 LINE 11 COL 68 VALUE "Saldo cuenta".
             02 LINE 12 COL 68 VALUE "------------".
-            02 LINE 23 COL 13 VALUE "ESC -".
+            02 LINE 23 COL 13 VALUE "F9 -".
             02 LINE 24 COL 11 VALUE "Cancelar".
             02 LINE 23 COL 32 VALUE "Arriba -".
             02 LINE 24 COL 28 VALUE "Espec. Anteriores".
@@ -452,7 +452,7 @@
             02 LINE 15 COL 47 PIC 9(9) USING EUROSR.
             02 LINE 15 COL 57 PIC 99 USING CENTR FULL BLANK WHEN ZERO.
             02 LINE 18 COLUMN 16 PIC X(48) FROM ERROR-RETIRAR HIGHLIGHT.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-EFECTIVO-RETIRADO.
@@ -483,9 +483,9 @@
             02 LINE 18 COL 24 VALUE "Cantidad a ingresar     .   EUR".
             02 LINE 18 COL 44 PIC 9(4) USING EUROSI.
             02 LINE 18 COL 49 PIC 99 USING CENTI FULL BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
-            02 LINE 23 COL 48 VALUE "Enter - Ingresar".
-
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 48 VALUE "Enter - Ingresar".  
+         
          01 PANTALLA-INGRESANDO-EFECTIVO REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
@@ -502,9 +502,9 @@
             02 LINE 16 COL 42 PIC ZZZZ9.99 FROM TOTAL-INGRESADO.
             02 LINE 19 COL 24 VALUE "Cantidad a ingresar     .   EUR".
             02 LINE 19 COL 44 PIC 9(4) USING EUROSI.
-            02 LINE 19 COL 49 PIC 99 USING CENTI FULL BLANK WHEN ZERO.
-            02 LINE 23 COL 28 VALUE "ESC - Finalizar ingreso".
-
+            02 LINE 19 COL 49 PIC 99 USING CENTI FULL BLANK WHEN ZERO.  
+            02 LINE 23 COL 28 VALUE "F9 - Finalizar ingreso".
+            
          01 PANTALLA-EFECTIVO-INGRESADO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
@@ -538,7 +538,7 @@
             02 LINE 17 COL 49 PIC 9(9) USING EUROST.
             02 LINE 17 COL 59 PIC 99 USING CENTT FULL BLANK WHEN ZERO.
             02 LINE 20 COL 16 PIC X(47) FROM ERROR-TRANSF HIGHLIGHT.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-CONFIRMAR-TRANSF.
@@ -556,7 +556,7 @@
             02 LINE 16 COL 22 VALUE "cuyo titular es ".
             02 LINE 14 COL 36 PIC X(20) FROM CUENTA-DESTINO.
             02 LINE 16 COL 38 PIC X(20) FROM TITULAR.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 46 VALUE "Enter - Confirmar".
 
          01 PANTALLA-TRANSF-CONFIRMADA.
@@ -601,8 +601,8 @@
             02 LINE 11 COL 63 VALUE "Precio".
             02 LINE 12 COL 63 VALUE "-------".
             02 LINE 11 COL 71 VALUE "Disponible".
-            02 LINE 12 COL 71 VALUE "----------".
-            02 LINE 23 COL 6 VALUE "ESC -".
+            02 LINE 12 COL 71 VALUE "----------".				
+            02 LINE 23 COL 6 VALUE "F9 -".
             02 LINE 24 COL 4 VALUE "Cancelar".
             02 LINE 23 COL 25 VALUE "Arriba -".
             02 LINE 24 COL 20 VALUE "Espec. Anteriores".
@@ -639,8 +639,8 @@
                 BLANK WHEN ZERO.
             02 LINE 20 COL 58 PIC 99 USING NUM-ESPEC BLANK WHEN ZERO.
             02 LINE 22 COL 14 PIC X(51) FROM MSJ-COMPRAR-ENTRADAS
-                HIGHLIGHT.
-            02 LINE 24 COL 17 VALUE "ESC - Cancelar".
+				HIGHLIGHT.
+            02 LINE 24 COL 17 VALUE "F9 - Cancelar".
             02 LINE 24 COL 48 VALUE "Enter - Comprar".
 
          01 PANTALLA-ENT-ESPEC-COMPRADAS.
@@ -685,7 +685,7 @@
             02 LINE 14 COL 38 PIC X(20) FROM ESPEC-NOMBRE.
             02 LINE 17 COL 27 VALUE "Precio total:         EUR".
             02 LINE 17 COL 41 PIC ---9.99 FROM COSTE-TOTAL-ENTRADAS.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 47 VALUE "Enter - Confirmar".
 
          01 PANTALLA-SIN-ESPECTACULOS.
@@ -716,8 +716,8 @@
                 BLANK WHEN ZERO.
             02 LINE 14 COL 29 VALUE "Repita la nueva clave: ".
             02 LINE 14 COL 52 PIC 9(4) USING CLAVE-NUEVA-2 SECURE
-                BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "ESC - Cancelar".
+            	BLANK WHEN ZERO.
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 47 VALUE "Enter - Confirmar".
 
          01 PANTALLA-CLAVE-CAMBIADA.
@@ -746,32 +746,32 @@
         PROCEDURE DIVISION.
          INICIO.
             PERFORM OBTENER-FECHA.
-            DISPLAY PANTALLA-BIENVENIDA.
-            PERFORM LEER-TECLA.
-            IF CODIGO-TECLA = 27
-              STOP RUN
-            ELSE
-             IF CODIGO-TECLA NOT = 13
-               GO TO INICIO.
-
+			DISPLAY PANTALLA-BIENVENIDA.  
+			PERFORM LEER-TECLA.
+			IF COB-CRT-STATUS = 1009
+			  STOP RUN 
+			ELSE
+			 IF COB-CRT-STATUS NOT = 0
+			   GO TO INICIO.
+			  
          LOGIN.
-            DISPLAY PANTALLA-ACCESO-SISTEMA.
-            ACCEPT PANTALLA-ACCESO-SISTEMA
-              ON ESCAPE
-                PERFORM RESTAURAR-CAMPOS-ACCESO
-                GO TO INICIO.
-
-            PERFORM LEER-TECLA.
-            IF CODIGO-TECLA = 27
-              GO TO INICIO
-            ELSE
-             IF CODIGO-TECLA NOT = 13
-               MOVE 0 TO PIN
-               GO TO LOGIN.
-
-            PERFORM COMPROBAR-ACCESO.
-            IF NUM-INTENTOS-ACC > 0
-               IF NUM-INTENTOS-ACC = 1
+			DISPLAY PANTALLA-ACCESO-SISTEMA. 
+			ACCEPT PANTALLA-ACCESO-SISTEMA
+			  ON ESCAPE 
+			    PERFORM RESTAURAR-CAMPOS-ACCESO
+		        GO TO INICIO.
+		    
+		    PERFORM LEER-TECLA.
+			IF COB-CRT-STATUS = 1009	  
+			  GO TO INICIO 
+			ELSE
+			 IF COB-CRT-STATUS NOT = 0
+			   MOVE 0 TO PIN
+			   GO TO LOGIN.
+			    	  
+			PERFORM COMPROBAR-ACCESO. 
+			IF NUM-INTENTOS-ACC > 0
+	 	      IF NUM-INTENTOS-ACC = 1
                 MOVE MSJ-2-INTENTOS-ACC TO MSJ-INTENTOS-ACC
                 GO TO ERROR-CLAVE
               ELSE
@@ -784,24 +784,24 @@
 
          MENU-OPCIONES.
             PERFORM RESTAURAR-CAMPOS-ACCESO.
-            DISPLAY PANTALLA-MENU-PRINCIPAL.
-            PERFORM LEER-TECLA.
+			DISPLAY PANTALLA-MENU-PRINCIPAL.
+			PERFORM LEER-TECLA.
 
-            IF CODIGO-TECLA = 27
-              MOVE 0 TO NUM-ERRORES-CNUEVA
-              MOVE 0 TO NUM-ERRORES-CACTUAL
-              GO TO INICIO
-            ELSE
-              IF TECLA = 1
-                GO TO CONSULTAR-SALDO
-              ELSE
-                IF TECLA = 2
-                  GO TO CONSULTAR-MOVS
-                ELSE
-                  IF TECLA = 3
-                    GO TO RETIRAR-EFECTIVO
-                  ELSE
-                    IF TECLA = 4
+			IF COB-CRT-STATUS = 1009
+			  MOVE 0 TO NUM-ERRORES-CNUEVA
+		      MOVE 0 TO NUM-ERRORES-CACTUAL
+			  GO TO INICIO 
+			ELSE
+			  IF TECLA = 1
+			    GO TO CONSULTAR-SALDO
+			  ELSE
+			    IF TECLA = 2
+				  GO TO CONSULTAR-MOVS
+			    ELSE
+				  IF TECLA = 3
+			        GO TO RETIRAR-EFECTIVO
+				  ELSE
+				    IF TECLA = 4
                       GO TO INGRESAR-EFECTIVO
                     ELSE
                       IF TECLA = 5
@@ -827,13 +827,8 @@
 
 *> Procedimiento leer-tecla
        LEER-TECLA.
-           ACCEPT TECLA LINE 25 COLUMN 1
-                ON EXCEPTION GO TO ERROR_EXCEPTION.
-
-
-*> Procedimiento error-exception
-        ERROR_EXCEPTION.
-            MOVE TECLA TO CODIGO-TECLA.
+           ACCEPT TECLA LINE 25 COLUMN 1.
+            
 
 *> Procedimiento restaurar-campos-acceso
        RESTAURAR-CAMPOS-ACCESO.
@@ -873,9 +868,9 @@
            PERFORM RESTAURAR-CAMPOS-ACCESO.
 
          MUESTRA-MSJ-TARJETA-BLOQUEADA.
-           DISPLAY PANTALLA-TARJETA-BLOQUEADA.
-           PERFORM LEER-TECLA.
-             IF CODIGO-TECLA NOT = 13
+	       DISPLAY PANTALLA-TARJETA-BLOQUEADA.
+		   PERFORM LEER-TECLA.
+			 IF COB-CRT-STATUS NOT = 0
                GO TO MUESTRA-MSJ-TARJETA-BLOQUEADA
              ELSE
                GO TO INICIO.
@@ -891,7 +886,7 @@
            DISPLAY PANTALLA-ERROR-USUARIO.
 
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              GO TO INICIO
            ELSE
              IF CODIGO-TECLA = 13
@@ -904,7 +899,7 @@
          MUESTRA-MENSAJE-ERROR-ACCESO.
            DISPLAY PANTALLA-ERROR-ACCESO.
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              PERFORM RESTAURAR-CAMPOS-ACCESO
              GO TO INICIO
            ELSE
@@ -922,7 +917,7 @@
          MUESTRA-MSJ-BLOQUEO-TARJETA.
            DISPLAY PANTALLA-BLOQUEO-TARJETA.
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA NOT = 13
+           IF COB-CRT-STATUS NOT = 0
              GO TO MUESTRA-MSJ-BLOQUEO-TARJETA
            ELSE
              MOVE 0 TO NUM-INTENTOS-ACC.
@@ -938,10 +933,10 @@
            OPEN INPUT USERFILE.
            READ USERFILE.
 
-         MUESTRA-SALDO.
-           DISPLAY PANTALLA-CONSULTA-SALDO.
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA NOT = 13
+         MUESTRA-SALDO.  
+		   DISPLAY PANTALLA-CONSULTA-SALDO.
+		   PERFORM LEER-TECLA.
+           IF COB-CRT-STATUS NOT = 0
              GO TO MUESTRA-SALDO.
 
            CLOSE USERFILE.
@@ -951,23 +946,23 @@
 *> Procedimiento consultar-movimientos
        CONSULTAR-MOVS.
           MOSTRAR-PANTALLA-MOVS.
-           DISPLAY PANTALLA-CONSULTA-MOVIMIENTOS.
-           ACCEPT PANTALLA-CONSULTA-MOVIMIENTOS
-             ON ESCAPE
-               PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
-               MOVE " " TO MSJ-MOVS
-               GO TO MENU-OPCIONES.
-
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+		   DISPLAY PANTALLA-CONSULTA-MOVIMIENTOS.
+		   ACCEPT PANTALLA-CONSULTA-MOVIMIENTOS
+		     ON ESCAPE
+		       PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
+		       MOVE " " TO MSJ-MOVS
+		       GO TO MENU-OPCIONES.		       
+		   
+		   PERFORM LEER-TECLA.
+           IF COB-CRT-STATUS = 1009
               PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
-              MOVE " " TO MSJ-MOVS
-              GO TO MENU-OPCIONES
-           ELSE
-              IF CODIGO-TECLA NOT = 13
-                GO TO MOSTRAR-PANTALLA-MOVS
-              ELSE
-                GO TO LEER-MOVIMIENTOS.
+		      MOVE " " TO MSJ-MOVS
+			  GO TO MENU-OPCIONES
+		   ELSE
+		      IF COB-CRT-STATUS NOT = 0
+				GO TO MOSTRAR-PANTALLA-MOVS
+			  ELSE
+				GO TO LEER-MOVIMIENTOS.
 
 *> Procedimiento leer-movimientos
        LEER-MOVIMIENTOS.
@@ -1019,37 +1014,36 @@
            PERFORM UNTIL NUM-PRIMER-MOV > NUM-ULTIMO-MOV
                         OR CONCEPTO-D(NUM-PRIMER-MOV) = "FIN"
              ADD 1 TO LINEA-MOV
-             DISPLAY LINEA-DETALLE-MOV(NUM-PRIMER-MOV)
-                LINE LINEA-MOV, POSITION 1
-             ADD 1 TO NUM-PRIMER-MOV
-           END-PERFORM.
-
+             DISPLAY LINEA-DETALLE-MOV(NUM-PRIMER-MOV) 
+			 ADD 1 TO NUM-PRIMER-MOV
+	       END-PERFORM.
+           
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
-             PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
-             GO TO MENU-OPCIONES
-           ELSE
-             IF CODIGO-TECLA = 52
-               IF NUM-PANTALLA-MOV = 1
-                 MOVE 12 TO LINEA-MOV
-                 GO TO MOSTRAR-PANTALLA-MOV
-               ELSE
-                 SUBTRACT 1 FROM NUM-PANTALLA-MOV
-                 MOVE 12 TO LINEA-MOV
-                 GO TO MOSTRAR-PANTALLA-MOV
-             ELSE
-               IF CODIGO-TECLA = 53
-                 IF NUM-PANTALLA-MOV = TOTAL-PANTALLAS-MOV
-                   MOVE 12 TO LINEA-MOV
-                   GO TO MOSTRAR-PANTALLA-MOV
-                 ELSE
-                   ADD 1 TO NUM-PANTALLA-MOV
-                   MOVE 12 TO LINEA-MOV
-                   GO TO MOSTRAR-PANTALLA-MOV
-               ELSE
-                 MOVE 12 TO LINEA-MOV
-                 GO TO MOSTRAR-PANTALLA-MOV.
-
+		   IF COB-CRT-STATUS = 1009
+		     PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
+			 GO TO MENU-OPCIONES  
+		   ELSE
+		     IF CODIGO-TECLA = 52
+		       IF NUM-PANTALLA-MOV = 1
+				 MOVE 12 TO LINEA-MOV
+				 GO TO MOSTRAR-PANTALLA-MOV
+			   ELSE
+			     SUBTRACT 1 FROM NUM-PANTALLA-MOV
+				 MOVE 12 TO LINEA-MOV
+				 GO TO MOSTRAR-PANTALLA-MOV
+		     ELSE
+		       IF CODIGO-TECLA = 53
+		         IF NUM-PANTALLA-MOV = TOTAL-PANTALLAS-MOV
+				   MOVE 12 TO LINEA-MOV
+				   GO TO MOSTRAR-PANTALLA-MOV
+			     ELSE
+			       ADD 1 TO NUM-PANTALLA-MOV
+				   MOVE 12 TO LINEA-MOV
+				   GO TO MOSTRAR-PANTALLA-MOV
+			   ELSE
+			     MOVE 12 TO LINEA-MOV
+		         GO TO MOSTRAR-PANTALLA-MOV.
+       
 *> Procedimiento comprobar-fechas
        COMPROBAR-FECHAS.
            COMPUTE FECHA-INICIAL-MOV =
@@ -1218,7 +1212,7 @@
          MOSTRAR-ERROR-MOVS.
            DISPLAY PANTALLA-SIN-MOVIMIENTOS
            PERFORM LEER-TECLA
-           IF CODIGO-TECLA NOT = 13
+           IF COB-CRT-STATUS NOT = 0
              GO TO MOSTRAR-ERROR-MOVS
            ELSE
              GO TO MENU-OPCIONES.
@@ -1257,13 +1251,13 @@
                GO TO MENU-OPCIONES.
 
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              MOVE 0 TO EUROSR
              MOVE 0 TO CENTR
              CLOSE USERFILE
              GO TO MENU-OPCIONES
            ELSE
-             IF CODIGO-TECLA NOT = 13
+             IF COB-CRT-STATUS NOT = 0
                GO TO MOSTRAR-PANTALLA-RE.
 
            COMPUTE DINERO-A-SACAR = (CENTR / 100) + EUROSR.
@@ -1288,9 +1282,9 @@
            PERFORM GUARDAR-MOV-RETIRAR-EFECTIVO.
 
          MUESTRA-EFECTIVO-RETIRADO.
-           DISPLAY PANTALLA-EFECTIVO-RETIRADO.
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA NOT = 13
+		   DISPLAY PANTALLA-EFECTIVO-RETIRADO.
+		   PERFORM LEER-TECLA.
+           IF COB-CRT-STATUS NOT = 0
              GO TO MUESTRA-EFECTIVO-RETIRADO.
 
            GO TO MENU-OPCIONES.
@@ -1319,22 +1313,22 @@
            READ USERFILE.
 
          MOSTRAR-PANTALLA-INI-INGRESO.
-           DISPLAY PANTALLA-INICIAR-INGRESO.
-           ACCEPT PANTALLA-INICIAR-INGRESO
-            ON ESCAPE
-             MOVE 0 TO EUROSI
-             MOVE 0 TO CENTI
-             CLOSE USERFILE
-             GO TO MENU-OPCIONES.
-
-          PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+		   DISPLAY PANTALLA-INICIAR-INGRESO.
+		   ACCEPT PANTALLA-INICIAR-INGRESO
+		    ON ESCAPE
+		     MOVE 0 TO EUROSI
+			 MOVE 0 TO CENTI
+		     CLOSE USERFILE
+		     GO TO MENU-OPCIONES.
+		  
+		  PERFORM LEER-TECLA.
+           IF COB-CRT-STATUS = 1009
              MOVE 0 TO EUROSI
              MOVE 0 TO CENTI
              CLOSE USERFILE
              GO TO MENU-OPCIONES
            ELSE
-             IF CODIGO-TECLA NOT = 13
+             IF COB-CRT-STATUS NOT = 0
                GO TO MOSTRAR-PANTALLA-INI-INGRESO.
 
           COMPUTE DINERO-A-INGRESAR = (CENTI / 100) + EUROSI.
@@ -1343,7 +1337,7 @@
           MUESTRA-EFECTIVO-INGRESADO.
             DISPLAY PANTALLA-EFECTIVO-INGRESADO.
             PERFORM LEER-TECLA.
-            IF CODIGO-TECLA NOT = 13
+			IF COB-CRT-STATUS NOT = 0
               GO TO MUESTRA-EFECTIVO-INGRESADO.
             MOVE 0 TO TOTAL-INGRESADO.
             MOVE 0 TO DINERO-A-INGRESAR.
@@ -1351,42 +1345,42 @@
 
 *> Procedimiento gestionar-ingreso
        GESTIONAR-INGRESO.
-            IF DINERO-A-INGRESAR = 0
-              GO TO MOSTRAR-PANTALLA-INI-INGRESO
-            ELSE
-              MOVE 0 TO EUROSI
-              MOVE 0 TO CENTI
-              COMPUTE TOTAL-INGRESADO = TOTAL-INGRESADO
-                                        + DINERO-A-INGRESAR.
+		    IF DINERO-A-INGRESAR = 0
+		      GO TO MOSTRAR-PANTALLA-INI-INGRESO
+		    ELSE
+		      MOVE 0 TO EUROSI
+			  MOVE 0 TO CENTI
+		      COMPUTE TOTAL-INGRESADO = TOTAL-INGRESADO 
+										+ DINERO-A-INGRESAR.
+																			
+         MOSTRAR-PANTALLA-INGRESANDO.						
+		   DISPLAY PANTALLA-INGRESANDO-EFECTIVO.
+		   ACCEPT PANTALLA-INGRESANDO-EFECTIVO
+		    ON ESCAPE
+			 MOVE 0 TO EUROSI
+			 MOVE 0 TO CENTI
+			 GO TO FIN-INGRESO.
+		  
+		   PERFORM LEER-TECLA.
+		   IF COB-CRT-STATUS = 1009
+		     MOVE 0 TO EUROSI
+			 MOVE 0 TO CENTI
+			 GO TO FIN-INGRESO
+		   ELSE
+		     IF COB-CRT-STATUS NOT = 0
+			   GO TO MOSTRAR-PANTALLA-INGRESANDO.
+		  
+		   COMPUTE DINERO-A-INGRESAR = (CENTI / 100) + EUROSI.    
 
-         MOSTRAR-PANTALLA-INGRESANDO.
-           DISPLAY PANTALLA-INGRESANDO-EFECTIVO.
-           ACCEPT PANTALLA-INGRESANDO-EFECTIVO
-            ON ESCAPE
-             MOVE 0 TO EUROSI
-             MOVE 0 TO CENTI
-             GO TO FIN-INGRESO.
-
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
-             MOVE 0 TO EUROSI
-             MOVE 0 TO CENTI
-             GO TO FIN-INGRESO
-           ELSE
-             IF CODIGO-TECLA NOT = 13
-               GO TO MOSTRAR-PANTALLA-INGRESANDO.
-
-           COMPUTE DINERO-A-INGRESAR = (CENTI / 100) + EUROSI.
-
-           IF DINERO-A-INGRESAR = 0
-             GO TO MOSTRAR-PANTALLA-INGRESANDO
-           ELSE
-             COMPUTE TOTAL-INGRESADO = TOTAL-INGRESADO
-                                    + DINERO-A-INGRESAR
-             MOVE 0 TO EUROSI
-             MOVE 0 TO CENTI
-             GO TO MOSTRAR-PANTALLA-INGRESANDO.
-
+		   IF DINERO-A-INGRESAR = 0
+			 GO TO MOSTRAR-PANTALLA-INGRESANDO
+		   ELSE
+			 COMPUTE TOTAL-INGRESADO = TOTAL-INGRESADO 
+									+ DINERO-A-INGRESAR
+			 MOVE 0 TO EUROSI
+			 MOVE 0 TO CENTI
+			 GO TO MOSTRAR-PANTALLA-INGRESANDO.
+              
          FIN-INGRESO.
            COMPUTE USER-SALDO = USER-SALDO + TOTAL-INGRESADO.
            REWRITE REG-USUARIO.
@@ -1426,15 +1420,15 @@
               GO TO MENU-OPCIONES.
 
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
-             CLOSE USERFILE
-             GO TO MENU-OPCIONES
-           ELSE
-             IF CODIGO-TECLA NOT = 13
-               GO TO ESPERAR-DATOS-TRANSF.
-
-           COMPUTE DINERO-A-TRANSFERIR = (CENTT / 100) + EUROST.
+			 CLOSE USERFILE
+	         GO TO MENU-OPCIONES
+	       ELSE
+             IF COB-CRT-STATUS NOT = 0
+			   GO TO ESPERAR-DATOS-TRANSF.
+           
+           COMPUTE DINERO-A-TRANSFERIR = (CENTT / 100) + EUROST. 
            IF USER-SALDO < DINERO-A-TRANSFERIR
              MOVE MSJ-ERROR-TRANSF TO ERROR-TRANSF
              MOVE 0 TO EUROST
@@ -1444,59 +1438,59 @@
          MUESTRA-CONFIRMAR-TRANSF.
            DISPLAY PANTALLA-CONFIRMAR-TRANSF.
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
              CLOSE USERFILE
-             GO TO GESTIONAR-TRANSF-CANCELADA
-           ELSE
-             IF CODIGO-TECLA NOT = 13
-               GO TO MUESTRA-CONFIRMAR-TRANSF.
+			 GO TO GESTIONAR-TRANSF-CANCELADA
+	       ELSE
+             IF COB-CRT-STATUS NOT = 0
+			   GO TO MUESTRA-CONFIRMAR-TRANSF.
+           
+		   COMPUTE USER-SALDO = USER-SALDO - DINERO-A-TRANSFERIR.
+		   REWRITE REG-USUARIO.
+		   CLOSE USERFILE.
+		   PERFORM GUARDAR-MOV-TRANSF-EFECTIVO.
+		   
+		   PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA.
+         MUESTRA-TRANS-CONFIRMADA.    
+		   DISPLAY PANTALLA-TRANSF-CONFIRMADA.
+		   PERFORM LEER-TECLA.
+		   IF COB-CRT-STATUS NOT = 0
+		     GO TO MUESTRA-TRANS-CONFIRMADA
+		   ELSE 
+		     GO TO MENU-OPCIONES.
 
-           COMPUTE USER-SALDO = USER-SALDO - DINERO-A-TRANSFERIR.
-           REWRITE REG-USUARIO.
-           CLOSE USERFILE.
-           PERFORM GUARDAR-MOV-TRANSF-EFECTIVO.
-
-           PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA.
-         MUESTRA-TRANS-CONFIRMADA.
-           DISPLAY PANTALLA-TRANSF-CONFIRMADA.
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA NOT = 13
-             GO TO MUESTRA-TRANS-CONFIRMADA
-           ELSE
-             GO TO MENU-OPCIONES.
-
-*> Procedimiento guardar-movimiento-hacer-transferencia
-       GUARDAR-MOV-TRANSF-EFECTIVO.
-           OPEN EXTEND MOVFILE.
-           COMPUTE CANTIDAD-TRANSF-MOV =
-                DINERO-A-TRANSFERIR - (DINERO-A-TRANSFERIR * 2).
-           STRING "Transferencia a " TITULAR DELIMITED BY SIZE
-              INTO CONCEPTO-TRANSF-MOV.
-
-           MOVE USER-NUM-CUENTA TO MOV-ID.
-           MOVE CONCEPTO-TRANSF-MOV TO MOV-CONCEPTO.
-           MOVE CANTIDAD-TRANSF-MOV TO MOV-CANTIDAD.
-           MOVE CUENTA-DESTINO TO MOV-CUENTA-DESTINO.
-           MOVE USER-SALDO TO MOV-SALDO.
-           PERFORM OBTENER-FECHA.
-           MOVE FECHAF TO MOV-FECHA.
-           MOVE HORAF TO MOV-HORA.
-           WRITE REG-MOVIMIENTOS.
-           CLOSE MOVFILE.
-
-*> Procedimiento gestionar-transferencia-cancelada
+*> Procedimiento guardar-movimiento-hacer-transferencia  	   
+	   GUARDAR-MOV-TRANSF-EFECTIVO.
+	       OPEN EXTEND MOVFILE.       
+	       COMPUTE CANTIDAD-TRANSF-MOV = 
+				DINERO-A-TRANSFERIR - (DINERO-A-TRANSFERIR * 2).
+		   STRING "Transferencia a " TITULAR DELIMITED BY SIZE 
+		      INTO CONCEPTO-TRANSF-MOV.
+				
+	       MOVE USER-NUM-CUENTA TO MOV-ID.
+		   MOVE CONCEPTO-TRANSF-MOV TO MOV-CONCEPTO.
+		   MOVE CANTIDAD-TRANSF-MOV TO MOV-CANTIDAD.
+		   MOVE CUENTA-DESTINO TO MOV-CUENTA-DESTINO. 
+		   MOVE USER-SALDO TO MOV-SALDO.  
+		   PERFORM OBTENER-FECHA.
+		   MOVE FECHAF TO MOV-FECHA.
+		   MOVE HORAF TO MOV-HORA.
+	       WRITE REG-MOVIMIENTOS.
+	       CLOSE MOVFILE. 
+	            
+*> Procedimiento gestionar-transferencia-cancelada       
        GESTIONAR-TRANSF-CANCELADA.
          MUESTRA-TRANSF-CANCEL.
            DISPLAY PANTALLA-TRANSF-CANCELADA.
            ACCEPT TECLA LINE 25, POSITION 1
-                ON EXCEPTION GO TO ERROR_EXCEPTION.
-           IF CODIGO-TECLA NOT = 13
-             GO TO MUESTRA-TRANSF-CANCEL
-           ELSE
-             GO TO MENU-OPCIONES.
-
-*> Procedimiento limpiar-campos-transferencia
+                ON EXCEPTION MOVE TECLA TO CODIGO-TECLA.
+           IF COB-CRT-STATUS NOT = 0
+			 GO TO MUESTRA-TRANSF-CANCEL
+		   ELSE
+		     GO TO MENU-OPCIONES.
+		
+*> Procedimiento limpiar-campos-transferencia  			   
        LIMPIAR-CAMPOS-TRANSFERENCIA.
            MOVE " " TO CUENTA-DESTINO.
            MOVE " " TO TITULAR.
@@ -1523,42 +1517,41 @@
            DISPLAY PANTALLA-MUESTRA-ESPECTACULOS.
            PERFORM UNTIL NUM-PRIMER-ESPEC > NUM-ULTIMO-ESPEC
              ADD 1 TO LINEA-ESPEC
-             DISPLAY LINEA-DETALLE-ESPEC(NUM-PRIMER-ESPEC)
-                LINE LINEA-ESPEC, POSITION 1
-             ADD 1 TO NUM-PRIMER-ESPEC
-           END-PERFORM.
-
+             DISPLAY LINEA-DETALLE-ESPEC(NUM-PRIMER-ESPEC) 
+			 ADD 1 TO NUM-PRIMER-ESPEC
+	       END-PERFORM.
+           
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
-             PERFORM RESTAURAR-CAMPOS-ESPEC
-             GO TO MENU-OPCIONES
-           ELSE
-             IF CODIGO-TECLA = 52
-               IF NUM-PANTALLA-ESPEC = 1
-                 MOVE 12 TO LINEA-ESPEC
-                 GO TO MOSTRAR-PANTALLA-ESPEC
-               ELSE
-                 SUBTRACT 1 FROM NUM-PANTALLA-ESPEC
-                 MOVE 12 TO LINEA-ESPEC
-                 GO TO MOSTRAR-PANTALLA-ESPEC
-             ELSE
-               IF CODIGO-TECLA = 53
-                 IF NUM-PANTALLA-ESPEC = TOTAL-PANTALLAS-ESPEC
-                   MOVE 12 TO LINEA-ESPEC
-                   GO TO MOSTRAR-PANTALLA-ESPEC
-                 ELSE
-                   ADD 1 TO NUM-PANTALLA-ESPEC
-                   MOVE 12 TO LINEA-ESPEC
-                   GO TO MOSTRAR-PANTALLA-ESPEC
-               ELSE
-                 IF CODIGO-TECLA NOT = 13
-                   MOVE 12 TO LINEA-ESPEC
-                   GO TO MOSTRAR-PANTALLA-ESPEC
-                 ELSE
-                   MOVE 12 TO LINEA-ESPEC
-                   GO TO GESTION-COMPRA-ENTRADAS.
-
-*> Procedimiento obtener-espectaculos
+		   IF COB-CRT-STATUS = 1009
+		     PERFORM RESTAURAR-CAMPOS-ESPEC
+			 GO TO MENU-OPCIONES  
+		   ELSE
+		     IF CODIGO-TECLA = 52
+		       IF NUM-PANTALLA-ESPEC = 1
+				 MOVE 12 TO LINEA-ESPEC
+				 GO TO MOSTRAR-PANTALLA-ESPEC
+			   ELSE
+			     SUBTRACT 1 FROM NUM-PANTALLA-ESPEC
+				 MOVE 12 TO LINEA-ESPEC
+				 GO TO MOSTRAR-PANTALLA-ESPEC
+		     ELSE
+		       IF CODIGO-TECLA = 53
+		         IF NUM-PANTALLA-ESPEC = TOTAL-PANTALLAS-ESPEC
+				   MOVE 12 TO LINEA-ESPEC
+				   GO TO MOSTRAR-PANTALLA-ESPEC
+			     ELSE
+			       ADD 1 TO NUM-PANTALLA-ESPEC
+				   MOVE 12 TO LINEA-ESPEC
+				   GO TO MOSTRAR-PANTALLA-ESPEC
+			   ELSE
+			     IF COB-CRT-STATUS NOT = 0
+			       MOVE 12 TO LINEA-ESPEC
+		           GO TO MOSTRAR-PANTALLA-ESPEC
+		         ELSE
+		           MOVE 12 TO LINEA-ESPEC
+		           GO TO GESTION-COMPRA-ENTRADAS.
+			
+*> Procedimiento obtener-espectaculos            
        OBTENER-ESPECTACULOS.
            MOVE 0 TO NUM-TOTAL-ESPEC.
            MOVE 1 TO I.
@@ -1588,10 +1581,9 @@
            DISPLAY PANTALLA-COMPRAR-ENTRADAS.
            PERFORM UNTIL NUM-PRIMER-ESPEC > NUM-ULTIMO-ESPEC
              ADD 1 TO LINEA-ESPEC
-             DISPLAY LINEA-DETALLE-ESPEC(NUM-PRIMER-ESPEC)
-                LINE LINEA-ESPEC, POSITION 1
-             ADD 1 TO NUM-PRIMER-ESPEC
-           END-PERFORM.
+             DISPLAY LINEA-DETALLE-ESPEC(NUM-PRIMER-ESPEC) 
+			 ADD 1 TO NUM-PRIMER-ESPEC
+	       END-PERFORM.
            ACCEPT PANTALLA-COMPRAR-ENTRADAS
             ON ESCAPE
               PERFORM RESTAURAR-CAMPOS-ESPEC
@@ -1599,47 +1591,47 @@
               GO TO COMPRAR-ENTRADAS.
 
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              PERFORM RESTAURAR-CAMPOS-ESPEC
              MOVE " " TO MSJ-COMPRAR-ENTRADAS
              GO TO COMPRAR-ENTRADAS
-           ELSE
-             IF CODIGO-TECLA NOT = 13
+	       ELSE
+             IF COB-CRT-STATUS NOT = 0
                MOVE 12 TO LINEA-ESPEC
-               GO TO MOSTRAR-PANTALLA-COMPRA-ENT.
-
-           IF NUM-ENTRADAS = 0
-             MOVE 12 TO LINEA-ESPEC
-             GO TO MOSTRAR-PANTALLA-COMPRA-ENT.
-
-           PERFORM COMPROBAR-ESPECTACULO
-                        THRU FIN-COMPROBAR-ESPECTACULO.
-           IF EXISTE-ESPECTACULO = "NO"
-             MOVE MSJ-ERROR-ESPEC TO MSJ-COMPRAR-ENTRADAS
-             PERFORM RESTAURAR-CAMPOS-ESPEC
-             GO TO GESTION-COMPRA-ENTRADAS.
-
-           PERFORM COMPROBAR-ENTRADAS-DISPO
-                        THRU FIN-COMPROBAR-ENTRADAS-DISPO.
-           IF HAY-ENTRADAS = "NO"
-             MOVE MSJ-ERROR-ENTRADAS TO MSJ-COMPRAR-ENTRADAS
-             PERFORM RESTAURAR-CAMPOS-ESPEC
-             GO TO GESTION-COMPRA-ENTRADAS.
-
-           PERFORM CALCULAR-COSTE-ENTRADAS
-                        THRU FIN-CALCULAR-COSTE-ENTRADAS.
-           IF COSTE-TOTAL-ENTRADAS > USER-SALDO
-             GO TO ERROR-SALDO-ESPEC.
-
-         MOSTRAR-PANTALLA-CONF-COMPRA.
-           DISPLAY PANTALLA-CONFIRMAR-COMPRA-ENT.
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
-             MOVE " " TO MSJ-COMPRAR-ENTRADAS
-             PERFORM RESTAURAR-CAMPOS-ESPEC
-             GO TO MENU-OPCIONES
-           ELSE
-             IF CODIGO-TECLA NOT = 13
+			   GO TO MOSTRAR-PANTALLA-COMPRA-ENT.
+		   
+		   IF NUM-ENTRADAS = 0
+		     MOVE 12 TO LINEA-ESPEC
+			 GO TO MOSTRAR-PANTALLA-COMPRA-ENT.
+		   
+		   PERFORM COMPROBAR-ESPECTACULO
+						THRU FIN-COMPROBAR-ESPECTACULO.
+		   IF EXISTE-ESPECTACULO = "NO"
+		     MOVE MSJ-ERROR-ESPEC TO MSJ-COMPRAR-ENTRADAS
+		     PERFORM RESTAURAR-CAMPOS-ESPEC
+			 GO TO GESTION-COMPRA-ENTRADAS.
+		   	   
+		   PERFORM COMPROBAR-ENTRADAS-DISPO
+						THRU FIN-COMPROBAR-ENTRADAS-DISPO.
+		   IF HAY-ENTRADAS = "NO"
+			 MOVE MSJ-ERROR-ENTRADAS TO MSJ-COMPRAR-ENTRADAS
+			 PERFORM RESTAURAR-CAMPOS-ESPEC
+			 GO TO GESTION-COMPRA-ENTRADAS.
+		 
+		   PERFORM CALCULAR-COSTE-ENTRADAS 
+						THRU FIN-CALCULAR-COSTE-ENTRADAS.
+		   IF COSTE-TOTAL-ENTRADAS > USER-SALDO
+			 GO TO ERROR-SALDO-ESPEC.
+			 
+         MOSTRAR-PANTALLA-CONF-COMPRA.   				
+		   DISPLAY PANTALLA-CONFIRMAR-COMPRA-ENT.
+		   PERFORM LEER-TECLA.
+		   IF COB-CRT-STATUS = 1009
+			 MOVE " " TO MSJ-COMPRAR-ENTRADAS
+			 PERFORM RESTAURAR-CAMPOS-ESPEC
+			 GO TO MENU-OPCIONES
+		   ELSE
+			 IF COB-CRT-STATUS NOT = 0
                GO TO MOSTRAR-PANTALLA-CONF-COMPRA
              ELSE
                GO TO HACER-COMPRA-ENTRADAS.
@@ -1693,48 +1685,48 @@
            SUBTRACT COSTE-TOTAL-ENTRADAS FROM USER-SALDO.
            REWRITE REG-USUARIO.
            CLOSE USERFILE.
-
-           OPEN EXTEND MOVFILE.
-           MOVE NUM-ENTRADAS TO NUM-ENTRADAS-FORMAT.
-           COMPUTE COSTE-TOTAL-ENT-MOV =
-                COSTE-TOTAL-ENTRADAS - (COSTE-TOTAL-ENTRADAS * 2).
-           STRING "Compra " NUM-ENTRADAS-FORMAT " entradas "
-              ESPEC-NOMBRE DELIMITED BY SIZE INTO CONCEPTO-TRANSF-MOV.
-
-            MOVE USER-NUM-CUENTA TO MOV-ID.
-           MOVE CONCEPTO-TRANSF-MOV TO MOV-CONCEPTO.
-           MOVE COSTE-TOTAL-ENT-MOV TO MOV-CANTIDAD.
-           MOVE " " TO MOV-CUENTA-DESTINO.
-           MOVE USER-SALDO TO MOV-SALDO.
-           PERFORM OBTENER-FECHA.
-           MOVE FECHAF TO MOV-FECHA.
-           MOVE HORAF TO MOV-HORA.
-           WRITE REG-MOVIMIENTOS.
-           CLOSE MOVFILE.
-
-         MOSTRAR-ENTRADAS-COMPRADAS.
-           DISPLAY PANTALLA-ENT-ESPEC-COMPRADAS.
-           PERFORM LEER-TECLA.
-           IF CODIGO-TECLA NOT = 13
-             GO TO MOSTRAR-ENTRADAS-COMPRADAS
-           ELSE
-             PERFORM RESTAURAR-CAMPOS-ESPEC
-             MOVE " " TO MSJ-COMPRAR-ENTRADAS
-             GO TO MENU-OPCIONES.
-
-*> Procedimiento error-de-saldo-espectaculos
+           
+           OPEN EXTEND MOVFILE.  
+           MOVE NUM-ENTRADAS TO NUM-ENTRADAS-FORMAT. 
+           COMPUTE COSTE-TOTAL-ENT-MOV =     
+				COSTE-TOTAL-ENTRADAS - (COSTE-TOTAL-ENTRADAS * 2).
+		   STRING "Compra " NUM-ENTRADAS-FORMAT " entradas " 
+			  ESPEC-NOMBRE DELIMITED BY SIZE INTO CONCEPTO-TRANSF-MOV.
+			  		
+ 	       MOVE USER-NUM-CUENTA TO MOV-ID.
+		   MOVE CONCEPTO-TRANSF-MOV TO MOV-CONCEPTO.
+		   MOVE COSTE-TOTAL-ENT-MOV TO MOV-CANTIDAD.
+		   MOVE " " TO MOV-CUENTA-DESTINO. 
+		   MOVE USER-SALDO TO MOV-SALDO.  
+		   PERFORM OBTENER-FECHA.
+		   MOVE FECHAF TO MOV-FECHA.
+		   MOVE HORAF TO MOV-HORA.
+	       WRITE REG-MOVIMIENTOS.
+	       CLOSE MOVFILE.
+	     
+         MOSTRAR-ENTRADAS-COMPRADAS. 
+	       DISPLAY PANTALLA-ENT-ESPEC-COMPRADAS.
+	       PERFORM LEER-TECLA.
+	       IF COB-CRT-STATUS NOT = 0
+			 GO TO MOSTRAR-ENTRADAS-COMPRADAS
+	       ELSE
+	         PERFORM RESTAURAR-CAMPOS-ESPEC
+	         MOVE " " TO MSJ-COMPRAR-ENTRADAS
+	         GO TO MENU-OPCIONES.
+       
+*> Procedimiento error-de-saldo-espectaculos             
        ERROR-SALDO-ESPEC.
          MOSTRAR-ERROR-SALDO-ESPEC.
            DISPLAY PANTALLA-ESPEC-SIN-SALDO
-           PERFORM LEER-TECLA
-           IF CODIGO-TECLA NOT = 13
-             GO TO MOSTRAR-ERROR-SALDO-ESPEC
-           ELSE
-             MOVE 12 TO LINEA-ESPEC
-             MOVE " " TO MSJ-COMPRAR-ENTRADAS
-             GO TO COMPRAR-ENTRADAS.
+		   PERFORM LEER-TECLA
+		   IF COB-CRT-STATUS NOT = 0
+		     GO TO MOSTRAR-ERROR-SALDO-ESPEC
+		   ELSE
+		     MOVE 12 TO LINEA-ESPEC
+		     MOVE " " TO MSJ-COMPRAR-ENTRADAS
+		     GO TO COMPRAR-ENTRADAS.     
 
-*> Procedimiento restaurar-campos-espectaculos
+*> Procedimiento restaurar-campos-espectaculos       
        RESTAURAR-CAMPOS-ESPEC.
            MOVE 12 TO LINEA-ESPEC.
            MOVE 1 TO NUM-PANTALLA-ESPEC.
@@ -1746,7 +1738,7 @@
          MOSTRAR-ERROR-ESPEC.
            DISPLAY PANTALLA-SIN-ESPECTACULOS.
            PERFORM LEER-TECLA
-           IF CODIGO-TECLA NOT = 13
+           IF COB-CRT-STATUS NOT = 0
              GO TO MOSTRAR-ERROR-ESPEC
            ELSE
              GO TO MENU-OPCIONES.
@@ -1765,12 +1757,12 @@
                GO TO MENU-OPCIONES.
 
            PERFORM LEER-TECLA.
-           IF CODIGO-TECLA = 27
+           IF COB-CRT-STATUS = 1009
              PERFORM LIMPIAR-CAMPOS-CCLAVE
-             CLOSE USERFILE
-             GO TO MENU-OPCIONES
-           ELSE
-             IF CODIGO-TECLA NOT = 13
+			 CLOSE USERFILE
+	         GO TO MENU-OPCIONES
+	       ELSE
+             IF COB-CRT-STATUS NOT = 0
                PERFORM LIMPIAR-CAMPOS-CCLAVE
                GO TO MOSTRAR-PANTALLA-CC.
 
