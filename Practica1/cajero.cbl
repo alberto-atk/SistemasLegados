@@ -81,7 +81,7 @@
            02 LOGIN-TARJ             PIC 9(10).
            02 LOGIN-NUM-INTENTOS     PIC 9.
 
-         WORKING-STORAGE SECTION.
+        WORKING-STORAGE SECTION.
          77 OP                       PIC X.
          77 OPCION                   PIC 9.
          77 FSU                      PIC XX.
