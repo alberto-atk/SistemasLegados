@@ -54,7 +54,7 @@
               03 FILLER              PIC X.
               03 MMM                  PIC 99.
               03 FILLER              PIC X.
-              03 AAM                  PIC 99.
+              03 AAM                  PIC 9999.
            02 MOV-HORA.
               03 HH                  PIC 99.
               03 FILLER              PIC X.
@@ -74,7 +74,7 @@
               03 FILLER              PIC X.
               03 MME                  PIC 99.
               03 FILLER              PIC X.
-              03 AAE                  PIC 99.
+              03 AAE                  PIC 9999.
 
          FD LOGINFILE.
          01 REG-LOGIN.
@@ -96,7 +96,7 @@
          01 MOVIMIENTO.
             02 LINEA-DETALLE-MOV OCCURS 999 TIMES.
                 03 FILLER             PIC X(1) VALUE SPACES.
-                03 FECHA-D           PIC X(8).
+                03 FECHA-D           PIC X(10).
                 03 FILLER             PIC X(3) VALUE SPACES.
                 03 CONCEPTO-D        PIC X(38).
                 03 FILLER             PIC X(2) VALUE SPACES.
@@ -109,7 +109,7 @@
                 03 FILLER                PIC X(1) VALUE SPACES.
                 03 NUM-D-ESPEC          PIC 99.
                 03 FILLER                PIC X(3) VALUE SPACES.
-                03 FECHA-D-ESPEC           PIC X(8).
+                03 FECHA-D-ESPEC           PIC X(10).
                 03 FILLER                PIC X(3) VALUE SPACES.
                 03 NOMBRE-D-ESPEC       PIC X(20).
                 03 FILLER                PIC X(3) VALUE SPACES.
@@ -132,7 +132,7 @@
               02 SS                  PIC 99.
 
          01 FECHA.
-               02 AA                  PIC 99.
+               02 AA                  PIC 9999.
               02 MM                  PIC 99.
               02 DD                  PIC 99.
          01 FECHAF.
@@ -140,7 +140,7 @@
               02 FILLER              PIC X VALUE "/".
               02 MM                  PIC 99.
               02 FILLER              PIC X VALUE "/".
-              02 AA                  PIC 99.
+              02 AA                  PIC 9999.
 
         01 DATOS-ACCESO.
             02 NUM-TARJETA           PIC 9(10).
@@ -166,11 +166,11 @@
             02 FECHA-INICIO.
                03 DDI                PIC 99.
                03 MMI                PIC 99.
-               03 AAI                PIC 99.
+               03 AAI                PIC 9999.
             02 FECHA-FIN.
                03 DDF                PIC 99.
                03 MMF                PIC 99.
-               03 AAF                PIC 99.
+               03 AAF                PIC 9999.
             02 IEUROS                 PIC 9(6).
             02 ICENT                 PIC 99.
             02 FEUROS                PIC 9(6).
@@ -178,9 +178,9 @@
             02 CANTIDAD-INICIAL-MOV  PIC 9(6)V99.
             02 CANTIDAD-FINAL-MOV    PIC 9(6)V99.
             02 CANTIDAD-MOV          PIC 9(6)V99.
-            02 FECHA-INICIAL-MOV     PIC 9(6).
-            02 FECHA-FINAL-MOV       PIC 9(6).
-            02 FECHA-MOV              PIC 9(6).
+            02 FECHA-INICIAL-MOV     PIC 9(8).
+            02 FECHA-FINAL-MOV       PIC 9(8).
+            02 FECHA-MOV              PIC 9(8).
             02 NUM-TOTAL-MOV         PIC 999 VALUE 0.
             02 NUM-PANTALLA-MOV      PIC 999 VALUE 1.
             02 TOTAL-PANTALLAS-MOV   PIC 99.
@@ -270,9 +270,9 @@
             BACKGROUND-COLOR IS 1.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 28 VALUE "Bienvenido a UnizarBank".
             02 LINE 11 COL 17
                VALUE "Por favor, introduzca una tarjeta para operar".
@@ -281,9 +281,9 @@
          01 PANTALLA-ACCESO-SISTEMA FULL REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 10 COL 25 VALUE "Numero de tarjeta: ".
             02 LINE 10 COL 44 PIC 9(10) USING NUM-TARJETA
                 BLANK WHEN ZERO.
@@ -296,9 +296,9 @@
          01 PANTALLA-ERROR-ACCESO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 10 COL 22 PIC X(35) FROM MSJ-INTENTOS-ACC.
             02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
@@ -306,9 +306,9 @@
          01 PANTALLA-ERROR-USUARIO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 10 COL 22
                VALUE "El numero de tarjeta no es correcto".
             02 LINE 23 COL 17 VALUE "F9 - Cancelar".
@@ -317,9 +317,9 @@
          01 PANTALLA-BLOQUEO-TARJETA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 10 COL 20
                VALUE "Se ha sobrepasado el numero de intentos".
             02 LINE 12 COL 24 VALUE "Tarjeta bloqueada por seguridad".
@@ -329,9 +329,9 @@
          01 PANTALLA-TARJETA-BLOQUEADA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 11 COL 27 VALUE "Su tarjeta esta bloqueada".
             02 LINE 13 COL 30 VALUE "Acuda a una oficina".
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
@@ -339,9 +339,9 @@
          01 PANTALLA-MENU-PRINCIPAL.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 25 VALUE "1 - Consultar saldo".
             02 LINE 10 COL 25 VALUE "2 - Consultar movimientos".
             02 LINE 11 COL 25 VALUE "3 - Retirar efectivo".
@@ -354,9 +354,9 @@
          01 PANTALLA-CONSULTA-SALDO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 UNDERLINE VALUE "Consulta de saldo".
             02 LINE 13 COL 16
                VALUE "El saldo de tu cuenta                          es de".
@@ -368,9 +368,9 @@
          01 PANTALLA-CONSULTA-MOVIMIENTOS AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 28 VALUE "Consulta de movimientos" UNDERLINE.
             02 LINE 12 COL 9
                VALUE "Se mostraran los ultimos movimientos de mas a ".
@@ -379,18 +379,18 @@
                VALUE "Alternativamente, indique un intervalo de fechas".
             02 LINE 13 COL 56 VALUE " y/o cantidades".
             02 LINE 16 COL 22
-               VALUE "Entre las fechas   /  /   y   /  /  ".
+               VALUE "Entre las fechas   /  /     y   /  /    ".
             02 LINE 16 COL 39 PIC 99 USING DDI UNDERLINE FULL
                 BLANK WHEN ZERO.
             02 LINE 16 COL 42 PIC 99 USING MMI UNDERLINE FULL
                 BLANK WHEN ZERO.
-            02 LINE 16 COL 45 PIC 99 USING AAI UNDERLINE FULL
+            02 LINE 16 COL 45 PIC 9999 USING AAI UNDERLINE FULL
                 BLANK WHEN ZERO.
-            02 LINE 16 COL 50 PIC 99 USING DDF UNDERLINE FULL
+            02 LINE 16 COL 52 PIC 99 USING DDF UNDERLINE FULL
                 BLANK WHEN ZERO.
-            02 LINE 16 COL 53 PIC 99 USING MMF UNDERLINE FULL
+            02 LINE 16 COL 55 PIC 99 USING MMF UNDERLINE FULL
                 BLANK WHEN ZERO.
-            02 LINE 16 COL 56 PIC 99 USING AAF UNDERLINE FULL
+            02 LINE 16 COL 58 PIC 9999 USING AAF UNDERLINE FULL
                 BLANK WHEN ZERO.
             02 LINE 17 COL 18
                VALUE "Cantidad entre       .   EUR y       .   EUR".
@@ -407,9 +407,9 @@
          01 PANTALLA-MUESTRA-MOVIMIENTOS.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 28 VALUE "Consulta de movimientos".
             02 LINE 11 COL 2 VALUE "Fecha".
             02 LINE 12 COL 2 VALUE "--------".
@@ -430,9 +430,9 @@
          01 PANTALLA-SIN-MOVIMIENTOS.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 28 VALUE "Consulta de movimientos".
             02 LINE 12 COL 14 VALUE "No hay movimientos con los ".
             02 LINE 12 COL 41 VALUE "criterios seleccionados!".
@@ -441,9 +441,9 @@
          01 PANTALLA-RETIRAR-EFECTIVO REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 32 VALUE "Retirar efectivo" UNDERLINE.
             02 LINE 12 COL 25 VALUE "Saldo actual:              EUR".
             02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM USER-SALDO.
@@ -458,9 +458,9 @@
          01 PANTALLA-EFECTIVO-RETIRADO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 32 VALUE "Retirar efectivo" UNDERLINE.
             02 LINE 13 COL 19
                VALUE "Por favor, retire los billetes y el ticket".
@@ -472,9 +472,9 @@
          01 PANTALLA-INICIAR-INGRESO REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 VALUE "Ingresar efectivo" UNDERLINE.
             02 LINE 12 COL 25 VALUE "Saldo actual:          .   EUR".
             02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM USER-SALDO.
@@ -489,9 +489,9 @@
          01 PANTALLA-INGRESANDO-EFECTIVO REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 VALUE "Ingresar efectivo" UNDERLINE.
             02 LINE 12 COL 25 VALUE "Saldo actual:          .   EUR".
             02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM USER-SALDO.
@@ -508,9 +508,9 @@
          01 PANTALLA-EFECTIVO-INGRESADO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 VALUE "Ingresar efectivo" UNDERLINE.
             02 LINE 13 COL 19
                VALUE "Se han recibido correctamente          EUR".
@@ -523,9 +523,9 @@
          01 PANTALLA-ORDENAR-TRANSF REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 29 VALUE "Ordenar transferencia" UNDERLINE.
             02 LINE 11 COL 25 VALUE "Saldo actual:              EUR".
             02 LINE 11 COL 39 PIC --------9.99 FROM USER-SALDO.
@@ -544,9 +544,9 @@
          01 PANTALLA-CONFIRMAR-TRANSF.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 29 VALUE "Ordenar transferencia" UNDERLINE.
             02 LINE 12 COL 17
                VALUE "Va a transferir              EUR de su cuenta".
@@ -562,9 +562,9 @@
          01 PANTALLA-TRANSF-CONFIRMADA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 29 VALUE "Ordenar transferencia" UNDERLINE.
             02 LINE 12 COL 21
                VALUE "Transferencia realizada correctamente!".
@@ -573,9 +573,9 @@
          01 PANTALLA-TRANSF-CANCELADA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 29 VALUE "Ordenar transferencia" UNDERLINE.
             02 LINE 12 COL 28 VALUE "Transferencia cancelada!".
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
@@ -583,9 +583,9 @@
          01 PANTALLA-MUESTRA-ESPECTACULOS REQUIRED AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 7 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 9 COL 25 VALUE "Saldo actual:              EUR".
@@ -614,9 +614,9 @@
          01 PANTALLA-COMPRAR-ENTRADAS AUTO REQUIRED.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 7 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 9 COL 25 VALUE "Saldo actual:              EUR".
@@ -646,9 +646,9 @@
          01 PANTALLA-ENT-ESPEC-COMPRADAS.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 13 COL 25 VALUE "Por favor, retire las entradas".
@@ -660,7 +660,7 @@
          01 PANTALLA-ESPEC-SIN-SALDO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
             02 LINE 4 COL 39 VALUE "-".
             02 LINE 4 COL 41 PIC X(8) FROM HORAF.
             02 LINE 8 COL 23 VALUE "Compra de entradas de espectaculos"
@@ -672,15 +672,15 @@
          01 PANTALLA-CONFIRMAR-COMPRA-ENT.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 7 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 12 COL 18 VALUE "Vas a comprar     entradas ".
             02 LINE 12 COL 32 PIC ZZ9 FROM NUM-ENTRADAS.
             02 LINE 12 COL 45 VALUE "para el ".
-            02 LINE 12 COL 53 PIC X(8) FROM ESPEC-FECHA.
+            02 LINE 12 COL 53 PIC X(10) FROM ESPEC-FECHA.
             02 LINE 14 COL 22 VALUE "del espectaculo ".
             02 LINE 14 COL 38 PIC X(20) FROM ESPEC-NOMBRE.
             02 LINE 17 COL 27 VALUE "Precio total:         EUR".
@@ -691,9 +691,9 @@
          01 PANTALLA-SIN-ESPECTACULOS.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 13 COL 34 VALUE "Lo sentimos!".
@@ -704,9 +704,9 @@
          01 PANTALLA-CAMBIAR-CLAVE REQUIRED FULL AUTO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 28 VALUE "Cambio de clave personal" UNDERLINE.
             02 LINE 12 COL 24 VALUE "Introduzca la clave actual: ".
             02 LINE 12 COL 52 PIC 9(4) USING CLAVE-ACTUAL SECURE
@@ -723,9 +723,9 @@
          01 PANTALLA-CLAVE-CAMBIADA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 28 VALUE "Cambio de clave personal" UNDERLINE.
             02 LINE 12 COL 19
                VALUE "La clave se ha actualizado correctamente!".
@@ -734,9 +734,9 @@
          01 PANTALLA-ERROR-CAMBIO-CLAVE.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
-            02 LINE 4 COL 30 PIC X(8) FROM FECHAF.
-            02 LINE 4 COL 39 VALUE "-".
-            02 LINE 4 COL 41 PIC X(8) FROM HORAF.
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 28 VALUE "Cambio de clave personal" UNDERLINE.
             02 LINE 13 COL 22 PIC X(41) FROM MSJ-ERROR-CCLAVE.
             02 LINE 15 COL 30 PIC X(19) FROM MSJ-INTENTOS.
@@ -820,7 +820,7 @@
 
 *> Procedimiento obtener-fecha
        OBTENER-FECHA.
-           ACCEPT FECHA FROM DATE.
+           MOVE FUNCTION CURRENT-DATE TO FECHA.
            MOVE CORR FECHA TO FECHAF.
            ACCEPT HORA FROM TIME.
            MOVE CORR HORA TO HORAF.
