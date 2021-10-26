@@ -40,14 +40,14 @@
             02 USER-TFNO             PIC X(9).
             02 USER-DIRECCION        PIC X(25).
             02 USER-BLOQUEADA        PIC X.
-            02 USER-NUM-CUENTA         PIC X(20).
+            02 USER-NUM-CUENTA         PIC X(24).
 
          FD MOVFILE.
          01 REG-MOVIMIENTOS.
            02 MOV-ID                 PIC X(20).
            02 MOV-CONCEPTO           PIC X(40).
            02 MOV-CANTIDAD           PIC --------9.99.
-           02 MOV-CUENTA-DESTINO     PIC X(20).
+           02 MOV-CUENTA-DESTINO     PIC X(24).
            02 MOV-SALDO              PIC 9(9)V99.
            02 MOV-FECHA.
               03 DDM                  PIC 99.
@@ -204,7 +204,7 @@
             02 TOTAL-INGRESADO       PIC 9(5)V99.
 
         01 TRANSFERENCIA.
-            02 CUENTA-DESTINO        PIC X(20).
+            02 CUENTA-DESTINO        PIC X(24).
             02 TITULAR               PIC X(20).
             02 CANTIDAD.
                03 EUROST             PIC 9(9).
@@ -359,8 +359,8 @@
             02 LINE 4 COL 41 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 UNDERLINE VALUE "Consulta de saldo".
             02 LINE 13 COL 16
-               VALUE "El saldo de tu cuenta                      es de".
-            02 LINE 13 COL 38 PIC X(20) FROM USER-NUM-CUENTA.
+               VALUE "El saldo de tu cuenta                          es de".
+            02 LINE 13 COL 38 PIC X(24) FROM USER-NUM-CUENTA.
             02 LINE 15 COL 32 PIC --------9.99 FROM USER-SALDO.
             02 LINE 15 COL 45 VALUE "EUR".
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
@@ -530,7 +530,7 @@
             02 LINE 11 COL 25 VALUE "Saldo actual:              EUR".
             02 LINE 11 COL 39 PIC --------9.99 FROM USER-SALDO.
             02 LINE 14 COL 16 VALUE "Indique la cuenta destino: ".
-            02 LINE 14 COL 43 PIC X(20) USING CUENTA-DESTINO FULL.
+            02 LINE 14 COL 43 PIC X(24) USING CUENTA-DESTINO FULL.
             02 LINE 15 COL 16 VALUE "y el nombre de su titular: ".
             02 LINE 15 COL 43 PIC X(20) USING TITULAR.
             02 LINE 17 COL 16 VALUE
@@ -552,9 +552,9 @@
                VALUE "Va a transferir              EUR de su cuenta".
             02 LINE 12 COL 33 PIC --------9.99 FROM DINERO-A-TRANSFERIR.
             02 LINE 14 COL 23
-               VALUE "a la cuenta '                    '".
+               VALUE "a la cuenta '                        '".
             02 LINE 16 COL 22 VALUE "cuyo titular es ".
-            02 LINE 14 COL 36 PIC X(20) FROM CUENTA-DESTINO.
+            02 LINE 14 COL 36 PIC X(24) FROM CUENTA-DESTINO.
             02 LINE 16 COL 38 PIC X(20) FROM TITULAR.
             02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 46 VALUE "Enter - Confirmar".
