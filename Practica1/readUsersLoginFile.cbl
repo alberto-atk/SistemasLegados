@@ -23,13 +23,13 @@ FD USERFILE.
 01 REG-USUARIO.
    02 USER-TARJ             PIC 9(10).
    02 USER-PIN              PIC 9(4).
-   02 USER-SALDO            PIC 9(9)V99.
+   02 USER-SALDO            PIC 9(9)V99 OCCURS 3 TIMES.
    02 USER-DNI              PIC X(9).
    02 USER-NOM-APE          PIC X(30).
    02 USER-TFNO             PIC X(9).
    02 USER-DIRECCION        PIC X(25).
    02 USER-BLOQUEADA        PIC X.
-   02 USER-NUM-CUENTA         PIC X(24).
+   02 USER-NUM-CUENTA         PIC X(24) OCCURS 3 TIMES.
 
 FD LOGINFILE.
  01 REG-LOGIN.
@@ -44,13 +44,13 @@ WORKING-STORAGE SECTION.
 01 WS-REG-USUARIO.
    02 WS-USER-TARJ             PIC 9(10).
    02 WS-USER-PIN              PIC 9(4).
-   02 WS-USER-SALDO            PIC 9(9)V99.
+   02 WS-USER-SALDO            PIC 9(9)V99 OCCURS 3 TIMES.
    02 WS-USER-DNI              PIC X(9).
    02 WS-USER-NOM-APE          PIC X(30).
    02 WS-USER-TFNO             PIC X(9).
    02 WS-USER-DIRECCION        PIC X(25).
    02 WS-USER-BLOQUEADA        PIC X.
-   02 WS-USER-NUM-CUENTA         PIC X(24).
+   02 WS-USER-NUM-CUENTA         PIC X(24) OCCURS 3 TIMES.
 
  01 WS-REG-LOGIN.
    02 WS-LOGIN-TARJ             PIC 9(10).

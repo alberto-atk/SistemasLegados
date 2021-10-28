@@ -34,13 +34,13 @@
          01 REG-USUARIO.
             02 USER-TARJ             PIC 9(10).
             02 USER-PIN              PIC 9(4).
-            02 USER-SALDO            PIC 9(9)V99.
+            02 USER-SALDO            PIC 9(9)V99 OCCURS 3 TIMES.
             02 USER-DNI              PIC X(9).
             02 USER-NOM-APE          PIC X(30).
             02 USER-TFNO             PIC X(9).
             02 USER-DIRECCION        PIC X(25).
             02 USER-BLOQUEADA        PIC X.
-            02 USER-NUM-CUENTA       PIC X(24).
+            02 USER-NUM-CUENTA       PIC X(24) OCCURS 3 TIMES.
 
          FD MOVFILE.
          01 REG-MOVIMIENTOS.
@@ -92,6 +92,11 @@
          77 CODIGO-TECLA             PIC 99.
          77 I                         PIC 999 VALUE 1.
          77 J                         PIC 999 VALUE 1.
+         77 K                         PIC 999 VALUE 1.
+         77 TOTAL-CUENTAS             PIC 999 VALUE 0.
+         77 SELECCION-CUENTA          PIC 9.
+         77 CUENTA-SELECCIONADA       PIC X(24).
+         77 SALDO-SELECCIONADO        PIC 9(9)V99.
          77 LINEA-MOV                 PIC 99 VALUE 12.
          01 MOVIMIENTO.
             02 LINEA-DETALLE-MOV OCCURS 999 TIMES.
@@ -119,7 +124,17 @@
                 03 FILLER                PIC X(7) VALUE SPACES.
                 03 ENT-DISPO-D-ESPEC    PIC ZZ9.
 
-
+         01 WS-REG-USUARIO.
+            02 WS-USER-TARJ             PIC 9(10).
+            02 WS-USER-PIN              PIC 9(4).
+            02 WS-USER-SALDO            PIC 9(9)V99 OCCURS 3 TIMES.
+            02 WS-USER-DNI              PIC X(9).
+            02 WS-USER-NOM-APE          PIC X(30).
+            02 WS-USER-TFNO             PIC X(9).
+            02 WS-USER-DIRECCION        PIC X(25).
+            02 WS-USER-BLOQUEADA        PIC X.
+            02 WS-USER-NUM-CUENTA       PIC X(24) OCCURS 3 TIMES.
+           
          01 HORA.
               02 HH                  PIC 99.
               02 MM                  PIC 99.
@@ -314,6 +329,28 @@
             02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
+         01 PANTALLA-ELECCION-CUENTA.
+            02 BLANK SCREEN.
+            02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
+            02 LINE 8 COL 20 VALUE 
+               "Escoja la cuenta con la que desee operar".
+            02 LINE 10 COL 17 VALUE "1.-".
+            02 LINE 10 COL 20 PIC X(24) FROM WS-USER-NUM-CUENTA(1).
+            02 LINE 10 COL 45 PIC X(24) FROM WS-USER-SALDO(1).
+            02 LINE 12 COL 17 VALUE "2.-".
+            02 LINE 12 COL 20 PIC X(24) FROM WS-USER-NUM-CUENTA(2).
+            02 LINE 12 COL 45 PIC X(24) FROM WS-USER-SALDO(2).
+            02 LINE 14 COL 17 VALUE "3.-".
+            02 LINE 14 COL 20 PIC X(24) FROM WS-USER-NUM-CUENTA(3).
+            02 LINE 14 COL 45 PIC X(24) FROM WS-USER-SALDO(3).
+            02 LINE 16 COL 44 PIC 9 USING SELECCION-CUENTA
+                BLANK WHEN ZERO.
+            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 48 VALUE "Enter - Aceptar".
+
          01 PANTALLA-BLOQUEO-TARJETA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
@@ -360,8 +397,8 @@
             02 LINE 9 COL 31 UNDERLINE VALUE "Consulta de saldo".
             02 LINE 13 COL 16
                VALUE "El saldo de tu cuenta                          es de".
-            02 LINE 13 COL 38 PIC X(24) FROM USER-NUM-CUENTA.
-            02 LINE 15 COL 32 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 13 COL 38 PIC X(24) FROM CUENTA-SELECCIONADA.
+            02 LINE 15 COL 32 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 15 COL 45 VALUE "EUR".
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
 
@@ -446,7 +483,7 @@
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 32 VALUE "Retirar efectivo" UNDERLINE.
             02 LINE 12 COL 25 VALUE "Saldo actual:              EUR".
-            02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM USER-SALDO.
+            02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM SALDO-SELECCIONADO.
             02 LINE 15 COL 16
                VALUE "Indique la cantidad a retirar:          .   EUR".
             02 LINE 15 COL 47 PIC 9(9) USING EUROSR.
@@ -466,7 +503,7 @@
                VALUE "Por favor, retire los billetes y el ticket".
             02 LINE 15 COL 19
                VALUE "El saldo resultante es de              EUR".
-            02 LINE 15 COL 45 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 15 COL 45 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
 
          01 PANTALLA-INICIAR-INGRESO REQUIRED AUTO.
@@ -477,7 +514,7 @@
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 VALUE "Ingresar efectivo" UNDERLINE.
             02 LINE 12 COL 25 VALUE "Saldo actual:          .   EUR".
-            02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM USER-SALDO.
+            02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM SALDO-SELECCIONADO.
             02 LINE 16 COL 23
                VALUE "Por favor, introduzca los billetes".
             02 LINE 18 COL 24 VALUE "Cantidad a ingresar     .   EUR".
@@ -494,7 +531,7 @@
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 9 COL 31 VALUE "Ingresar efectivo" UNDERLINE.
             02 LINE 12 COL 25 VALUE "Saldo actual:          .   EUR".
-            02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM USER-SALDO.
+            02 LINE 12 COL 39 PIC ZZZZZZZZ9.99 FROM SALDO-SELECCIONADO.
             02 LINE 15 COL 10 VALUE "Por favor, introduzca los ".
             02 LINE 15 COL 36 VALUE    "billetes para continuar ".
             02 LINE 15 COL 60 VALUE    "ingresando".
@@ -517,7 +554,7 @@
             02 LINE 13 COL 49 PIC ZZZZ9.99 FROM TOTAL-INGRESADO.
             02 LINE 15 COL 19
                VALUE "El saldo resultante es de              EUR".
-            02 LINE 15 COL 45 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 15 COL 45 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
 
          01 PANTALLA-ORDENAR-TRANSF REQUIRED AUTO.
@@ -528,7 +565,7 @@
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 29 VALUE "Ordenar transferencia" UNDERLINE.
             02 LINE 11 COL 25 VALUE "Saldo actual:              EUR".
-            02 LINE 11 COL 39 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 11 COL 39 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 14 COL 16 VALUE "Indique la cuenta destino: ".
             02 LINE 14 COL 43 PIC X(24) USING CUENTA-DESTINO FULL.
             02 LINE 15 COL 16 VALUE "y el nombre de su titular: ".
@@ -589,7 +626,7 @@
             02 LINE 7 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 9 COL 25 VALUE "Saldo actual:              EUR".
-            02 LINE 9 COL 39 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 9 COL 39 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 11 COL 2 VALUE "Num".
             02 LINE 12 COL 1 VALUE "----".
             02 LINE 11 COL 9 VALUE "Fecha".
@@ -620,7 +657,7 @@
             02 LINE 7 COL 23 VALUE "Compra de entradas de espectaculos"
                 UNDERLINE.
             02 LINE 9 COL 25 VALUE "Saldo actual:              EUR".
-            02 LINE 9 COL 39 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 9 COL 39 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 11 COL 2 VALUE "Num".
             02 LINE 12 COL 1 VALUE "----".
             02 LINE 11 COL 9 VALUE "Fecha".
@@ -654,7 +691,7 @@
             02 LINE 13 COL 25 VALUE "Por favor, retire las entradas".
             02 LINE 15 COL 19
                VALUE "El saldo resultante es de              EUR".
-            02 LINE 15 COL 45 PIC --------9.99 FROM USER-SALDO.
+            02 LINE 15 COL 45 PIC --------9.99 FROM SALDO-SELECCIONADO.
             02 LINE 23 COL 32 VALUE "Enter - Aceptar".
 
          01 PANTALLA-ESPEC-SIN-SALDO.
@@ -781,10 +818,15 @@
                 ELSE
                   PERFORM RESTAURAR-CAMPOS-ACCESO
                   GO TO BLOQUEO-TARJETA.
-
+            
+            PERFORM LEER-SALDOS-CUENTAS.
+			DISPLAY PANTALLA-ELECCION-CUENTA.
+            ACCEPT PANTALLA-ELECCION-CUENTA.
+            PERFORM OBTENER-CUENTA-SALDO-A-USAR.
+            
          MENU-OPCIONES.
             PERFORM RESTAURAR-CAMPOS-ACCESO.
-			DISPLAY PANTALLA-MENU-PRINCIPAL.
+            DISPLAY PANTALLA-MENU-PRINCIPAL.
 			PERFORM LEER-TECLA.
 
 			IF COB-CRT-STATUS = 1009
@@ -818,6 +860,29 @@
 
 
 
+
+
+
+*> Procedimiento obtener saldos y cuentas
+       LEER-SALDOS-CUENTAS.
+           MOVE 0 TO TOTAL-CUENTAS.
+           MOVE 1 TO K. 
+           OPEN INPUT USERFILE.
+          INICIO-OBTENER-SALDOS-CUENTAS.
+           READ USERFILE NEXT RECORD AT END GO TO FIN-LEER-SALDOS-CUENTAS
+           ADD 1 TO TOTAL-CUENTAS.
+           MOVE USER-NUM-CUENTA(K) TO WS-USER-NUM-CUENTA(K)
+           MOVE USER-SALDO(K) TO WS-USER-SALDO(K)
+           ADD 1 TO K.
+           GO TO INICIO-OBTENER-SALDOS-CUENTAS.
+          FIN-LEER-SALDOS-CUENTAS.
+          CLOSE USERFILE.
+
+*> Procedimiento obtener cuenta a usar por el usuario
+       OBTENER-CUENTA-SALDO-A-USAR.
+           MOVE WS-USER-NUM-CUENTA(SELECCION-CUENTA) TO CUENTA-SELECCIONADA.
+           MOVE WS-USER-SALDO(SELECCION-CUENTA) TO SALDO-SELECCIONADO.
+           
 *> Procedimiento obtener-fecha
        OBTENER-FECHA.
            MOVE FUNCTION CURRENT-DATE TO FECHA.
@@ -1101,7 +1166,7 @@
          INICIO-OBTENER-TODOS-MOVS.
            READ MOVFILE NEXT RECORD
                     AT END GO TO FIN-CONTAR-TODOS-MOVS.
-           IF USER-NUM-CUENTA = MOV-ID
+           IF CUENTA-SELECCIONADA = MOV-ID
              ADD 1 TO NUM-TOTAL-MOV
              MOVE MOV-FECHA TO FECHA-D(J)
              MOVE MOV-CONCEPTO TO CONCEPTO-D(J)
@@ -1124,7 +1189,7 @@
            READ MOVFILE NEXT RECORD
                   AT END GO TO FIN-CONTAR-MOVS-POR-CANT.
            MOVE MOV-CANTIDAD TO CANTIDAD-MOV.
-           IF USER-NUM-CUENTA = MOV-ID
+           IF CUENTA-SELECCIONADA = MOV-ID
              IF CANTIDAD-MOV >= CANTIDAD-INICIAL-MOV
                IF CANTIDAD-MOV <= CANTIDAD-FINAL-MOV
                  ADD 1 TO NUM-TOTAL-MOV
@@ -1154,7 +1219,7 @@
            READ MOVFILE NEXT RECORD
                   AT END GO TO FIN-CONTAR-MOVS-POR-FECHA.
 
-           IF USER-NUM-CUENTA = MOV-ID
+           IF CUENTA-SELECCIONADA = MOV-ID
             COMPUTE FECHA-MOV = (AAM * 10000) + (MMM * 100) + DDM
             IF FECHA-MOV >= FECHA-INICIAL-MOV
               IF FECHA-MOV <= FECHA-FINAL-MOV
@@ -1186,7 +1251,7 @@
                AT END GO TO FIN-CONTAR-MOVS-FECHA-CANT.
            MOVE MOV-CANTIDAD TO CANTIDAD-MOV.
 
-           IF USER-NUM-CUENTA = MOV-ID
+           IF CUENTA-SELECCIONADA = MOV-ID
              IF CANTIDAD-MOV >= CANTIDAD-INICIAL-MOV
                IF CANTIDAD-MOV <= CANTIDAD-FINAL-MOV
                  COMPUTE FECHA-MOV =
@@ -1266,7 +1331,7 @@
            IF DINERO-A-SACAR = 0
              GO TO MOSTRAR-PANTALLA-RE.
 
-           IF DINERO-A-SACAR > USER-SALDO
+           IF DINERO-A-SACAR > SALDO-SELECCIONADO
              MOVE 0 TO EUROSR
              MOVE 0 TO CENTR
              MOVE MSJ-ERROR-RETIRAR TO ERROR-RETIRAR
@@ -1274,7 +1339,7 @@
            ELSE
              MOVE " " TO ERROR-RETIRAR.
 
-           COMPUTE USER-SALDO = USER-SALDO - DINERO-A-SACAR.
+           COMPUTE SALDO-SELECCIONADO = SALDO-SELECCIONADO - DINERO-A-SACAR.
            REWRITE REG-USUARIO.
            CLOSE USERFILE.
            MOVE 0 TO EUROSR.
@@ -1296,11 +1361,11 @@
            COMPUTE CANTIDAD-RET-MOV =
                                 DINERO-A-SACAR - (DINERO-A-SACAR * 2).
 
-           MOVE USER-NUM-CUENTA TO MOV-ID.
+           MOVE CUENTA-SELECCIONADA TO MOV-ID.
            MOVE "Reintegro" TO MOV-CONCEPTO.
            MOVE CANTIDAD-RET-MOV TO MOV-CANTIDAD.
            MOVE " " TO MOV-CUENTA-DESTINO.
-           MOVE USER-SALDO TO MOV-SALDO.
+           MOVE SALDO-SELECCIONADO TO MOV-SALDO.
            PERFORM OBTENER-FECHA.
            MOVE FECHAF TO MOV-FECHA.
            MOVE HORAF TO MOV-HORA.
@@ -1383,7 +1448,7 @@
 			 GO TO MOSTRAR-PANTALLA-INGRESANDO.
               
          FIN-INGRESO.
-           COMPUTE USER-SALDO = USER-SALDO + TOTAL-INGRESADO.
+           COMPUTE SALDO-SELECCIONADO = SALDO-SELECCIONADO + TOTAL-INGRESADO.
            REWRITE REG-USUARIO.
            CLOSE USERFILE.
            PERFORM GUARDAR-MOV-INGRESAR-EFECTIVO.
@@ -1393,11 +1458,11 @@
        GUARDAR-MOV-INGRESAR-EFECTIVO.
            OPEN EXTEND MOVFILE.
 
-           MOVE USER-NUM-CUENTA TO MOV-ID.
+           MOVE CUENTA-SELECCIONADA TO MOV-ID.
            MOVE "Ingreso" TO MOV-CONCEPTO.
            MOVE TOTAL-INGRESADO TO MOV-CANTIDAD.
            MOVE " " TO MOV-CUENTA-DESTINO.
-           MOVE USER-SALDO TO MOV-SALDO.
+           MOVE SALDO-SELECCIONADO TO MOV-SALDO.
            PERFORM OBTENER-FECHA.
            MOVE FECHAF TO MOV-FECHA.
            MOVE HORAF TO MOV-HORA.
@@ -1430,7 +1495,7 @@
 			   GO TO ESPERAR-DATOS-TRANSF.
            
            COMPUTE DINERO-A-TRANSFERIR = (CENTT / 100) + EUROST. 
-           IF USER-SALDO < DINERO-A-TRANSFERIR
+           IF SALDO-SELECCIONADO < DINERO-A-TRANSFERIR
              MOVE MSJ-ERROR-TRANSF TO ERROR-TRANSF
              MOVE 0 TO EUROST
              MOVE 0 TO CENTT
@@ -1447,7 +1512,7 @@
              IF COB-CRT-STATUS NOT = 0
 			   GO TO MUESTRA-CONFIRMAR-TRANSF.
            
-		   COMPUTE USER-SALDO = USER-SALDO - DINERO-A-TRANSFERIR.
+		   COMPUTE SALDO-SELECCIONADO = SALDO-SELECCIONADO - DINERO-A-TRANSFERIR.
 		   REWRITE REG-USUARIO.
 		   CLOSE USERFILE.
 		   PERFORM GUARDAR-MOV-TRANSF-EFECTIVO.
@@ -1469,11 +1534,11 @@
 		   STRING "Transferencia a " TITULAR DELIMITED BY SIZE 
 		      INTO CONCEPTO-TRANSF-MOV.
 				
-	       MOVE USER-NUM-CUENTA TO MOV-ID.
+	       MOVE CUENTA-SELECCIONADA TO MOV-ID.
 		   MOVE CONCEPTO-TRANSF-MOV TO MOV-CONCEPTO.
 		   MOVE CANTIDAD-TRANSF-MOV TO MOV-CANTIDAD.
 		   MOVE CUENTA-DESTINO TO MOV-CUENTA-DESTINO. 
-		   MOVE USER-SALDO TO MOV-SALDO.  
+		   MOVE SALDO-SELECCIONADO TO MOV-SALDO.  
 		   PERFORM OBTENER-FECHA.
 		   MOVE FECHAF TO MOV-FECHA.
 		   MOVE HORAF TO MOV-HORA.
@@ -1623,7 +1688,7 @@
 		 
 		   PERFORM CALCULAR-COSTE-ENTRADAS 
 						THRU FIN-CALCULAR-COSTE-ENTRADAS.
-		   IF COSTE-TOTAL-ENTRADAS > USER-SALDO
+		   IF COSTE-TOTAL-ENTRADAS > SALDO-SELECCIONADO
 			 GO TO ERROR-SALDO-ESPEC.
 			 
          MOSTRAR-PANTALLA-CONF-COMPRA.   				
@@ -1685,7 +1750,7 @@
 
            OPEN I-O USERFILE.
            READ USERFILE.
-           SUBTRACT COSTE-TOTAL-ENTRADAS FROM USER-SALDO.
+           SUBTRACT COSTE-TOTAL-ENTRADAS FROM SALDO-SELECCIONADO.
            REWRITE REG-USUARIO.
            CLOSE USERFILE.
            
@@ -1696,11 +1761,11 @@
 		   STRING "Compra " NUM-ENTRADAS-FORMAT " entradas " 
 			  ESPEC-NOMBRE DELIMITED BY SIZE INTO CONCEPTO-TRANSF-MOV.
 			  		
- 	       MOVE USER-NUM-CUENTA TO MOV-ID.
+ 	       MOVE CUENTA-SELECCIONADA TO MOV-ID.
 		   MOVE CONCEPTO-TRANSF-MOV TO MOV-CONCEPTO.
 		   MOVE COSTE-TOTAL-ENT-MOV TO MOV-CANTIDAD.
 		   MOVE " " TO MOV-CUENTA-DESTINO. 
-		   MOVE USER-SALDO TO MOV-SALDO.  
+		   MOVE SALDO-SELECCIONADO TO MOV-SALDO.  
 		   PERFORM OBTENER-FECHA.
 		   MOVE FECHAF TO MOV-FECHA.
 		   MOVE HORAF TO MOV-HORA.

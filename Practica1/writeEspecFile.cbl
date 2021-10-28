@@ -44,7 +44,7 @@ INICIO.
        END-WRITE.
 
 *> Espectaculo 2
-       OPEN EXTEND EspecFile.
+      OPEN EXTEND EspecFile.
          MOVE 2 TO ESPEC-NUMERO.
          MOVE "pRUEBA2sfefefefefee2" TO ESPEC-NOMBRE.
          MOVE 240.99 TO ESPEC-PRECIO-ENTRADA.
@@ -53,10 +53,9 @@ INICIO.
          MOVE "23/10/2021" TO ESPEC-FECHA
        DISPLAY REG-ESPECTACULO.
        WRITE REG-ESPECTACULO
-       END-WRITE.
+      
 
 *> Espectaculo 3     
-       OPEN EXTEND EspecFile.
          MOVE 3 TO ESPEC-NUMERO.
          MOVE "pRUEBA3sfefefefefee3" TO ESPEC-NOMBRE.
          MOVE 240.99 TO ESPEC-PRECIO-ENTRADA.
@@ -64,10 +63,8 @@ INICIO.
          MOVE 200 TO ESPEC-ENT-DISPONIBLES.
          MOVE "23/10/2021" TO ESPEC-FECHA
        WRITE REG-ESPECTACULO
-       END-WRITE.
 
 *> Espectaculo 4   
-       OPEN EXTEND EspecFile.
          MOVE 4 TO ESPEC-NUMERO.
          MOVE "pRUEBA4sfefefefefee4" TO ESPEC-NOMBRE.
          MOVE 240.99 TO ESPEC-PRECIO-ENTRADA.
@@ -75,10 +72,8 @@ INICIO.
          MOVE 200 TO ESPEC-ENT-DISPONIBLES.
          MOVE "23/10/2021" TO ESPEC-FECHA
        WRITE REG-ESPECTACULO
-       END-WRITE.
 
 *> Espectaculo 5   
-       OPEN EXTEND EspecFile.
          MOVE 5 TO ESPEC-NUMERO.
          MOVE "pRUEBA5sfefefefefee5" TO ESPEC-NOMBRE.
          MOVE 240.99 TO ESPEC-PRECIO-ENTRADA.
@@ -86,10 +81,8 @@ INICIO.
          MOVE 200 TO ESPEC-ENT-DISPONIBLES.
          MOVE "23/10/2021" TO ESPEC-FECHA 
        WRITE REG-ESPECTACULO
-       END-WRITE.   
 
 *> Espectaculo 6
-       OPEN EXTEND EspecFile.
          MOVE 6 TO ESPEC-NUMERO.
          MOVE "pRUEBA6sfefefefefee6" TO ESPEC-NOMBRE.
          MOVE 240.99 TO ESPEC-PRECIO-ENTRADA.
@@ -97,10 +90,8 @@ INICIO.
          MOVE 200 TO ESPEC-ENT-DISPONIBLES.
          MOVE "23/10/2021" TO ESPEC-FECHA  
        WRITE REG-ESPECTACULO
-       END-WRITE.   
 
 *> Espectaculo 7   
-       OPEN EXTEND EspecFile.
          MOVE 7 TO ESPEC-NUMERO.
          MOVE "pRUEBA7sfefefefefee7" TO ESPEC-NOMBRE.
          MOVE 240.99 TO ESPEC-PRECIO-ENTRADA.
