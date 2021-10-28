@@ -18,13 +18,13 @@ FD MOVSFILE.
        02 MOV-CANTIDAD         PIC --------9.99.
        02 MOV-CUENTA-DESTINO   PIC X(20).
        02 MOV-SALDO            PIC 9(9)V99.
-       02 MOV-FECHA            
+       02 MOV-FECHA.            
            03 DDM              PIC 99.
            03 FILLER           PIC X.
            03 MMM              PIC 99.
            03 FILLER           PIC X.
            03 AAM              PIC 99.
-       02 MOV-HORA
+       02 MOV-HORA.
            03 HH               PIC 99.
            03 FILLER           PIC X.
            03 MM               PIC 99.
