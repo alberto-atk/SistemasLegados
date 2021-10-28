@@ -113,7 +113,7 @@
                 03 FILLER                PIC X(3) VALUE SPACES.
                 03 NOMBRE-D-ESPEC       PIC X(20).
                 03 FILLER                PIC X(3) VALUE SPACES.
-                03 DESCRIPCION-D-ESPEC     PIC X(20).
+                03 DESCRIPCION-D-ESPEC     PIC X(30).
                 03 FILLER                PIC X(3) VALUE SPACES.
                 03 PRECIO-D-ESPEC       PIC ZZ9.99.
                 03 FILLER                PIC X(6) VALUE SPACES.
@@ -593,21 +593,21 @@
             02 LINE 11 COL 2 VALUE "Num".
             02 LINE 12 COL 1 VALUE "----".
             02 LINE 11 COL 8 VALUE "Fecha".
-            02 LINE 12 COL 7 VALUE "--------".
-            02 LINE 11 COL 18 VALUE "Nombre".
-            02 LINE 12 COL 18 VALUE "--------------------".
-            02 LINE 11 COL 41 VALUE "Descripcion".
-            02 LINE 12 COL 41 VALUE "--------------------".
-            02 LINE 11 COL 63 VALUE "Precio".
-            02 LINE 12 COL 63 VALUE "-------".
-            02 LINE 11 COL 71 VALUE "Disponible".
-            02 LINE 12 COL 71 VALUE "----------".				
+            02 LINE 12 COL 7 VALUE "----------".
+            02 LINE 11 COL 20 VALUE "Nombre".
+            02 LINE 12 COL 20 VALUE "--------------------".
+            02 LINE 11 COL 43 VALUE "Descripcion".
+            02 LINE 12 COL 43 VALUE "------------------------------".
+            02 LINE 11 COL 76 VALUE "Precio".
+            02 LINE 12 COL 76 VALUE "-------".
+            02 LINE 11 COL 86 VALUE "Disponible".
+            02 LINE 12 COL 86 VALUE "----------".				
             02 LINE 23 COL 6 VALUE "F9 -".
             02 LINE 24 COL 4 VALUE "Cancelar".
-            02 LINE 23 COL 25 VALUE "Arriba -".
+            02 LINE 23 COL 25 VALUE "F2 -".
             02 LINE 24 COL 20 VALUE "Espec. Anteriores".
-            02 LINE 23 COL 50 VALUE "Abajo -".
-            02 LINE 24 COL 45 VALUE "Espec. Anteriores".
+            02 LINE 23 COL 50 VALUE "F3 -".
+            02 LINE 24 COL 45 VALUE "Espec. Siguientes".
             02 LINE 23 COL 70 VALUE "Enter -".
             02 LINE 24 COL 68 VALUE "Ir a compra".
 
@@ -624,15 +624,15 @@
             02 LINE 11 COL 2 VALUE "Num".
             02 LINE 12 COL 1 VALUE "----".
             02 LINE 11 COL 8 VALUE "Fecha".
-            02 LINE 12 COL 7 VALUE "--------".
-            02 LINE 11 COL 18 VALUE "Nombre".
-            02 LINE 12 COL 18 VALUE "--------------------".
-            02 LINE 11 COL 41 VALUE "Descripcion".
-            02 LINE 12 COL 41 VALUE "--------------------".
-            02 LINE 11 COL 63 VALUE "Precio".
-            02 LINE 12 COL 63 VALUE "-------".
-            02 LINE 11 COL 71 VALUE "Disponible".
-            02 LINE 12 COL 71 VALUE "----------".
+            02 LINE 12 COL 7 VALUE "----------".
+            02 LINE 11 COL 20 VALUE "Nombre".
+            02 LINE 12 COL 20 VALUE "--------------------".
+            02 LINE 11 COL 43 VALUE "Descripcion".
+            02 LINE 12 COL 43 VALUE "------------------------------".
+            02 LINE 11 COL 76 VALUE "Precio".
+            02 LINE 12 COL 76 VALUE "-------".
+            02 LINE 11 COL 86 VALUE "Disponible".
+            02 LINE 12 COL 86 VALUE "----------".	
             02 LINE 20 COL 18 VALUE "Comprar '   ' entradas ".
             02 LINE 20 COL 41 VALUE "del espectaculo '  '".
             02 LINE 20 COL 27 PIC 9(3) USING NUM-ENTRADAS
@@ -1518,7 +1518,8 @@
            PERFORM UNTIL NUM-PRIMER-ESPEC > NUM-ULTIMO-ESPEC
              ADD 1 TO LINEA-ESPEC
              DISPLAY LINEA-DETALLE-ESPEC(NUM-PRIMER-ESPEC) 
-			 ADD 1 TO NUM-PRIMER-ESPEC
+               AT LINE NUMBER LINEA-ESPEC
+			 ADD 1 TO NUM-PRIMER-ESPEC 
 	       END-PERFORM.
            
            PERFORM LEER-TECLA.
@@ -1526,7 +1527,7 @@
 		     PERFORM RESTAURAR-CAMPOS-ESPEC
 			 GO TO MENU-OPCIONES  
 		   ELSE
-		     IF CODIGO-TECLA = 52
+		     IF COB-CRT-STATUS = 1002
 		       IF NUM-PANTALLA-ESPEC = 1
 				 MOVE 12 TO LINEA-ESPEC
 				 GO TO MOSTRAR-PANTALLA-ESPEC
@@ -1535,7 +1536,7 @@
 				 MOVE 12 TO LINEA-ESPEC
 				 GO TO MOSTRAR-PANTALLA-ESPEC
 		     ELSE
-		       IF CODIGO-TECLA = 53
+		       IF COB-CRT-STATUS = 1003
 		         IF NUM-PANTALLA-ESPEC = TOTAL-PANTALLAS-ESPEC
 				   MOVE 12 TO LINEA-ESPEC
 				   GO TO MOSTRAR-PANTALLA-ESPEC
@@ -1582,6 +1583,7 @@
            PERFORM UNTIL NUM-PRIMER-ESPEC > NUM-ULTIMO-ESPEC
              ADD 1 TO LINEA-ESPEC
              DISPLAY LINEA-DETALLE-ESPEC(NUM-PRIMER-ESPEC) 
+               AT LINE NUMBER LINEA-ESPEC
 			 ADD 1 TO NUM-PRIMER-ESPEC
 	       END-PERFORM.
            ACCEPT PANTALLA-COMPRAR-ENTRADAS
