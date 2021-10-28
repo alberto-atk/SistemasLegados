@@ -116,7 +116,7 @@
                 03 DESCRIPCION-D-ESPEC     PIC X(30).
                 03 FILLER                PIC X(3) VALUE SPACES.
                 03 PRECIO-D-ESPEC       PIC ZZ9.99.
-                03 FILLER                PIC X(6) VALUE SPACES.
+                03 FILLER                PIC X(7) VALUE SPACES.
                 03 ENT-DISPO-D-ESPEC    PIC ZZ9.
 
 
@@ -592,11 +592,11 @@
             02 LINE 9 COL 39 PIC --------9.99 FROM USER-SALDO.
             02 LINE 11 COL 2 VALUE "Num".
             02 LINE 12 COL 1 VALUE "----".
-            02 LINE 11 COL 8 VALUE "Fecha".
+            02 LINE 11 COL 9 VALUE "Fecha".
             02 LINE 12 COL 7 VALUE "----------".
-            02 LINE 11 COL 20 VALUE "Nombre".
+            02 LINE 11 COL 27 VALUE "Nombre".
             02 LINE 12 COL 20 VALUE "--------------------".
-            02 LINE 11 COL 43 VALUE "Descripcion".
+            02 LINE 11 COL 52 VALUE "Descripcion".
             02 LINE 12 COL 43 VALUE "------------------------------".
             02 LINE 11 COL 76 VALUE "Precio".
             02 LINE 12 COL 76 VALUE "-------".
@@ -623,11 +623,11 @@
             02 LINE 9 COL 39 PIC --------9.99 FROM USER-SALDO.
             02 LINE 11 COL 2 VALUE "Num".
             02 LINE 12 COL 1 VALUE "----".
-            02 LINE 11 COL 8 VALUE "Fecha".
+            02 LINE 11 COL 9 VALUE "Fecha".
             02 LINE 12 COL 7 VALUE "----------".
-            02 LINE 11 COL 20 VALUE "Nombre".
+            02 LINE 11 COL 27 VALUE "Nombre".
             02 LINE 12 COL 20 VALUE "--------------------".
-            02 LINE 11 COL 43 VALUE "Descripcion".
+            02 LINE 11 COL 52 VALUE "Descripcion".
             02 LINE 12 COL 43 VALUE "------------------------------".
             02 LINE 11 COL 76 VALUE "Precio".
             02 LINE 12 COL 76 VALUE "-------".
