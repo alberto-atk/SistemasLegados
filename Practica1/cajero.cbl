@@ -40,7 +40,7 @@
             02 USER-TFNO             PIC X(9).
             02 USER-DIRECCION        PIC X(25).
             02 USER-BLOQUEADA        PIC X.
-            02 USER-NUM-CUENTA         PIC X(24).
+            02 USER-NUM-CUENTA       PIC X(24).
 
          FD MOVFILE.
          01 REG-MOVIMIENTOS.
@@ -50,11 +50,11 @@
            02 MOV-CUENTA-DESTINO     PIC X(24).
            02 MOV-SALDO              PIC 9(9)V99.
            02 MOV-FECHA.
-              03 DDM                  PIC 99.
+              03 DDM                 PIC 99.
               03 FILLER              PIC X.
-              03 MMM                  PIC 99.
+              03 MMM                 PIC 99.
               03 FILLER              PIC X.
-              03 AAM                  PIC 9999.
+              03 AAM                 PIC 9999.
            02 MOV-HORA.
               03 HH                  PIC 99.
               03 FILLER              PIC X.
@@ -181,8 +181,8 @@
             02 FECHA-INICIAL-MOV     PIC 9(8).
             02 FECHA-FINAL-MOV       PIC 9(8).
             02 FECHA-MOV              PIC 9(8).
-            02 NUM-TOTAL-MOV         PIC 999 VALUE 0.
-            02 NUM-PANTALLA-MOV      PIC 999 VALUE 1.
+            02 NUM-TOTAL-MOV         PIC 999 VALUE IS 0.
+            02 NUM-PANTALLA-MOV      PIC 999 VALUE IS 1.
             02 TOTAL-PANTALLAS-MOV   PIC 99.
             02 RESTO-MOV             PIC 99.
             02 NUM-PRIMER-MOV        PIC 999.
@@ -757,7 +757,7 @@
          LOGIN.
 			DISPLAY PANTALLA-ACCESO-SISTEMA. 
 			ACCEPT PANTALLA-ACCESO-SISTEMA
-			  ON ESCAPE 
+			  IF COB-CRT-STATUS = 1009
 			    PERFORM RESTAURAR-CAMPOS-ACCESO
 		        GO TO INICIO.
 		    
@@ -948,7 +948,7 @@
           MOSTRAR-PANTALLA-MOVS.
 		   DISPLAY PANTALLA-CONSULTA-MOVIMIENTOS.
 		   ACCEPT PANTALLA-CONSULTA-MOVIMIENTOS
-		     ON ESCAPE
+		     IF COB-CRT-STATUS = 1009
 		       PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 		       MOVE " " TO MSJ-MOVS
 		       GO TO MENU-OPCIONES.		       
@@ -1182,8 +1182,8 @@
 
            OPEN INPUT MOVFILE.
          INICIO-OBTENER-MOVS-FECHA-CANT.
-           READ MOVFILE NEXT RECORD AT END
-                                  GO TO FIN-CONTAR-MOVS-FECHA-CANT.
+           READ MOVFILE NEXT RECORD
+               AT END GO TO FIN-CONTAR-MOVS-FECHA-CANT.
            MOVE MOV-CANTIDAD TO CANTIDAD-MOV.
 
            IF USER-NUM-CUENTA = MOV-ID
@@ -1224,6 +1224,7 @@
            MOVE "SI" TO FILTRAR-POR-CANTIDAD.
            MOVE 1 TO NUM-PANTALLA-MOV.
            MOVE 0 TO NUM-TOTAL-MOV.
+           DISPLAY "ESTOY AQUI. MENUDO FALLO."
            MOVE 0 TO IEUROS.
            MOVE 0 TO ICENT.
            MOVE 0 TO FEUROS.
@@ -1244,7 +1245,7 @@
          MOSTRAR-PANTALLA-RE.
            DISPLAY PANTALLA-RETIRAR-EFECTIVO.
            ACCEPT PANTALLA-RETIRAR-EFECTIVO
-             ON ESCAPE
+             IF COB-CRT-STATUS = 1009
                MOVE 0 TO EUROSR
                MOVE 0 TO CENTR
                CLOSE USERFILE
@@ -1315,7 +1316,7 @@
          MOSTRAR-PANTALLA-INI-INGRESO.
 		   DISPLAY PANTALLA-INICIAR-INGRESO.
 		   ACCEPT PANTALLA-INICIAR-INGRESO
-		    ON ESCAPE
+		    IF COB-CRT-STATUS = 1009
 		     MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 		     CLOSE USERFILE
@@ -1356,7 +1357,7 @@
          MOSTRAR-PANTALLA-INGRESANDO.						
 		   DISPLAY PANTALLA-INGRESANDO-EFECTIVO.
 		   ACCEPT PANTALLA-INGRESANDO-EFECTIVO
-		    ON ESCAPE
+		    IF COB-CRT-STATUS = 1009
 			 MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 			 GO TO FIN-INGRESO.
@@ -1414,7 +1415,7 @@
 
          ESPERAR-DATOS-TRANSF.
            ACCEPT PANTALLA-ORDENAR-TRANSF
-            ON ESCAPE
+            IF COB-CRT-STATUS = 1009
               PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
               CLOSE USERFILE
               GO TO MENU-OPCIONES.
@@ -1585,7 +1586,7 @@
 			 ADD 1 TO NUM-PRIMER-ESPEC
 	       END-PERFORM.
            ACCEPT PANTALLA-COMPRAR-ENTRADAS
-            ON ESCAPE
+            IF COB-CRT-STATUS = 1009
               PERFORM RESTAURAR-CAMPOS-ESPEC
               MOVE " " TO MSJ-COMPRAR-ENTRADAS
               GO TO COMPRAR-ENTRADAS.
@@ -1752,7 +1753,7 @@
          MOSTRAR-PANTALLA-CC.
            DISPLAY PANTALLA-CAMBIAR-CLAVE.
            ACCEPT PANTALLA-CAMBIAR-CLAVE
-             ON ESCAPE
+             IF COB-CRT-STATUS = 1009
                CLOSE USERFILE
                GO TO MENU-OPCIONES.
 

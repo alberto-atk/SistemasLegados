@@ -41,13 +41,4 @@ PROCEDURE DIVISION.
 
        WRITE-MOVS-FILE.
            OPEN OUTPUT MOVSFILE.
-               MOVE 11111222223333344444 TO MOV-ID.
-               MOVE "Me gusta el dinero." TO MOV-CONCEPTO.
-               MOVE 3.00 TO MOV-CANTIDAD.
-               MOVE "CUENTADEALBERTO" TO MOV-CUENTA-DESTINO.
-               MOVE 60000.00 TO MOV-SALDO.
-               MOVE "25/10/2021" TO MOV-FECHA.
-               MOVE "16:24:00" TO MOV-HORA.
-               DISPLAY REG-MOVIMIENTOS.
-               WRITE REG-MOVIMIENTOS.
            CLOSE MOVSFILE.
