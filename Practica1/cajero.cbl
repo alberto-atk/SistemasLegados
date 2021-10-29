@@ -101,7 +101,12 @@
          01 MOVIMIENTO.
             02 LINEA-DETALLE-MOV OCCURS 999 TIMES.
                 03 FILLER             PIC X(1) VALUE SPACES.
-                03 FECHA-D           PIC X(10).
+                03 FECHA-D.
+                   04 DDMOV           PIC 99.
+                   04 FILLER           PIC X VALUE '/'.
+                   04 MMMOV           PIC 99.
+                   04 FILLER           PIC X VALUE '/'.
+                   04 AAMOV           PIC 9999.
                 03 FILLER             PIC X(3) VALUE SPACES.
                 03 CONCEPTO-D        PIC X(38).
                 03 FILLER             PIC X(2) VALUE SPACES.
@@ -959,7 +964,7 @@
            IF COB-CRT-STATUS = 1009
              GO TO INICIO
            ELSE
-             IF CODIGO-TECLA = 13
+             IF COB-CRT-STATUS = 0
                GO TO LOGIN
              ELSE
                GO TO MUESTRA-MENSAJE-ERROR-USUARIO.
@@ -973,7 +978,7 @@
              PERFORM RESTAURAR-CAMPOS-ACCESO
              GO TO INICIO
            ELSE
-             IF CODIGO-TECLA = 13
+             IF COB-CRT-STATUS = 0
                MOVE 0 TO PIN
                GO TO LOGIN
              ELSE
@@ -1169,11 +1174,13 @@
            MOVE 1 TO J.
            OPEN INPUT MOVFILE.
          INICIO-OBTENER-TODOS-MOVS.
-           READ MOVFILE NEXT RECORD
-                    AT END GO TO FIN-CONTAR-TODOS-MOVS.
+           READ MOVFILE NEXT RECORD 
+               AT END GO TO FIN-CONTAR-TODOS-MOVS.
            IF CUENTA-SELECCIONADA = MOV-ID
              ADD 1 TO NUM-TOTAL-MOV
-             MOVE MOV-FECHA TO FECHA-D(J)
+             MOVE AAM TO AAMOV(J)
+             MOVE MMM TO MMMOV(J)
+             MOVE DDM TO DDMOV(J)
              MOVE MOV-CONCEPTO TO CONCEPTO-D(J)
              MOVE MOV-CANTIDAD TO CANTIDAD-D(J)
              MOVE MOV-SALDO TO SALDO-CUENTA-D(J)
@@ -1198,7 +1205,9 @@
              IF CANTIDAD-MOV >= CANTIDAD-INICIAL-MOV
                IF CANTIDAD-MOV <= CANTIDAD-FINAL-MOV
                  ADD 1 TO NUM-TOTAL-MOV
-                 MOVE MOV-FECHA TO FECHA-D(J)
+                 MOVE AAM TO AAMOV(J)
+                 MOVE MMM TO MMMOV(J)
+                 MOVE DDM TO DDMOV(J)
                  MOVE MOV-CONCEPTO TO CONCEPTO-D(J)
                  MOVE MOV-CANTIDAD TO CANTIDAD-D(J)
                  MOVE MOV-SALDO TO SALDO-CUENTA-D(J)
@@ -1229,7 +1238,9 @@
             IF FECHA-MOV >= FECHA-INICIAL-MOV
               IF FECHA-MOV <= FECHA-FINAL-MOV
                 ADD 1 TO NUM-TOTAL-MOV
-                MOVE MOV-FECHA TO FECHA-D(J)
+                MOVE AAM TO AAMOV(J)
+                MOVE MMM TO MMMOV(J)
+                MOVE DDM TO DDMOV(J)
                 MOVE MOV-CONCEPTO TO CONCEPTO-D(J)
                 MOVE MOV-CANTIDAD TO CANTIDAD-D(J)
                 MOVE MOV-SALDO TO SALDO-CUENTA-D(J)
@@ -1264,7 +1275,9 @@
                  IF FECHA-MOV >= FECHA-INICIAL-MOV
                    IF FECHA-MOV <= FECHA-FINAL-MOV
                      ADD 1 TO NUM-TOTAL-MOV
-                     MOVE MOV-FECHA TO FECHA-D(J)
+                     MOVE AAM TO AAMOV(J)
+                     MOVE MMM TO MMMOV(J)
+                     MOVE DDM TO DDMOV(J)
                      MOVE MOV-CONCEPTO TO CONCEPTO-D(J)
                      MOVE MOV-CANTIDAD TO CANTIDAD-D(J)
                      MOVE MOV-SALDO TO SALDO-CUENTA-D(J)
