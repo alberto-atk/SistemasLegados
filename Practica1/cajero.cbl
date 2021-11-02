@@ -44,7 +44,7 @@
 
          FD MOVFILE.
          01 REG-MOVIMIENTOS.
-           02 MOV-ID                 PIC X(20).
+           02 MOV-ID                 PIC X(24).
            02 MOV-CONCEPTO           PIC X(40).
            02 MOV-CANTIDAD           PIC --------9.99.
            02 MOV-CUENTA-DESTINO     PIC X(24).
@@ -421,26 +421,18 @@
             02 LINE 13 COL 56 VALUE " y/o cantidades".
             02 LINE 16 COL 22
                VALUE "Entre las fechas   /  /     y   /  /    ".
-            02 LINE 16 COL 39 PIC 99 USING DDI UNDERLINE FULL
-                BLANK WHEN ZERO.
-            02 LINE 16 COL 42 PIC 99 USING MMI UNDERLINE FULL
-                BLANK WHEN ZERO.
-            02 LINE 16 COL 45 PIC 9999 USING AAI UNDERLINE FULL
-                BLANK WHEN ZERO.
-            02 LINE 16 COL 52 PIC 99 USING DDF UNDERLINE FULL
-                BLANK WHEN ZERO.
-            02 LINE 16 COL 55 PIC 99 USING MMF UNDERLINE FULL
-                BLANK WHEN ZERO.
-            02 LINE 16 COL 58 PIC 9999 USING AAF UNDERLINE FULL
-                BLANK WHEN ZERO.
+            02 LINE 16 COL 39 PIC 99 USING DDI UNDERLINE FULL.
+            02 LINE 16 COL 42 PIC 99 USING MMI UNDERLINE FULL.
+            02 LINE 16 COL 45 PIC 9999 USING AAI UNDERLINE FULL.
+            02 LINE 16 COL 52 PIC 99 USING DDF UNDERLINE FULL.
+            02 LINE 16 COL 55 PIC 99 USING MMF UNDERLINE FULL.
+            02 LINE 16 COL 58 PIC 9999 USING AAF UNDERLINE FULL.
             02 LINE 17 COL 18
                VALUE "Cantidad entre       .   EUR y       .   EUR".
             02 LINE 17 COL 33 PIC 9(6) USING IEUROS UNDERLINE.
-            02 LINE 17 COL 40 PIC 99 USING ICENT UNDERLINE FULL
-                BLANK WHEN ZERO.
+            02 LINE 17 COL 40 PIC 99 USING ICENT UNDERLINE FULL.
             02 LINE 17 COL 49 PIC 9(6) USING FEUROS UNDERLINE.
-            02 LINE 17 COL 56 PIC 99 USING FCENT UNDERLINE FULL
-				BLANK WHEN ZERO.
+            02 LINE 17 COL 56 PIC 99 USING FCENT UNDERLINE FULL.
 			02 LINE 19 COL 15 PIC X(50) FROM MSJ-MOVS HIGHLIGHT.
             02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
@@ -463,10 +455,10 @@
             02 LINE 12 COL 68 VALUE "------------".
             02 LINE 23 COL 13 VALUE "F9 -".
             02 LINE 24 COL 11 VALUE "Cancelar".
-            02 LINE 23 COL 32 VALUE "Arriba -".
-            02 LINE 24 COL 28 VALUE "Espec. Anteriores".
-            02 LINE 23 COL 59 VALUE "Abajo -".
-            02 LINE 24 COL 54 VALUE "Espec. Siguientes".
+            02 LINE 23 COL 32 VALUE "F2 -".
+            02 LINE 24 COL 28 VALUE "Movs. Anteriores".
+            02 LINE 23 COL 59 VALUE "F3 -".
+            02 LINE 24 COL 54 VALUE "Movs. Siguientes".
 
          01 PANTALLA-SIN-MOVIMIENTOS.
             02 BLANK SCREEN.
@@ -1084,7 +1076,8 @@
            PERFORM UNTIL NUM-PRIMER-MOV > NUM-ULTIMO-MOV
                         OR CONCEPTO-D(NUM-PRIMER-MOV) = "FIN"
              ADD 1 TO LINEA-MOV
-             DISPLAY LINEA-DETALLE-MOV(NUM-PRIMER-MOV) 
+             DISPLAY LINEA-DETALLE-MOV(NUM-PRIMER-MOV)
+               AT LINE NUMBER LINEA-MOV
 			 ADD 1 TO NUM-PRIMER-MOV
 	       END-PERFORM.
            
@@ -1093,7 +1086,7 @@
 		     PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 			 GO TO MENU-OPCIONES  
 		   ELSE
-		     IF CODIGO-TECLA = 52
+		     IF COB-CRT-STATUS = 1002
 		       IF NUM-PANTALLA-MOV = 1
 				 MOVE 12 TO LINEA-MOV
 				 GO TO MOSTRAR-PANTALLA-MOV
@@ -1102,7 +1095,7 @@
 				 MOVE 12 TO LINEA-MOV
 				 GO TO MOSTRAR-PANTALLA-MOV
 		     ELSE
-		       IF CODIGO-TECLA = 53
+		       IF COB-CRT-STATUS = 1003
 		         IF NUM-PANTALLA-MOV = TOTAL-PANTALLAS-MOV
 				   MOVE 12 TO LINEA-MOV
 				   GO TO MOSTRAR-PANTALLA-MOV
