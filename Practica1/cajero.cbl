@@ -104,7 +104,7 @@
                 03 FILLER             PIC X(1) VALUE SPACES.
                 03 FECHA-D           PIC X(10).
                 03 FILLER             PIC X(3) VALUE SPACES.
-                03 CONCEPTO-D        PIC X(38).
+                03 CONCEPTO-D        PIC X(40).
                 03 FILLER             PIC X(2) VALUE SPACES.
                 03 CANTIDAD-D        PIC --------9.99.
                 03 FILLER             PIC X(3) VALUE SPACES.
@@ -120,7 +120,7 @@
                 03 NOMBRE-D-ESPEC       PIC X(20).
                 03 FILLER                PIC X(3) VALUE SPACES.
                 03 DESCRIPCION-D-ESPEC     PIC X(30).
-                03 FILLER                PIC X(3) VALUE SPACES.
+                03 FILLER                PIC X(4) VALUE SPACES.
                 03 PRECIO-D-ESPEC       PIC ZZ9.99.
                 03 FILLER                PIC X(7) VALUE SPACES.
                 03 ENT-DISPO-D-ESPEC    PIC ZZ9.
@@ -447,14 +447,14 @@
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 8 COL 28 VALUE "Consulta de movimientos".
             02 LINE 11 COL 2 VALUE "Fecha".
-            02 LINE 12 COL 2 VALUE "--------".
-            02 LINE 11 COL 13 VALUE "Concepto".
-            02 LINE 12 COL 13
-                VALUE "--------------------------------------".
-            02 LINE 11 COL 57 VALUE "Cantidad".
-            02 LINE 12 COL 57 VALUE "--------".
-            02 LINE 11 COL 68 VALUE "Saldo cuenta".
-            02 LINE 12 COL 68 VALUE "------------".
+            02 LINE 12 COL 2 VALUE "----------".
+            02 LINE 11 COL 15 VALUE "Concepto".
+            02 LINE 12 COL 15
+                VALUE "----------------------------------------".
+            02 LINE 11 COL 61 VALUE "Cantidad".
+            02 LINE 12 COL 61 VALUE "--------".
+            02 LINE 11 COL 72 VALUE "Saldo cuenta".
+            02 LINE 12 COL 72 VALUE "------------".
             02 LINE 23 COL 13 VALUE "F9 -".
             02 LINE 24 COL 11 VALUE "Cancelar".
             02 LINE 23 COL 32 VALUE "F2 -".
