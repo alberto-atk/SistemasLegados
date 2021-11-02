@@ -951,7 +951,7 @@
            IF COB-CRT-STATUS = 1009
              GO TO INICIO
            ELSE
-             IF CODIGO-TECLA = 13
+             IF COB-CRT-STATUS = 13
                GO TO LOGIN
              ELSE
                GO TO MUESTRA-MENSAJE-ERROR-USUARIO.
@@ -965,7 +965,7 @@
              PERFORM RESTAURAR-CAMPOS-ACCESO
              GO TO INICIO
            ELSE
-             IF CODIGO-TECLA = 13
+             IF COB-CRT-STATUS = 0
                MOVE 0 TO PIN
                GO TO LOGIN
              ELSE
