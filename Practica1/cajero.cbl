@@ -94,6 +94,8 @@
          77 I                         PIC 999 VALUE 1.
          77 J                         PIC 999 VALUE 1.
          77 K                         PIC 999 VALUE 1.
+         77 L                         PIC 999 VALUE 1.
+         77 M                         PIC 999 VALUE 1.
          77 TOTAL-CUENTAS             PIC 999 VALUE 0.
          77 SELECCION-CUENTA          PIC 9.
          77 CUENTA-SELECCIONADA       PIC X(24).
@@ -1520,6 +1522,10 @@
 		   CLOSE USERFILE.
 		   PERFORM GUARDAR-MOV-TRANSF-EFECTIVO.
 		   
+           PERFORM TRANSFERIR-DINERO-CUENTA-DESTINO 
+                   THRU FIN-TRANSFERIR-DINERO.
+
+
 		   PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA.
          MUESTRA-TRANS-CONFIRMADA.    
 		   DISPLAY PANTALLA-TRANSF-CONFIRMADA.
@@ -1528,6 +1534,34 @@
 		     GO TO MUESTRA-TRANS-CONFIRMADA
 		   ELSE 
 		     GO TO MENU-OPCIONES.
+
+*> Procedimiento transferir-dinero-cuenta-destino
+       TRANSFERIR-DINERO-CUENTA-DESTINO.
+           MOVE 1 TO L.
+           MOVE 1 TO M.
+           OPEN I-O USERFILE.
+               
+         INICIO-OBTENER-CUENTAS
+           READ MOVFILE NEXT RECORD
+                    AT END GO TO FIN-OBTENER-CUENTAS.
+           
+
+           INICIO-CUENTAS-USUARIO.
+               IF M > 3 GO TO FIN-CUENTAS-USUARIO.
+                   IF CUENTA-DESTINO = 
+       
+                       ADD 1 TO M.
+       
+                   GO TO INICIO-CUENTAS-USUARIO
+               FIN-CUENTAS-USUARIO.
+           ADD 1 TO L.
+         GO TO INICIO-OBTENER-CUENTAS.
+         
+         
+         FIN-OBTENER-CUENTAS.
+               CLOSE USERFILE.
+         FIN-TRANSFERIR-DINERO.
+           
 
 *> Procedimiento guardar-movimiento-hacer-transferencia  	   
 	   GUARDAR-MOV-TRANSF-EFECTIVO.
