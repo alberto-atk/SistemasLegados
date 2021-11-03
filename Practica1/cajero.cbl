@@ -333,7 +333,7 @@
             02 LINE 23 COL 17 VALUE "F9 - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
-         01 PANTALLA-ELECCION-CUENTA.
+         01 PANTALLA-SELECCION-CUENTA.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
             02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
@@ -818,10 +818,13 @@
                 ELSE
                   PERFORM RESTAURAR-CAMPOS-ACCESO
                   GO TO BLOQUEO-TARJETA.
-            
+
             PERFORM LEER-SALDOS-CUENTAS.
-			DISPLAY PANTALLA-ELECCION-CUENTA.
-            ACCEPT PANTALLA-ELECCION-CUENTA.
+			DISPLAY PANTALLA-SELECCION-CUENTA.
+            ACCEPT PANTALLA-SELECCION-CUENTA.
+            PERFORM LEER-TECLA.
+            IF COB-CRT-STATUS = 1009
+               GO TO LOGIN.
             PERFORM OBTENER-CUENTA-SALDO-A-USAR.
             
          MENU-OPCIONES.
@@ -1548,11 +1551,11 @@
        
            GO TO INICIO-OBTENER-CUENTAS.
   
-  
          FIN-OBTENER-CUENTAS.
            CLOSE USERFILE.
          FIN-TRANSFERIR-DINERO.
 
+*> Procedimiento auxiliar que busca la cuenta de un usuario
        BUSCAR-CUENTA.
            IF WS-USER-NUM-CUENTA(M) = CUENTA-DESTINO  
                COMPUTE WS-USER-SALDO(M) = WS-USER-SALDO(M) + DINERO-A-TRANSFERIR
