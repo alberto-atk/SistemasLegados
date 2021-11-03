@@ -1537,30 +1537,28 @@
 
 *> Procedimiento transferir-dinero-cuenta-destino
        TRANSFERIR-DINERO-CUENTA-DESTINO.
-           MOVE 1 TO L.
-           MOVE 1 TO M.
            OPEN I-O USERFILE.
-               
-         INICIO-OBTENER-CUENTAS
-           READ MOVFILE NEXT RECORD
-                    AT END GO TO FIN-OBTENER-CUENTAS.
-           
-
-           INICIO-CUENTAS-USUARIO.
-               IF M > 3 GO TO FIN-CUENTAS-USUARIO.
-                   IF CUENTA-DESTINO = 
+        
+         INICIO-OBTENER-CUENTAS.
+           READ USERFILE NEXT RECORD INTO WS-REG-USUARIO
+               AT END GO TO FIN-OBTENER-CUENTAS.
+           MOVE 1 TO M.
        
-                       ADD 1 TO M.
+           PERFORM BUSCAR-CUENTA UNTIL M = 4.
        
-                   GO TO INICIO-CUENTAS-USUARIO
-               FIN-CUENTAS-USUARIO.
-           ADD 1 TO L.
-         GO TO INICIO-OBTENER-CUENTAS.
-         
-         
+           GO TO INICIO-OBTENER-CUENTAS.
+  
+  
          FIN-OBTENER-CUENTAS.
-               CLOSE USERFILE.
+           CLOSE USERFILE.
          FIN-TRANSFERIR-DINERO.
+
+       BUSCAR-CUENTA.
+           IF WS-USER-NUM-CUENTA(M) = CUENTA-DESTINO  
+               COMPUTE WS-USER-SALDO(M) = WS-USER-SALDO(M) + DINERO-A-TRANSFERIR
+               MOVE WS-USER-SALDO(M) TO USER-SALDO(M)
+               REWRITE REG-USUARIO.
+           ADD 1 TO M.
            
 
 *> Procedimiento guardar-movimiento-hacer-transferencia  	   
