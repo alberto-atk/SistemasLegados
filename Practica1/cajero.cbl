@@ -100,6 +100,7 @@
          77 SELECCION-CUENTA          PIC 9.
          77 CUENTA-SELECCIONADA       PIC X(24).
          77 SALDO-SELECCIONADO        PIC 9(9)V99.
+         77 SALDO-DESTINO             PIC 9(9)v99.
          77 LINEA-MOV                 PIC 99 VALUE 12.
          01 MOVIMIENTO.
             02 LINEA-DETALLE-MOV OCCURS 999 TIMES.
@@ -1528,6 +1529,7 @@
            PERFORM TRANSFERIR-DINERO-CUENTA-DESTINO 
                    THRU FIN-TRANSFERIR-DINERO.
 
+           PERFORM GUARDAR-MOV-TRANSFERENCIA.
 
 		   PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA.
          MUESTRA-TRANS-CONFIRMADA.    
@@ -1547,7 +1549,7 @@
                AT END GO TO FIN-OBTENER-CUENTAS.
            MOVE 1 TO M.
        
-           PERFORM BUSCAR-CUENTA UNTIL M = 4.
+           PERFORM TRANSFERIR-DINERO UNTIL M = 4.
        
            GO TO INICIO-OBTENER-CUENTAS.
   
@@ -1556,7 +1558,7 @@
          FIN-TRANSFERIR-DINERO.
 
 *> Procedimiento auxiliar que busca la cuenta de un usuario
-       BUSCAR-CUENTA.
+       TRANSFERIR-DINERO.
            IF WS-USER-NUM-CUENTA(M) = CUENTA-DESTINO  
                COMPUTE WS-USER-SALDO(M) = WS-USER-SALDO(M) + DINERO-A-TRANSFERIR
                MOVE WS-USER-SALDO(M) TO USER-SALDO(M)
@@ -1581,7 +1583,46 @@
 		   MOVE FECHAF TO MOV-FECHA.
 		   MOVE HORAF TO MOV-HORA.
 	       WRITE REG-MOVIMIENTOS.
-	       CLOSE MOVFILE. 
+	       CLOSE MOVFILE.
+
+*> Guarda una transferencia como movimiento en la cuenta de destino
+       GUARDAR-MOV-TRANSFERENCIA.
+           OPEN EXTEND MOVFILE.
+
+           MOVE CUENTA-DESTINO TO MOV-ID.
+           MOVE "Transferencia a su favor" TO MOV-CONCEPTO.
+           MOVE DINERO-A-TRANSFERIR TO MOV-CANTIDAD.
+           MOVE " " TO MOV-CUENTA-DESTINO.
+           PERFORM OBTENER-SALDO-CUENTA-DESTINO THRU FIN-OBTENER-SALDO.
+           MOVE SALDO-DESTINO TO MOV-SALDO.
+           PERFORM OBTENER-FECHA.
+           MOVE FECHAF TO MOV-FECHA.
+           MOVE HORAF TO MOV-HORA.
+           WRITE REG-MOVIMIENTOS.
+           CLOSE MOVFILE.
+
+*> Obtiene el saldo de la cuenta de destino para indicarlo en la transferencia
+       OBTENER-SALDO-CUENTA-DESTINO.
+           OPEN I-O USERFILE.
+        
+         INICIO-OBTENER-SALDO-CUENTAS.
+           READ USERFILE NEXT RECORD INTO WS-REG-USUARIO
+               AT END GO TO FIN-OBTENER-SALDO-CUENTAS.
+           MOVE 1 TO M.
+       
+           PERFORM OBTENER-SALDO UNTIL M = 4.
+       
+           GO TO INICIO-OBTENER-SALDO-CUENTAS.
+  
+         FIN-OBTENER-SALDO-CUENTAS.
+           CLOSE USERFILE.
+         FIN-OBTENER-SALDO.
+
+*> Procedimiento auxiliar que busca el saldo de la cuenta de destino
+       OBTENER-SALDO.
+           IF WS-USER-NUM-CUENTA(M) = CUENTA-DESTINO  
+               MOVE WS-USER-SALDO(M) TO SALDO-DESTINO.
+           ADD 1 TO M.
 	            
 *> Procedimiento gestionar-transferencia-cancelada       
        GESTIONAR-TRANSF-CANCELADA.
