@@ -310,7 +310,7 @@
             02 LINE 12 COL 37 VALUE "Clave: ".
             02 LINE 12 COL 44 PIC 9(4) USING PIN SECURE
 				BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar". 
          
          01 PANTALLA-ERROR-ACCESO.
@@ -320,7 +320,7 @@
             02 LINE 4 COL 41 VALUE "-".
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 10 COL 22 PIC X(35) FROM MSJ-INTENTOS-ACC.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-ERROR-USUARIO.
@@ -331,7 +331,7 @@
             02 LINE 4 COL 43 PIC X(8) FROM HORAF.
             02 LINE 10 COL 22
                VALUE "El numero de tarjeta no es correcto".
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-SELECCION-CUENTA.
@@ -357,7 +357,7 @@
 
             02 LINE 16 COL 44 PIC 9 USING SELECCION-CUENTA
                 BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-BLOQUEO-TARJETA.
@@ -395,7 +395,7 @@
             02 LINE 13 COL 25 VALUE "5 - Ordenar transferencia".
             02 LINE 14 COL 25 VALUE "6 - Comprar entradas espectaculos".
             02 LINE 16 COL 25 VALUE "7 - Cambiar clave".
-            02 LINE 23 COL 34 VALUE "F9 - Salir".
+            02 LINE 23 COL 34 VALUE "Esc - Salir".
         
          01 PANTALLA-CONSULTA-SALDO.
             02 BLANK SCREEN.
@@ -439,7 +439,7 @@
             02 LINE 17 COL 49 PIC 9(6) USING FEUROS UNDERLINE.
             02 LINE 17 COL 56 PIC 99 USING FCENT UNDERLINE FULL.
 			02 LINE 19 COL 15 PIC X(50) FROM MSJ-MOVS HIGHLIGHT.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-MUESTRA-MOVIMIENTOS.
@@ -458,11 +458,11 @@
             02 LINE 12 COL 61 VALUE "--------".
             02 LINE 11 COL 72 VALUE "Saldo cuenta".
             02 LINE 12 COL 72 VALUE "------------".
-            02 LINE 23 COL 13 VALUE "F9 -".
+            02 LINE 23 COL 13 VALUE "Esc -".
             02 LINE 24 COL 11 VALUE "Cancelar".
-            02 LINE 23 COL 32 VALUE "F2 -".
+            02 LINE 23 COL 32 VALUE "Abajo -".
             02 LINE 24 COL 28 VALUE "Movs. Anteriores".
-            02 LINE 23 COL 59 VALUE "F3 -".
+            02 LINE 23 COL 59 VALUE "Arriba -".
             02 LINE 24 COL 54 VALUE "Movs. Siguientes".
 
          01 PANTALLA-SIN-MOVIMIENTOS.
@@ -490,7 +490,7 @@
             02 LINE 15 COL 47 PIC 9(9) USING EUROSR.
             02 LINE 15 COL 57 PIC 99 USING CENTR FULL BLANK WHEN ZERO.
             02 LINE 18 COLUMN 16 PIC X(48) FROM ERROR-RETIRAR HIGHLIGHT.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-EFECTIVO-RETIRADO.
@@ -521,7 +521,7 @@
             02 LINE 18 COL 24 VALUE "Cantidad a ingresar     .   EUR".
             02 LINE 18 COL 44 PIC 9(4) USING EUROSI.
             02 LINE 18 COL 49 PIC 99 USING CENTI FULL BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Ingresar".  
          
          01 PANTALLA-INGRESANDO-EFECTIVO REQUIRED AUTO.
@@ -541,7 +541,7 @@
             02 LINE 19 COL 24 VALUE "Cantidad a ingresar     .   EUR".
             02 LINE 19 COL 44 PIC 9(4) USING EUROSI.
             02 LINE 19 COL 49 PIC 99 USING CENTI FULL BLANK WHEN ZERO.  
-            02 LINE 23 COL 28 VALUE "F9 - Finalizar ingreso".
+            02 LINE 23 COL 28 VALUE "Esc - Finalizar ingreso".
             
          01 PANTALLA-EFECTIVO-INGRESADO.
             02 BLANK SCREEN.
@@ -576,7 +576,7 @@
             02 LINE 17 COL 49 PIC 9(9) USING EUROST.
             02 LINE 17 COL 59 PIC 99 USING CENTT FULL BLANK WHEN ZERO.
             02 LINE 20 COL 16 PIC X(47) FROM ERROR-TRANSF HIGHLIGHT.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 48 VALUE "Enter - Aceptar".
 
          01 PANTALLA-CONFIRMAR-TRANSF.
@@ -594,7 +594,7 @@
             02 LINE 16 COL 22 VALUE "cuyo titular es ".
             02 LINE 14 COL 36 PIC X(24) FROM CUENTA-DESTINO.
             02 LINE 16 COL 38 PIC X(20) FROM TITULAR.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 46 VALUE "Enter - Confirmar".
 
          01 PANTALLA-TRANSF-CONFIRMADA.
@@ -640,11 +640,11 @@
             02 LINE 12 COL 76 VALUE "-------".
             02 LINE 11 COL 86 VALUE "Disponible".
             02 LINE 12 COL 86 VALUE "----------".				
-            02 LINE 23 COL 6 VALUE "F9 -".
+            02 LINE 23 COL 6 VALUE "Esc -".
             02 LINE 24 COL 4 VALUE "Cancelar".
-            02 LINE 23 COL 25 VALUE "F2 -".
+            02 LINE 23 COL 25 VALUE "Abajo -".
             02 LINE 24 COL 20 VALUE "Espec. Anteriores".
-            02 LINE 23 COL 50 VALUE "F3 -".
+            02 LINE 23 COL 50 VALUE "Arriba -".
             02 LINE 24 COL 45 VALUE "Espec. Siguientes".
             02 LINE 23 COL 70 VALUE "Enter -".
             02 LINE 24 COL 68 VALUE "Ir a compra".
@@ -678,7 +678,7 @@
             02 LINE 20 COL 58 PIC 99 USING NUM-ESPEC BLANK WHEN ZERO.
             02 LINE 22 COL 14 PIC X(51) FROM MSJ-COMPRAR-ENTRADAS
 				HIGHLIGHT.
-            02 LINE 24 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 24 COL 17 VALUE "Esc - Cancelar".
             02 LINE 24 COL 48 VALUE "Enter - Comprar".
 
          01 PANTALLA-ENT-ESPEC-COMPRADAS.
@@ -723,7 +723,7 @@
             02 LINE 14 COL 38 PIC X(20) FROM ESPEC-NOMBRE.
             02 LINE 17 COL 27 VALUE "Precio total:         EUR".
             02 LINE 17 COL 41 PIC ---9.99 FROM COSTE-TOTAL-ENTRADAS.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 47 VALUE "Enter - Confirmar".
 
          01 PANTALLA-SIN-ESPECTACULOS.
@@ -755,7 +755,7 @@
             02 LINE 14 COL 29 VALUE "Repita la nueva clave: ".
             02 LINE 14 COL 52 PIC 9(4) USING CLAVE-NUEVA-2 SECURE
             	BLANK WHEN ZERO.
-            02 LINE 23 COL 17 VALUE "F9 - Cancelar".
+            02 LINE 23 COL 17 VALUE "Esc - Cancelar".
             02 LINE 23 COL 47 VALUE "Enter - Confirmar".
 
          01 PANTALLA-CLAVE-CAMBIADA.
@@ -782,11 +782,15 @@
 
 
         PROCEDURE DIVISION.
+        XXX.
+           SET ENVIRONMENT 'COB_SCREEN_EXCEPTIONS' TO 'Y'.
+           SET ENVIRONMENT 'COB_SCREEN_ESC' TO 'Y'.
+
          INICIO.
             PERFORM OBTENER-FECHA.
 			DISPLAY PANTALLA-BIENVENIDA.  
 			PERFORM LEER-TECLA.
-			IF COB-CRT-STATUS = 1009
+			IF COB-CRT-STATUS = 2005
 			  STOP RUN 
 			ELSE
 			 IF COB-CRT-STATUS NOT = 0
@@ -795,12 +799,12 @@
          LOGIN.
 			DISPLAY PANTALLA-ACCESO-SISTEMA. 
 			ACCEPT PANTALLA-ACCESO-SISTEMA
-			  IF COB-CRT-STATUS = 1009
+			  IF COB-CRT-STATUS = 2005
 			    PERFORM RESTAURAR-CAMPOS-ACCESO
 		        GO TO INICIO.
 		    
 		    PERFORM LEER-TECLA.
-			IF COB-CRT-STATUS = 1009	  
+			IF COB-CRT-STATUS = 2005	  
 			  GO TO INICIO 
 			ELSE
 			 IF COB-CRT-STATUS NOT = 0
@@ -824,7 +828,7 @@
 			DISPLAY PANTALLA-SELECCION-CUENTA.
             ACCEPT PANTALLA-SELECCION-CUENTA.
             PERFORM LEER-TECLA.
-            IF COB-CRT-STATUS = 1009
+            IF COB-CRT-STATUS = 2005
                GO TO LOGIN.
             PERFORM OBTENER-CUENTA-SALDO-A-USAR.
             
@@ -833,7 +837,7 @@
             DISPLAY PANTALLA-MENU-PRINCIPAL.
 			PERFORM LEER-TECLA.
 
-			IF COB-CRT-STATUS = 1009
+			IF COB-CRT-STATUS = 2005
 			  MOVE 0 TO NUM-ERRORES-CNUEVA
 		      MOVE 0 TO NUM-ERRORES-CACTUAL
 			  GO TO INICIO 
@@ -956,7 +960,7 @@
            DISPLAY PANTALLA-ERROR-USUARIO.
 
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              GO TO INICIO
            ELSE
              IF COB-CRT-STATUS = 13
@@ -969,7 +973,7 @@
          MUESTRA-MENSAJE-ERROR-ACCESO.
            DISPLAY PANTALLA-ERROR-ACCESO.
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              PERFORM RESTAURAR-CAMPOS-ACCESO
              GO TO INICIO
            ELSE
@@ -1018,13 +1022,13 @@
           MOSTRAR-PANTALLA-MOVS.
 		   DISPLAY PANTALLA-CONSULTA-MOVIMIENTOS.
 		   ACCEPT PANTALLA-CONSULTA-MOVIMIENTOS
-		     IF COB-CRT-STATUS = 1009
+		     IF COB-CRT-STATUS = 2005
 		       PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 		       MOVE " " TO MSJ-MOVS
 		       GO TO MENU-OPCIONES.		       
 		   
 		   PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
               PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 		      MOVE " " TO MSJ-MOVS
 			  GO TO MENU-OPCIONES
@@ -1090,11 +1094,11 @@
 	       END-PERFORM.
            
            PERFORM LEER-TECLA.
-		   IF COB-CRT-STATUS = 1009
+		   IF COB-CRT-STATUS = 2005
 		     PERFORM RESTAURAR-CAMPOS-MOVIMIENTOS
 			 GO TO MENU-OPCIONES  
 		   ELSE
-		     IF COB-CRT-STATUS = 1002
+		     IF COB-CRT-STATUS = 2003
 		       IF NUM-PANTALLA-MOV = 1
 				 MOVE 12 TO LINEA-MOV
 				 GO TO MOSTRAR-PANTALLA-MOV
@@ -1103,7 +1107,7 @@
 				 MOVE 12 TO LINEA-MOV
 				 GO TO MOSTRAR-PANTALLA-MOV
 		     ELSE
-		       IF COB-CRT-STATUS = 1003
+		       IF COB-CRT-STATUS = 2004
 		         IF NUM-PANTALLA-MOV = TOTAL-PANTALLAS-MOV
 				   MOVE 12 TO LINEA-MOV
 				   GO TO MOSTRAR-PANTALLA-MOV
@@ -1316,14 +1320,14 @@
          MOSTRAR-PANTALLA-RE.
            DISPLAY PANTALLA-RETIRAR-EFECTIVO.
            ACCEPT PANTALLA-RETIRAR-EFECTIVO
-             IF COB-CRT-STATUS = 1009
+             IF COB-CRT-STATUS = 2005
                MOVE 0 TO EUROSR
                MOVE 0 TO CENTR
                CLOSE USERFILE
                GO TO MENU-OPCIONES.
 
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              MOVE 0 TO EUROSR
              MOVE 0 TO CENTR
              CLOSE USERFILE
@@ -1388,14 +1392,14 @@
          MOSTRAR-PANTALLA-INI-INGRESO.
 		   DISPLAY PANTALLA-INICIAR-INGRESO.
 		   ACCEPT PANTALLA-INICIAR-INGRESO
-		    IF COB-CRT-STATUS = 1009
+		    IF COB-CRT-STATUS = 2005
 		     MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 		     CLOSE USERFILE
 		     GO TO MENU-OPCIONES.
 		  
 		  PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              MOVE 0 TO EUROSI
              MOVE 0 TO CENTI
              CLOSE USERFILE
@@ -1429,13 +1433,13 @@
          MOSTRAR-PANTALLA-INGRESANDO.						
 		   DISPLAY PANTALLA-INGRESANDO-EFECTIVO.
 		   ACCEPT PANTALLA-INGRESANDO-EFECTIVO
-		    IF COB-CRT-STATUS = 1009
+		    IF COB-CRT-STATUS = 2005
 			 MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 			 GO TO FIN-INGRESO.
 		  
 		   PERFORM LEER-TECLA.
-		   IF COB-CRT-STATUS = 1009
+		   IF COB-CRT-STATUS = 2005
 		     MOVE 0 TO EUROSI
 			 MOVE 0 TO CENTI
 			 GO TO FIN-INGRESO
@@ -1488,13 +1492,13 @@
 
          ESPERAR-DATOS-TRANSF.
            ACCEPT PANTALLA-ORDENAR-TRANSF
-            IF COB-CRT-STATUS = 1009
+            IF COB-CRT-STATUS = 2005
               PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
               CLOSE USERFILE
               GO TO MENU-OPCIONES.
 
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
 			 CLOSE USERFILE
 	         GO TO MENU-OPCIONES
@@ -1512,7 +1516,7 @@
          MUESTRA-CONFIRMAR-TRANSF.
            DISPLAY PANTALLA-CONFIRMAR-TRANSF.
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA
              CLOSE USERFILE
 			 GO TO GESTIONAR-TRANSF-CANCELADA
@@ -1668,11 +1672,11 @@
 	       END-PERFORM.
            
            PERFORM LEER-TECLA.
-		   IF COB-CRT-STATUS = 1009
+		   IF COB-CRT-STATUS = 2005
 		     PERFORM RESTAURAR-CAMPOS-ESPEC
 			 GO TO MENU-OPCIONES  
 		   ELSE
-		     IF COB-CRT-STATUS = 1002
+		     IF COB-CRT-STATUS = 2003
 		       IF NUM-PANTALLA-ESPEC = 1
 				 MOVE 12 TO LINEA-ESPEC
 				 GO TO MOSTRAR-PANTALLA-ESPEC
@@ -1681,7 +1685,7 @@
 				 MOVE 12 TO LINEA-ESPEC
 				 GO TO MOSTRAR-PANTALLA-ESPEC
 		     ELSE
-		       IF COB-CRT-STATUS = 1003
+		       IF COB-CRT-STATUS = 2004
 		         IF NUM-PANTALLA-ESPEC = TOTAL-PANTALLAS-ESPEC
 				   MOVE 12 TO LINEA-ESPEC
 				   GO TO MOSTRAR-PANTALLA-ESPEC
@@ -1732,13 +1736,13 @@
 			 ADD 1 TO NUM-PRIMER-ESPEC
 	       END-PERFORM.
            ACCEPT PANTALLA-COMPRAR-ENTRADAS
-            IF COB-CRT-STATUS = 1009
+            IF COB-CRT-STATUS = 2005
               PERFORM RESTAURAR-CAMPOS-ESPEC
               MOVE " " TO MSJ-COMPRAR-ENTRADAS
               GO TO COMPRAR-ENTRADAS.
 
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              PERFORM RESTAURAR-CAMPOS-ESPEC
              MOVE " " TO MSJ-COMPRAR-ENTRADAS
              GO TO COMPRAR-ENTRADAS
@@ -1773,7 +1777,7 @@
          MOSTRAR-PANTALLA-CONF-COMPRA.   				
 		   DISPLAY PANTALLA-CONFIRMAR-COMPRA-ENT.
 		   PERFORM LEER-TECLA.
-		   IF COB-CRT-STATUS = 1009
+		   IF COB-CRT-STATUS = 2005
 			 MOVE " " TO MSJ-COMPRAR-ENTRADAS
 			 PERFORM RESTAURAR-CAMPOS-ESPEC
 			 GO TO MENU-OPCIONES
@@ -1900,12 +1904,12 @@
          MOSTRAR-PANTALLA-CC.
            DISPLAY PANTALLA-CAMBIAR-CLAVE.
            ACCEPT PANTALLA-CAMBIAR-CLAVE
-             IF COB-CRT-STATUS = 1009
+             IF COB-CRT-STATUS = 2005
                CLOSE USERFILE
                GO TO MENU-OPCIONES.
 
            PERFORM LEER-TECLA.
-           IF COB-CRT-STATUS = 1009
+           IF COB-CRT-STATUS = 2005
              PERFORM LIMPIAR-CAMPOS-CCLAVE
 			 CLOSE USERFILE
 	         GO TO MENU-OPCIONES
