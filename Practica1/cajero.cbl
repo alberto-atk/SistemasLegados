@@ -91,6 +91,7 @@
          77 FSL                      PIC XX.
          77 TECLA                    PIC X.
          77 CODIGO-TECLA             PIC 99.
+         77 CUENTA-VACIA             PIC X(24) VALUE '000000000000000000000000'.
          77 I                         PIC 999 VALUE 1.
          77 J                         PIC 999 VALUE 1.
          77 K                         PIC 999 VALUE 1.
@@ -543,6 +544,16 @@
             02 LINE 19 COL 49 PIC 99 USING CENTI FULL BLANK WHEN ZERO.  
             02 LINE 23 COL 28 VALUE "Esc - Finalizar ingreso".
             
+         01 PANTALLA-ERROR-SELECCION.
+           02 BLANK SCREEN.
+            02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
+            02 LINE 4 COL 30 PIC X(10) FROM FECHAF.
+            02 LINE 4 COL 41 VALUE "-".
+            02 LINE 4 COL 43 PIC X(8) FROM HORAF.
+            02 LINE 10 COL 22
+               VALUE "La cuenta seleccionada no es correcta".
+            02 LINE 23 COL 48 VALUE "Enter - Aceptar".
+
          01 PANTALLA-EFECTIVO-INGRESADO.
             02 BLANK SCREEN.
             02 LINE 3 COL 26 VALUE "Cajero Automatico UnizarBank".
@@ -782,7 +793,7 @@
 
 
         PROCEDURE DIVISION.
-        XXX.
+        SPECIAL-CHARACTERS.
            SET ENVIRONMENT 'COB_SCREEN_EXCEPTIONS' TO 'Y'.
            SET ENVIRONMENT 'COB_SCREEN_ESC' TO 'Y'.
 
@@ -823,15 +834,8 @@
                 ELSE
                   PERFORM RESTAURAR-CAMPOS-ACCESO
                   GO TO BLOQUEO-TARJETA.
+         PERFORM MOSTRAR-PANTALLA-SELECCION-CUENTA.   
 
-            PERFORM LEER-SALDOS-CUENTAS.
-			DISPLAY PANTALLA-SELECCION-CUENTA.
-            ACCEPT PANTALLA-SELECCION-CUENTA.
-            PERFORM LEER-TECLA.
-            IF COB-CRT-STATUS = 2005
-               GO TO LOGIN.
-            PERFORM OBTENER-CUENTA-SALDO-A-USAR.
-            
          MENU-OPCIONES.
             PERFORM RESTAURAR-CAMPOS-ACCESO.
             DISPLAY PANTALLA-MENU-PRINCIPAL.
@@ -865,7 +869,15 @@
                           ELSE
                             GO TO MENU-OPCIONES.
 
-
+*> Procedimiento mostrar-pantalla-seleccion-cuenta
+       MOSTRAR-PANTALLA-SELECCION-CUENTA.
+           PERFORM LEER-SALDOS-CUENTAS.
+		   DISPLAY PANTALLA-SELECCION-CUENTA.
+           ACCEPT PANTALLA-SELECCION-CUENTA.
+           IF COB-CRT-STATUS = 2005
+               PERFORM RESTAURAR-CAMPOS-ACCESO
+               GO TO LOGIN.
+           PERFORM OBTENER-CUENTA-SALDO-A-USAR.       
 
 
 
@@ -887,11 +899,31 @@
 
           CLOSE USERFILE.
 
+
+       
+
+
+
 *> Procedimiento obtener cuenta a usar por el usuario
        OBTENER-CUENTA-SALDO-A-USAR.
-           MOVE WS-USER-NUM-CUENTA(SELECCION-CUENTA) TO CUENTA-SELECCIONADA.
-           MOVE WS-USER-SALDO(SELECCION-CUENTA) TO SALDO-SELECCIONADO.
-           
+           IF SELECCION-CUENTA > 3
+               PERFORM MOSTRAR-ERROR-SELECCION-CUENTA
+           ELSE
+               IF WS-USER-NUM-CUENTA(SELECCION-CUENTA) = CUENTA-VACIA
+                   PERFORM MOSTRAR-ERROR-SELECCION-CUENTA
+               ELSE
+                  MOVE WS-USER-NUM-CUENTA(SELECCION-CUENTA) TO CUENTA-SELECCIONADA
+                  MOVE WS-USER-SALDO(SELECCION-CUENTA) TO SALDO-SELECCIONADO.
+
+*> Procedimiento mostrar-error-seleccion-cuenta
+       MOSTRAR-ERROR-SELECCION-CUENTA.
+           DISPLAY PANTALLA-ERROR-SELECCION.
+           PERFORM LEER-TECLA.
+		   IF COB-CRT-STATUS = 0
+               MOVE ' ' TO SELECCION-CUENTA
+               PERFORM MOSTRAR-PANTALLA-SELECCION-CUENTA.
+
+
 *> Procedimiento obtener-fecha
        OBTENER-FECHA.
            MOVE FUNCTION CURRENT-DATE TO FECHA.
