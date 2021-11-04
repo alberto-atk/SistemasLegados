@@ -91,7 +91,7 @@
          77 FSL                      PIC XX.
          77 TECLA                    PIC X.
          77 CODIGO-TECLA             PIC 99.
-         77 CUENTA-VACIA             PIC X(24) VALUE '000000000000000000000000'.
+         77 CUENTA-VACIA             PIC X(24) VALUE "                        ".
          77 I                         PIC 999 VALUE 1.
          77 J                         PIC 999 VALUE 1.
          77 K                         PIC 999 VALUE 1.
