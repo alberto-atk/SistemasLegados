@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.  SeqWrite.
+       PROGRAM-ID.  WRITEUSERLOGINFILE.
        
        
        ENVIRONMENT DIVISION.
@@ -10,7 +10,6 @@
                ACCESS MODE IS DYNAMIC
                RECORD KEY IS USER-TARJ
                FILE STATUS IS FSU.
-       
        
            SELECT LOGINFILE ASSIGN TO  "LOGIN.DAT"
               ORGANIZATION IS INDEXED

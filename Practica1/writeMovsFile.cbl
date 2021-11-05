@@ -38,7 +38,8 @@ PROCEDURE DIVISION.
        INICIO.
            PERFORM WRITE-MOVS-FILE.
            STOP RUN.
-
+           
+*> Crea el fichero de movimientos para el programa cajero.
        WRITE-MOVS-FILE.
            OPEN OUTPUT MOVSFILE.
            CLOSE MOVSFILE.
