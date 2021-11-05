@@ -879,10 +879,6 @@
                GO TO LOGIN.
            PERFORM OBTENER-CUENTA-SALDO-A-USAR.       
 
-
-
-
-
 *> Procedimiento obtener saldos y cuentas
        LEER-SALDOS-CUENTAS.
            MOVE 1 TO K. 
@@ -898,11 +894,6 @@
            MOVE USER-SALDO(3) TO WS-USER-SALDO(3).
 
           CLOSE USERFILE.
-
-
-       
-
-
 
 *> Procedimiento obtener cuenta a usar por el usuario
        OBTENER-CUENTA-SALDO-A-USAR.
