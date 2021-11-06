@@ -103,6 +103,7 @@
          77 SALDO-SELECCIONADO        PIC 9(9)V99.
          77 SALDO-DESTINO             PIC 9(9)v99.
          77 LINEA-MOV                 PIC 99 VALUE 12.
+
          01 MOVIMIENTO.
             02 LINEA-DETALLE-MOV OCCURS 999 TIMES.
                 03 FILLER             PIC X(1) VALUE SPACES.
@@ -1556,7 +1557,7 @@
            PERFORM TRANSFERIR-DINERO-CUENTA-DESTINO 
                    THRU FIN-TRANSFERIR-DINERO.
 
-           PERFORM GUARDAR-MOV-TRANSFERENCIA.
+           PERFORM GUARDAR-MOV-TRANSFERENCIA-DESTINO.
 
 		   PERFORM LIMPIAR-CAMPOS-TRANSFERENCIA.
          MUESTRA-TRANS-CONFIRMADA.    
@@ -1575,9 +1576,9 @@
            READ USERFILE NEXT RECORD INTO WS-REG-USUARIO
                AT END GO TO FIN-OBTENER-CUENTAS.
            MOVE 1 TO M.
-       
+           
            PERFORM TRANSFERIR-DINERO UNTIL M = 4.
-       
+
            GO TO INICIO-OBTENER-CUENTAS.
   
          FIN-OBTENER-CUENTAS.
@@ -1613,7 +1614,7 @@
 	       CLOSE MOVFILE.
 
 *> Guarda una transferencia como movimiento en la cuenta de destino
-       GUARDAR-MOV-TRANSFERENCIA.
+       GUARDAR-MOV-TRANSFERENCIA-DESTINO.
            OPEN EXTEND MOVFILE.
 
            MOVE CUENTA-DESTINO TO MOV-ID.
