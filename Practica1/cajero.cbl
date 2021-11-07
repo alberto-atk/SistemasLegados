@@ -881,8 +881,7 @@
            PERFORM OBTENER-CUENTA-SALDO-A-USAR.       
 
 *> Procedimiento obtener saldos y cuentas
-       LEER-SALDOS-CUENTAS.
-           MOVE 1 TO K. 
+       LEER-SALDOS-CUENTAS. 
            OPEN INPUT USERFILE.
 
            MOVE USER-NUM-CUENTA(1) TO WS-USER-NUM-CUENTA(1).
