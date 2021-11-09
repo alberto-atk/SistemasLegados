@@ -1,6 +1,15 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID.  WRITEUSERLOGINFILE.
-       
+       *> Programa para escribir los ficheros USERS.DAT y LOGIN.DAT
+       *> 
+       *> Versiones:
+       *> Versión 1.0 - Escritura básica de los ficheros sin tratamiento
+       *>               de datos
+       *> Versión 2.0 - Escritura de los ficheros mediante entrada de 
+       *>               datos por parte del usuario a través de 
+       *>               pantallas
+       *>
+       *> Radu Constantin Robu y Alberto Pérez Blasco
        
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
