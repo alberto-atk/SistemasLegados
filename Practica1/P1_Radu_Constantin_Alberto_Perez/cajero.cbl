@@ -1,5 +1,27 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID. CAJERO.
+       *> Programa cajero modificado para que compile en GnuCOBOL.
+       *> 
+       *> Versiones:
+       *> Versión 1.0 - Versión que consigue compilar con GnuCOBOL
+       *> Versión 2.0 - Versión modificada para que el tratamiento de 
+       *>               teclas especiales del teclado se realice
+       *>               mediante COB-CRT-STATUS
+       *> Versión 3.0 - Versión modificada para que las cuentas de 
+       *>               usuario tenga el formato IBAN
+       *> Versión 4.0 - Versión modificada con fechas con años de 4 
+       *>               dígitos
+       *> Versión 5.0 - Versión modificada para que un usuario pueda 
+       *>               tener hasta 3 cuentas 
+       *> Versión 6.0 - Versión modificada para que se muestren los 
+       *>               espectáculos en la pantalla
+       *> Versión 7.0 - Versión para que una transferencia quede 
+       *>               reflejada en las dos cuentas participantes
+       *> Versión 8.0 - Versión que permite usar las teclas especiales
+       *>               Escape, flecha arriba, flecha abajo para la 
+       *>               interacción con el programa
+       *>
+       *> Radu Constantin Robu y Alberto Pérez Blasco
        
         ENVIRONMENT DIVISION.
         INPUT-OUTPUT SECTION.

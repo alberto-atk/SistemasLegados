@@ -1,5 +1,11 @@
 IDENTIFICATION DIVISION.
-PROGRAM-ID.  SeqWrite.
+PROGRAM-ID.  READESPECFILE.
+*> Programa para leer el fichero ESPEC.DAT
+*>
+*> Versiones:
+*> Versión 1.0 - Lectura indexada de una entrada del fichero ESPEC.DAT
+*>
+*> Radu Constantin Robu y Alberto Pérez Blasco
 
 
 ENVIRONMENT DIVISION.

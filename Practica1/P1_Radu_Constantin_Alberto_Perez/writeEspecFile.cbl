@@ -1,7 +1,15 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.  SeqWrite.
-       
-       
+       PROGRAM-ID.  WRITEESPECFILE.
+       *> Programa para escribir el fichero ESPEC.DAT
+       *> 
+       *> Versiones:
+       *> Versión 1.0 - Escritura básica del fichero sin tratamiento
+       *>               de datos
+       *> Versión 2.0 - Escritura del fichero mediante entrada de datos 
+       *>               por parte del usuario a través de pantallas
+       *>
+       *> Radu Constantin Robu y Alberto Pérez Blasco
+
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.         
