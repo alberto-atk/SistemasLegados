@@ -1,0 +1,26 @@
+---------------README--------------
+
+---------ANTES DE EJECUTAR---------
+La aplicación cajero necesita la librería libcob4 para su ejecución.
+
+Antes de ejecutar el cajero por primera vez, se debe ejecutar en una terminal, mediante bash
+el script de instalación de librerías.
+
+bash 1-instalar-dependencias.sh
+
+Una vez acabada la ejecución, se puede ejecutar el cajero.
+Comando de ejecución de cajero:
+
+./cajero
+
+
+----------USO DEL PROGRAMA---------
+El programa tiene dos usuarios disponibles para la realización de pruebas.
+
+Usuario 1
+TARJETA: 1234567890
+PIN    : 1234
+
+Usuario 2
+TARJETA: 0987654321
+PIN    : 0000
