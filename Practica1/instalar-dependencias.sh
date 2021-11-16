@@ -21,9 +21,7 @@ then
     libreria=$(ldconfig -p | grep libcob.so.4)
     
     if [ -z "$libreria" ]
-    then 
-      echo -e "\nLibrerías instaladas. Se puede ejecutar el cajero con \"./cajero\"\n"
-    else
+    then
       echo -e "\nError debido a una versión desactualizada del sistema operativo.\n"
       wget http://archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libtinfo6_6.2-0ubuntu2_amd64.deb
       sudo dpkg -i libtinfo6_6.2-0ubuntu2_amd64.deb
@@ -42,7 +40,6 @@ then
       else
         echo -e "\nError no contemplado durante la instalación de las librerías.\n"
       fi
-      
     fi
   else 
     echo -e "\nLibrerías instaladas. Se puede ejecutar el cajero con \"./cajero\"\n"
