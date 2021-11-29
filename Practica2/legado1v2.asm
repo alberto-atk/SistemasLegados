@@ -130,14 +130,14 @@ Contents of section .text:
  07f0 00018b5d fcc9c389 f68dbc27 00000000  ...].......'....
  0800 5589e55d e957ffff ff8b1424 c35589e5  U..].W.....$.U..
  0810 83ec14e8 090a0000 05882700 008b4508  ..........'...E.
- 0820 668945ec 0fb745ec 89c2ec88 45ff0fb6  f.E...E.....E...
- 0830 45ffc9c3 5589e583 ec08e8e2 09000005  E...U...........
+ 0820 668945ec 0fb745ec 89c2ec88 45ffc645  f.E...E.....E..E
+ 0830 ff01c9c3 5589e583 ec08e8e2 09000005  ....U...........
  0840 61270000 8b55088b 450c8855 fc668945  a'...U..E..U.f.E
  0850 f80fb645 fc0fb755 f8ee90c9 c35589e5  ...E...U.....U..
  0860 5383ec74 e8a7feff ff81c337 2700008b  S..t.......7'...
  0870 45088945 9465a114 00000089 45f431c0  E..E.e......E.1.
  0880 83ec088d 459c50ff 7594e811 0a000083  ....E.P.u.......
- 0890 c4108b45 c83da02e 0000741e 83ec086a  ...E.=....t....j
+ 0890 c4108b45 c83da02e 0000eb1e 83ec086a  ...E.=.........j
  08a0 028d8360 02000050 e8ee0600 0083c410  ...`...P........
  08b0 83ec0c6a 01e8b6fd ffff908b 45f46533  ...j........E.e3
  08c0 05140000 007405e8 040a0000 8b5dfcc9  .....t.......]..
@@ -794,7 +794,7 @@ Disassembly of section .text:
      828:	89 c2                	mov    %eax,%edx
      82a:	ec                   	in     (%dx),%al
      82b:	88 45 ff             	mov    %al,-0x1(%ebp)
-     82e:	0f b6 45 ff          	movzbl -0x1(%ebp),%eax
+     82e:	c6 45 ff 01          	movb   $0x1,-0x1(%ebp)
      832:	c9                   	leave  
      833:	c3                   	ret    
      834:	55                   	push   %ebp
@@ -831,7 +831,7 @@ Disassembly of section .text:
      88f:	83 c4 10             	add    $0x10,%esp
      892:	8b 45 c8             	mov    -0x38(%ebp),%eax
      895:	3d a0 2e 00 00       	cmp    $0x2ea0,%eax
-     89a:	74 1e                	je     8ba <__gmon_start__@plt+0x1f2>
+     89a:	eb 1e                	jmp    8ba <__gmon_start__@plt+0x1f2>
      89c:	83 ec 08             	sub    $0x8,%esp
      89f:	6a 02                	push   $0x2
      8a1:	8d 83 60 02 00 00    	lea    0x260(%ebx),%eax
