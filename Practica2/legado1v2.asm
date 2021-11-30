@@ -171,7 +171,7 @@ Contents of section .text:
  0a80 ec0c6a4d e8560400 0083c410 85c0740c  ..jM.V........t.
  0a90 c783b409 00000100 0000eb0a c783b409  ................
  0aa0 00000000 000083ec 0c6a4de8 2f040000  .........jM./...
- 0ab0 83c41085 c00f94c0 84c0741e 83ec086a  ..........t....j
+ 0ab0 83c41085 c00f94c0 a801741e 83ec086a  ..........t....j
  0ac0 028d8320 01000050 e8ce0400 0083c410  ... ...P........
  0ad0 83ec0c6a 01e896fb ffff9083 ec0c8d83  ...j............
  0ae0 60e3ffff 50e866fb ffff83c4 108b45e4  `...P.f.......E.
@@ -994,7 +994,7 @@ Disassembly of section .text:
      ab0:	83 c4 10             	add    $0x10,%esp
      ab3:	85 c0                	test   %eax,%eax
      ab5:	0f 94 c0             	sete   %al
-     ab8:	84 c0                	test   %al,%al
+     ab8:	a8 01                	test   $0x1,%al
      aba:	74 1e                	je     ada <__gmon_start__@plt+0x412>
      abc:	83 ec 08             	sub    $0x8,%esp
      abf:	6a 02                	push   $0x2
