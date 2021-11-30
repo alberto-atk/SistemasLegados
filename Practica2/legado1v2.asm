@@ -189,8 +189,8 @@ Contents of section .text:
  0ba0 0c8d837c e3ffff50 e823faff ff83c410  ...|...P.#......
  0bb0 83ec088d 45ec508d 8386e3ff ff50e89d  ....E.P......P..
  0bc0 faffff83 c4108b83 b4090000 85c00f85  ................
- 0bd0 a9020000 8b45ec83 f8027507 b8010000  .....E....u.....
- 0be0 00eb05b8 00000000 a800744a 8b45ec83  ..........tJ.E..
+ 0bd0 a9020000 8b45ec83 f8017507 b8010000  .....E....u.....
+ 0be0 00eb05b8 00000000 84c0744a 8b45ec83  ..........tJ.E..
  0bf0 f801741b 8b45ec6b c02283e8 028945ec  ..t..E.k."....E.
  0c00 83ec0c6a 17e8d502 000083c4 10ebdd8b  ...j............
  0c10 83a40900 0083c02f 83ec0c50 e8be0200  ......./...P....
@@ -207,9 +207,9 @@ Contents of section .text:
  0cc0 ec83f802 0f8411fe ffffc745 ec210000  ...........E.!..
  0cd0 0083ec0c 6a11e804 02000083 c410ebde  ....j...........
  0ce0 8b45ec83 f803753c 8b83ac09 00008b00  .E....u<........
- 0cf0 85c00f84 e3fdffff 8b83a809 000083c0  ................
+ 0cf0 85c00f85 e3fdffff 8b83a809 000083c0  ................
  0d00 0683ec0c 50e8d501 000083c4 1085c00f  ....P...........
- 0d10 95c084c0 0f844401 0000e892 030000e9  ......D.........
+ 0d10 95c084c0 0f854401 0000e892 030000e9  ......D.........
  0d20 b7fdffff 8b45ec83 f804753d 8b83a409  .....E....u=....
  0d30 000083c0 2f83ec0c 50e8a101 000083c4  ..../...P.......
  0d40 1085c00f 95c084c0 0f843201 0000e8ba  ..........2.....
@@ -1081,12 +1081,12 @@ Disassembly of section .text:
      bcc:	85 c0                	test   %eax,%eax
      bce:	0f 85 a9 02 00 00    	jne    e7d <__gmon_start__@plt+0x7b5>
      bd4:	8b 45 ec             	mov    -0x14(%ebp),%eax
-     bd7:	83 f8 02             	cmp    $0x2,%eax
+     bd7:	83 f8 01             	cmp    $0x1,%eax
      bda:	75 07                	jne    be3 <__gmon_start__@plt+0x51b>
      bdc:	b8 01 00 00 00       	mov    $0x1,%eax
      be1:	eb 05                	jmp    be8 <__gmon_start__@plt+0x520>
      be3:	b8 00 00 00 00       	mov    $0x0,%eax
-     be8:	a8 00                	test   $0x0,%al
+     be8:	84 c0                	test   %al,%al
      bea:	74 4a                	je     c36 <__gmon_start__@plt+0x56e>
      bec:	8b 45 ec             	mov    -0x14(%ebp),%eax
      bef:	83 f8 01             	cmp    $0x1,%eax
@@ -1170,7 +1170,7 @@ Disassembly of section .text:
      ce8:	8b 83 ac 09 00 00    	mov    0x9ac(%ebx),%eax
      cee:	8b 00                	mov    (%eax),%eax
      cf0:	85 c0                	test   %eax,%eax
-     cf2:	0f 84 e3 fd ff ff    	je     adb <__gmon_start__@plt+0x413>
+     cf2:	0f 85 e3 fd ff ff    	jne    adb <__gmon_start__@plt+0x413>
      cf8:	8b 83 a8 09 00 00    	mov    0x9a8(%ebx),%eax
      cfe:	83 c0 06             	add    $0x6,%eax
      d01:	83 ec 0c             	sub    $0xc,%esp
@@ -1180,7 +1180,7 @@ Disassembly of section .text:
      d0d:	85 c0                	test   %eax,%eax
      d0f:	0f 95 c0             	setne  %al
      d12:	84 c0                	test   %al,%al
-     d14:	0f 84 44 01 00 00    	je     e5e <__gmon_start__@plt+0x796>
+     d14:	0f 85 44 01 00 00    	jne    e5e <__gmon_start__@plt+0x796>
      d1a:	e8 92 03 00 00       	call   10b1 <__gmon_start__@plt+0x9e9>
      d1f:	e9 b7 fd ff ff       	jmp    adb <__gmon_start__@plt+0x413>
      d24:	8b 45 ec             	mov    -0x14(%ebp),%eax
