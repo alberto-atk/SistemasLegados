@@ -1,0 +1,22 @@
+---------------README--------------
+El programa legado1 funciona únicamente en sistemas Ubuntu que 
+presentan la librería libc6-i386 instalada.
+
+¡NO FUNCIONA EN DEBIAN!
+
+---------ANTES DE EJECUTAR---------
+La aplicación puede necesitar la librería libc6-i386 para poder
+ejecutar programas de 32 bit en Sistemas operativos de 64 bits.
+
+¡IMPORTANTE!
+Ejecutar 1-instalar-dependencias.sh antes de la primera ejecución
+del programa legado1.
+
+------INSTALACIÓN Y EJECUCIÓN------
+Los pasos a seguir para instalar y ejecutar el programa legado1 son:
+
+sudo bash 1-instalar-dependencias.sh
+
+sudo bash 2-comandos-sudo.sh
+
+./legado1
