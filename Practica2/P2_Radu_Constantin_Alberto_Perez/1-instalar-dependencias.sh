@@ -7,7 +7,6 @@ then
   echo "Falta la librería libc6-i386 para la ejecución del programa."
   echo -e "Procediendo a instalar la librería libc6-i386.\n"
   
-  sudo apt install glibc -y
   sudo apt install libc6-i386 -y
 
   libreria_instaladas=$(sudo dpkg -l | grep libc6-i386)
@@ -18,7 +17,6 @@ then
     echo -e "Se intentará actualizar el repositorio de librerías.\n"
 
     sudo apt update -y
-    sudo apt install glibc -y
     sudo apt install libc6-i386 -y
     
     libreria_libcob=$(sudo dpkg -l | grep libc6-i386)
@@ -26,9 +24,6 @@ then
     if [ -z "$libreria_libc6" ]
     then
       echo -e "\nError debido a una versión desactualizada del sistema operativo.\n"
-
-      wget http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.34-0ubuntu3_amd64.deb
-      sudo dpkg -i libc6_2.34-0ubuntu3_amd64.deb
 
       wget http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6-i386_2.34-0ubuntu3_amd64.deb
       sudo dpkg -i libc6-i386_2.34-0ubuntu3_amd64.deb
