@@ -1,5 +1,4 @@
 from py3270 import *
-import tkinter as tk
 
 # Constantes conexión
 MACHINE_IP = "155.210.71.101:"
