@@ -61,4 +61,26 @@ public class Emulador {
         }
         return resultado;
     }
+
+    public int login() throws InterruptedException {
+        enviarString("PROG");
+        enviarEnter();
+        enviarString("PROG123");
+        enviarEnter();
+        enviarEnter();
+        enviarString("tasks2.job");
+        enviarEnter();
+        sleep(2000); //TODO cambiar el delay este y ponerlo bien, tambien a su vez cambiar el throws
+        return 0;
+    }
+
+    public int logout(){
+        enviarString("e");
+        enviarEnter();
+        enviarEnter();
+        enviarString("off");
+        enviarEnter();
+
+        return 0;
+    }
 }
