@@ -1,6 +1,7 @@
 package com.company.Control;
 
 import java.io.IOException;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -17,18 +18,23 @@ public class AdministradorTareas {
 
             emulador.login();
             Tasks2job tasks2job = new Tasks2job(emulador);
-
+            tasks2job.listarTareas();
             //tasks2job.nuevoFicheroTareas();
-            //System.out.println(tasks2job.anyadirTarea("1","asdfasdfasdfasdf","asdfasdfasdfasdfasdfasdfasdfasdf", "10 12 2021"));
+            //System.out.println(tasks2job.anyadirTarea("2","asdfasdfasdfasdf","asdfasdfasdfasdfasdfasdfasdfasdf", "10 12 2021"));
             //tasks2job.listarTareas();
             //tasks2job.eliminarTarea("1");
             //tasks2job.listarTareas();
-            //tasks2job.buscarTarea("10 1 2021");
+            //tasks2job.buscarTarea("10 12 2021");
+            List<String> resultado = emulador.obtenerRespuestaMaquina();
+            for (String i: resultado) {
+                System.out.println(i);
+            }
             emulador.logout();
-            String resultado = emulador.obtenerRespuestaMaquina();
-            System.out.println(resultado);
-        } catch (InterruptedException ex) {
+           System.exit(0);
+       } catch (InterruptedException ex) {
             System.out.println(ex.toString());
-        }
+        }catch (IOException e){
+           System.out.println(e.toString());
+       }
     }
 }

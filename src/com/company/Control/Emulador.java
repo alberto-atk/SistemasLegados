@@ -1,6 +1,8 @@
 package com.company.Control;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -8,6 +10,8 @@ public class Emulador {
     private Process proceso;
     private PrintWriter out = null;
     private BufferedReader inStream = null;
+    public static final String PATRON_OBTENER_SALIDA = "^data: .*";
+
 
 
     public Emulador(String cadenaConexion) throws IOException {
@@ -17,21 +21,22 @@ public class Emulador {
     }
 
     public int enviarString(String mensaje){
-        try {
             out.println(String.format("String(\"%s\")", mensaje));
             out.flush();
-            sleep(1000);
             return 1;
-        }catch (InterruptedException e){
-            return -1;
-        }
+    }
+
+    public int salir(){
+        out.println("exit");
+        out.flush();
+        return 1;
     }
 
     public int enviarEnter(){
         try {
             out.println("enter");
             out.flush();
-            sleep(1000);
+            sleep(750);
             return 1;
         }catch (InterruptedException e){
             return -1;
@@ -39,27 +44,26 @@ public class Emulador {
     }
 
     public int enviarAscii(){
-        try {
             out.println("ascii");
             out.flush();
-            sleep(1000);
             return 1;
-        }catch (InterruptedException e){
-            return -1;
-        }
+
     }
 
-    public String obtenerRespuestaMaquina(){
-        String resultado = "";
+    public List<String> obtenerRespuestaMaquina(){
+        List<String> resultado = new ArrayList();
+        String line = "";
         try {
-            for (String line = inStream.readLine(); line != null; line = inStream.readLine()) {
-                System.out.println(line);
-                resultado = resultado + line;
+            while(inStream.ready() && (line = inStream.readLine()) != null){
+                if(line.matches(PATRON_OBTENER_SALIDA)) {
+                    resultado.add(line.replace("data:",""));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return resultado;
+
     }
 
     public int login() throws InterruptedException {
@@ -74,12 +78,15 @@ public class Emulador {
         return 0;
     }
 
-    public int logout(){
+    public int logout() throws IOException {
         enviarString("e");
         enviarEnter();
         enviarEnter();
         enviarString("off");
         enviarEnter();
+        salir();
+        out.close();
+        inStream.close();
 
         return 0;
     }
