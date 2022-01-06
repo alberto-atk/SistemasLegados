@@ -1,5 +1,10 @@
 package com.company.Control;
 
+import com.company.Modelo.Tarea;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tasks2job {
     public static final String NUEVO_FICHERO = "n";
     public static final String SI = "y";
@@ -9,6 +14,17 @@ public class Tasks2job {
     public static final String ELIMINAR = "r";
     public static final String BUSCAR = "t";
     public static final String PATRON_NUMERO = "[+-]?\\d*(\\.\\d+)?";
+    public static final String PATRON_LISTAR_TAREAS = "^ \\*\\*LIST TASK\\*\\*[ ]*$";
+    public static final String PATRON_IDTAREA = "^ TASK NUMBER: .*$";
+    public static final String PATRON_NOMBRE = "^ NAME.*$";
+    public static final String PATRON_DESCRIPCION = "^ DESCRIPTION.*$";
+    public static final String PATRON_FECHA = "^ DATE.*$";
+    public static final String TEXTO_FECHA = " DATE       : ";
+    public static final String TEXTO_DESCRIPCION = " DESCRIPTION: ";
+    public static final String TEXTO_NOMBRE = " NAME       : ";
+    public static final String TEXTO_ID_TAREA = " TASK NUMBER: ";
+
+
     private Emulador emulador;
 
     public Tasks2job(Emulador emulador) {
@@ -77,7 +93,40 @@ public class Tasks2job {
         emulador.enviarEnter();
         emulador.enviarAscii();
         emulador.enviarEnter();
-        return 0;
+        List<String> resultado = emulador.obtenerRespuestaMaquina();
+        List<Tarea> tareas = parsearListaTareas(resultado);
+        if(tareas.size() == 0){
+            return 0;
+        }else if(tareas.size() > 0){
+            for (Tarea tarea :tareas) {
+                System.out.println(tarea.toString());
+            }
+            return 1;
+        }else{
+            return -1;
+        }
+    }
+
+    public List<Tarea> parsearListaTareas(List<String> resultado) {
+        List<Tarea> tareas = new ArrayList<>();
+        String idTarea = "";
+        String nombre = "";
+        String descripcion = "";
+        String fecha = "";
+
+        for (String line : resultado) {
+            if (line.matches(PATRON_IDTAREA)) {
+                idTarea = line.replace(TEXTO_ID_TAREA, "").strip();
+            } else if (line.matches(PATRON_NOMBRE)) {
+                nombre = line.replace(TEXTO_NOMBRE, "").strip();
+            } else if (line.matches(PATRON_DESCRIPCION)) {
+                descripcion = line.replace(TEXTO_DESCRIPCION, "").strip();
+            } else if (line.matches(PATRON_FECHA)) {
+                fecha = line.replace(TEXTO_FECHA, "").strip();
+                tareas.add(new Tarea(idTarea, nombre, descripcion, fecha));
+            }
+        }
+        return tareas;
     }
 
     public int eliminarTarea(String idTarea){
