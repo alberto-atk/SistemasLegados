@@ -1,7 +1,9 @@
 package com.company.Control;
 
 import com.company.Modelo.Tarea;
+import com.company.Modelo.Tareas;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +20,33 @@ public class Tasks2job {
     public static final String PATRON_IDTAREA = "^ TASK NUMBER: .*$";
     public static final String PATRON_NOMBRE = "^ NAME.*$";
     public static final String PATRON_DESCRIPCION = "^ DESCRIPTION.*$";
-    public static final String PATRON_FECHA = "^ DATE.*$";
+    public static final String PATRON_FECHA = "^ DATE .*$";
     public static final String TEXTO_FECHA = " DATE       : ";
     public static final String TEXTO_DESCRIPCION = " DESCRIPTION: ";
     public static final String TEXTO_NOMBRE = " NAME       : ";
     public static final String TEXTO_ID_TAREA = " TASK NUMBER: ";
 
-
     private Emulador emulador;
+    private Tareas tareas;
 
-    public Tasks2job(Emulador emulador) {
+    /**
+     * Constructor de la clase.
+     *
+     * @param emulador
+     */
+    public Tasks2job(Emulador emulador) throws IOException, InterruptedException {
         this.emulador = emulador;
+        tareas = new Tareas();
+        almTareas();
     }
 
-
-    public int nuevoFicheroTareas(){
+    /**
+     * Comunica con tasks2.job para crear un nuevo fichero de tareas.
+     *
+     * @return
+     */
+    public int nuevoFicheroTareas() throws InterruptedException, IOException {
+        emulador.login();
         emulador.enviarString(NUEVO_FICHERO);
         emulador.enviarEnter();
         emulador.enviarAscii();
@@ -40,35 +54,42 @@ public class Tasks2job {
         emulador.enviarEnter();
         emulador.enviarEnter();
         emulador.enviarAscii();
+        emulador.logout(false);
         return 1;
     }
 
-    public int guardarTareas(){
+    /**
+     * Comunica con tasks2.job para guardar las tareas.
+     *
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public int guardarTareas() throws InterruptedException, IOException {
+        emulador.login();
         emulador.enviarString(GUARDAR);
         emulador.enviarEnter();
         emulador.enviarEnter();
+        emulador.logout(false);
         return 1;
     }
 
-    public int comprobacionTarea(String idTarea, String nombreTarea, String descripcionTarea){
-        if(idTarea.matches(PATRON_NUMERO)){
-            if(nombreTarea.length() > 0 && nombreTarea.length() <= 16){
-                if(descripcionTarea.length() > 0 && descripcionTarea.length() <= 32){
-                    return 1;
-                }else{
-                    return -3;
-                }
-            }else{
-                return -2;
-            }
-        }else{
-            return -1;
-        }
-    }
-
-    public int anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha){
-        int resultado = comprobacionTarea(idTarea,nombreTarea,descripcionTarea);
-        if( resultado == 1) {
+    /**
+     * Comunica con tasks2.job para crear una nueva tarea.
+     *
+     * @param idTarea
+     * @param nombreTarea
+     * @param descripcionTarea
+     * @param fecha
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public int anyadirTarea(String idTarea, String nombreTarea,
+                            String descripcionTarea, String fecha) throws InterruptedException, IOException {
+        int resultado = comprobacionTarea(idTarea, nombreTarea, descripcionTarea);
+        if (resultado == 1) {
+            emulador.login();
             emulador.enviarString(ANYADIR);
             emulador.enviarEnter();
             emulador.enviarString(idTarea);
@@ -81,34 +102,63 @@ public class Tasks2job {
             emulador.enviarString(fecha);
             emulador.enviarEnter();
             emulador.enviarEnter();
-            guardarTareas();
+            emulador.logout(true);
             return 1;
-        }else{
+        } else {
             return resultado;
         }
     }
 
-    public int listarTareas(){
+    /**
+     * Realiza las verificaciones necesarias para la información de una tarea.
+     *
+     * @param idTarea
+     * @param nombreTarea
+     * @param descripcionTarea
+     * @return
+     */
+    private int comprobacionTarea(String idTarea, String nombreTarea, String descripcionTarea) {
+        if (idTarea.matches(PATRON_NUMERO)) {
+            if (nombreTarea.length() > 0 && nombreTarea.length() <= 16) {
+                if (descripcionTarea.length() > 0 && descripcionTarea.length() <= 32) {
+                    return 1;
+                } else {
+                    return -3;
+                }
+            } else {
+                return -2;
+            }
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * Comunica con tasks2.job para listar las tareas.
+     *
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    private void almTareas() throws InterruptedException, IOException {
+        int codigo_error = 0;
+        emulador.login();
         emulador.enviarString(LISTAR);
         emulador.enviarEnter();
         emulador.enviarAscii();
         emulador.enviarEnter();
         List<String> resultado = emulador.obtenerRespuestaMaquina();
-        List<Tarea> tareas = parsearListaTareas(resultado);
-        if(tareas.size() == 0){
-            return 0;
-        }else if(tareas.size() > 0){
-            for (Tarea tarea :tareas) {
-                System.out.println(tarea.toString());
-            }
-            return 1;
-        }else{
-            return -1;
-        }
+        emulador.logout(false);
+        parsearTareas(resultado);
     }
 
-    public List<Tarea> parsearListaTareas(List<String> resultado) {
-        List<Tarea> tareas = new ArrayList<>();
+    /**
+     * Parsea la lista de tareas recibida del mainframe.
+     *
+     * @param resultado
+     * @return
+     */
+    private void parsearTareas(List<String> resultado) {
         String idTarea = "";
         String nombre = "";
         String descripcion = "";
@@ -123,14 +173,22 @@ public class Tasks2job {
                 descripcion = line.replace(TEXTO_DESCRIPCION, "").strip();
             } else if (line.matches(PATRON_FECHA)) {
                 fecha = line.replace(TEXTO_FECHA, "").strip();
-                tareas.add(new Tarea(idTarea, nombre, descripcion, fecha));
+                tareas.almacenarTarea(idTarea, new Tarea(idTarea, nombre, descripcion, fecha));
             }
         }
-        return tareas;
     }
 
-    public int eliminarTarea(String idTarea){
-        if(idTarea.matches(PATRON_NUMERO)) {
+    /**
+     * Comunica con tasks2.job para eliminar una tarea.
+     *
+     * @param idTarea
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public int eliminarTarea(String idTarea) throws InterruptedException, IOException {
+        if (idTarea.matches(PATRON_NUMERO)) {
+            emulador.login();
             emulador.enviarString(ELIMINAR);
             emulador.enviarEnter();
             emulador.enviarString(idTarea);
@@ -138,21 +196,46 @@ public class Tasks2job {
             emulador.enviarString(SI);
             emulador.enviarEnter();
             emulador.enviarEnter();
-            guardarTareas();
+            emulador.logout(true);
             return 1;
-        }else {
+        } else {
             return 0;
         }
     }
 
-    public int buscarTarea(String fecha){
+    /**
+     * Comunica con tasks2.job para buscar las tareas en una fecha concreta.
+     *
+     * @param fecha
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public int buscarTarea(String fecha) throws InterruptedException, IOException {
+        int codigo_error = 0;
+        emulador.login();
         emulador.enviarString(BUSCAR);
         emulador.enviarEnter();
         emulador.enviarString(fecha);
         emulador.enviarEnter();
         emulador.enviarAscii();
         emulador.enviarEnter();
-        return 1;
+        List<String> resultado = emulador.obtenerRespuestaMaquina();
+        emulador.logout(false);
+        List<Tarea> tareas = parsearTareas(resultado);
+        if (tareas.size() == 0) {
+            codigo_error = -2;
+        } else if (tareas.size() > 0) {
+            for (Tarea tarea : tareas) {
+                System.out.println(tarea.toString());
+            }
+            codigo_error = 1;
+        } else {
+            codigo_error = -1;
+        }
+        return codigo_error;
     }
 
+    public void listarTareas() {
+    }
 }
