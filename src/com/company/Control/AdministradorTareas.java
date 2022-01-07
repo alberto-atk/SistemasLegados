@@ -15,17 +15,18 @@ public class AdministradorTareas {
         try {
             emulador = new Emulador(CADENA_CONEXION);
 
-            //tasks2job.anyadirTarea("999", "Prueba999", "Prueba999", "28 03 2022");
             //tasks2job.listarTareas();
             //tasks2job.eliminarTarea("1");
-            //tasks2job.listarTareas();
+            emulador.listarTareas();
             //tasks2job.nuevoFicheroTareas();
-            //System.out.println(tasks2job.anyadirTarea("30","Prueba30","Prueba30", "28 03 2022"));
+            //System.out.println(emulador.anyadirTarea("30","Prueba30","Prueba30", "28 03 2022"));
             //tasks2job.buscarTarea("10 12 2021");
+            //emulador.buscarTareas("28 03 2022");
+
+            //System.out.println(emulador.eliminarTarea("2"));
+            //emulador.guardarTareas();
             //tasks2job.listarTareas();
-            //tasks2job.eliminarTarea("999");
-            //tasks2job.listarTareas();
-            //tasks2job.buscarTarea("10 12 2021");
+            //emulador.buscarTareas("28 03 2022");
 
         } catch (InterruptedException ex) {
             System.out.println(ex.toString());

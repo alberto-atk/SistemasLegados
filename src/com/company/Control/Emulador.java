@@ -43,7 +43,7 @@ public class Emulador {
      * @param cadenaConexion
      * @throws IOException
      */
-    public Emulador(String cadenaConexion) throws IOException {
+    public Emulador(String cadenaConexion) throws IOException, InterruptedException {
         proceso = Runtime.getRuntime().exec(cadenaConexion);
         inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
@@ -175,17 +175,17 @@ public class Emulador {
         tasks.nuevoFicheroTareas();
     }
 
-    public void anyadirTarea(String idTarea, String nombreTarea,
+    public int anyadirTarea(String idTarea, String nombreTarea,
                              String descripcionTarea, String fecha) throws IOException, InterruptedException {
-        tasks.anyadirTarea(idTarea, nombreTarea, descripcionTarea, fecha);
+        return tasks.anyadirTarea(idTarea, nombreTarea, descripcionTarea, fecha);
     }
 
-    public void eliminarTarea(String idTarea) throws IOException, InterruptedException {
-        tasks.eliminarTarea(idTarea);
+    public int eliminarTarea(String idTarea) throws IOException, InterruptedException {
+        return tasks.eliminarTarea(idTarea);
     }
 
     public void buscarTareas(String fecha) throws IOException, InterruptedException {
-        tasks.buscarTarea(fecha);
+        tasks.buscarTareas(fecha);
     }
 
     public void listarTareas() throws IOException, InterruptedException {

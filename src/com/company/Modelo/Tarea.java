@@ -13,6 +13,10 @@ public class Tarea {
         this.fecha = fecha;
     }
 
+    public String getFecha() {
+        return fecha;
+    }
+
     @Override
     public String toString() {
         return "Tarea{" +

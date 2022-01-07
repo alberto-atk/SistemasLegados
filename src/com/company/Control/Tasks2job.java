@@ -4,7 +4,6 @@ import com.company.Modelo.Tarea;
 import com.company.Modelo.Tareas;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tasks2job {
@@ -37,7 +36,7 @@ public class Tasks2job {
     public Tasks2job(Emulador emulador) throws IOException, InterruptedException {
         this.emulador = emulador;
         tareas = new Tareas();
-        almTareas();
+        obtenerTareas();
     }
 
     /**
@@ -89,21 +88,26 @@ public class Tasks2job {
                             String descripcionTarea, String fecha) throws InterruptedException, IOException {
         int resultado = comprobacionTarea(idTarea, nombreTarea, descripcionTarea);
         if (resultado == 1) {
-            emulador.login();
-            emulador.enviarString(ANYADIR);
-            emulador.enviarEnter();
-            emulador.enviarString(idTarea);
-            emulador.enviarEnter();
-            emulador.enviarString(nombreTarea);
-            emulador.enviarEnter();
-            emulador.enviarString(descripcionTarea);
-            emulador.enviarEnter();
-            //TODO controlar la fecha en el cliente, formato: dd mm yyyy
-            emulador.enviarString(fecha);
-            emulador.enviarEnter();
-            emulador.enviarEnter();
-            emulador.logout(true);
-            return 1;
+            int resultadoExisteTarea = tareas.anyadirTarea(idTarea,new Tarea(idTarea,nombreTarea,descripcionTarea,fecha));
+            if(resultadoExisteTarea == 1) {
+                emulador.login();
+                emulador.enviarString(ANYADIR);
+                emulador.enviarEnter();
+                emulador.enviarString(idTarea);
+                emulador.enviarEnter();
+                emulador.enviarString(nombreTarea);
+                emulador.enviarEnter();
+                emulador.enviarString(descripcionTarea);
+                emulador.enviarEnter();
+                //TODO controlar la fecha en el cliente, formato: dd mm yyyy
+                emulador.enviarString(fecha);
+                emulador.enviarEnter();
+                emulador.enviarEnter();
+                emulador.logout(true);
+                return 1;
+            }else{
+                return resultadoExisteTarea;
+            }
         } else {
             return resultado;
         }
@@ -140,7 +144,7 @@ public class Tasks2job {
      * @throws InterruptedException
      * @throws IOException
      */
-    private void almTareas() throws InterruptedException, IOException {
+    private void obtenerTareas() throws InterruptedException, IOException {
         int codigo_error = 0;
         emulador.login();
         emulador.enviarString(LISTAR);
@@ -188,19 +192,23 @@ public class Tasks2job {
      */
     public int eliminarTarea(String idTarea) throws InterruptedException, IOException {
         if (idTarea.matches(PATRON_NUMERO)) {
-            emulador.login();
-            emulador.enviarString(ELIMINAR);
-            emulador.enviarEnter();
-            emulador.enviarString(idTarea);
-            emulador.enviarEnter();
-            emulador.enviarString(SI);
-            emulador.enviarEnter();
-            emulador.enviarEnter();
-            emulador.logout(true);
-            return 1;
-        } else {
-            return 0;
+            int resultadoExisteTarea = tareas.eliminarTarea(idTarea);
+            if(resultadoExisteTarea == 1) {
+                emulador.login();
+                emulador.enviarString(ELIMINAR);
+                emulador.enviarEnter();
+                emulador.enviarString(idTarea);
+                emulador.enviarEnter();
+                emulador.enviarString(SI);
+                emulador.enviarEnter();
+                emulador.enviarEnter();
+                emulador.logout(true);
+                return 1;
+            }else{
+                return -2;
+            }
         }
+        return -1;
     }
 
     /**
@@ -211,31 +219,25 @@ public class Tasks2job {
      * @throws InterruptedException
      * @throws IOException
      */
-    public int buscarTarea(String fecha) throws InterruptedException, IOException {
-        int codigo_error = 0;
-        emulador.login();
-        emulador.enviarString(BUSCAR);
-        emulador.enviarEnter();
-        emulador.enviarString(fecha);
-        emulador.enviarEnter();
-        emulador.enviarAscii();
-        emulador.enviarEnter();
-        List<String> resultado = emulador.obtenerRespuestaMaquina();
-        emulador.logout(false);
-        List<Tarea> tareas = parsearTareas(resultado);
-        if (tareas.size() == 0) {
-            codigo_error = -2;
-        } else if (tareas.size() > 0) {
-            for (Tarea tarea : tareas) {
-                System.out.println(tarea.toString());
+    public int buscarTareas(String fecha) throws InterruptedException, IOException {
+        List<Tarea> tareasBusqueda = tareas.buscarTareas(fecha.replace(" ","/"));
+        if(tareasBusqueda.size() > 0){
+            for(Tarea t : tareasBusqueda){
+                System.out.println(t.toString());
             }
-            codigo_error = 1;
-        } else {
-            codigo_error = -1;
+            return 1;
         }
-        return codigo_error;
+        return -1;
     }
 
-    public void listarTareas() {
+    public int listarTareas() {
+        List<Tarea> tareasBusqueda = tareas.obtenerTareas();
+        if(tareasBusqueda.size() > 0){
+            for(Tarea t : tareasBusqueda){
+                System.out.println(t.toString());
+            }
+            return 1;
+        }
+        return -1;
     }
 }
