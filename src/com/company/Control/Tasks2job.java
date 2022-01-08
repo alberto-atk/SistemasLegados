@@ -25,7 +25,7 @@ public class Tasks2job {
     public static final String TEXTO_NOMBRE = " NAME       : ";
     public static final String TEXTO_ID_TAREA = " TASK NUMBER: ";
 
-    private Emulador emulador;
+    private Wrapper emulador;
     private Tareas tareas;
 
     /**
@@ -33,10 +33,9 @@ public class Tasks2job {
      *
      * @param emulador
      */
-    public Tasks2job(Emulador emulador) throws IOException, InterruptedException {
+    public Tasks2job(Wrapper emulador) throws IOException, InterruptedException {
         this.emulador = emulador;
         tareas = new Tareas();
-        obtenerTareas();
     }
 
     /**
@@ -53,7 +52,7 @@ public class Tasks2job {
         emulador.enviarEnter();
         emulador.enviarEnter();
         emulador.enviarAscii();
-        emulador.logout(false);
+        emulador.logout();
         return 1;
     }
 
@@ -64,12 +63,12 @@ public class Tasks2job {
      * @throws InterruptedException
      * @throws IOException
      */
-    public int guardarTareas() throws InterruptedException, IOException {
+    public int opcionGuardarTareas() throws InterruptedException, IOException {
         emulador.login();
         emulador.enviarString(GUARDAR);
         emulador.enviarEnter();
         emulador.enviarEnter();
-        emulador.logout(false);
+        emulador.logout();
         return 1;
     }
 
@@ -88,9 +87,9 @@ public class Tasks2job {
                             String descripcionTarea, String fecha) throws InterruptedException, IOException {
         int resultado = comprobacionTarea(idTarea, nombreTarea, descripcionTarea);
         if (resultado == 1) {
-            int resultadoExisteTarea = tareas.anyadirTarea(idTarea,new Tarea(idTarea,nombreTarea,descripcionTarea,fecha));
-            if(resultadoExisteTarea == 1) {
-                emulador.login();
+            int resultadoExisteTarea = tareas.anyadirTarea(idTarea, new Tarea(idTarea, nombreTarea, descripcionTarea, fecha));
+            if (resultadoExisteTarea == 1) {
+emulador.login();
                 emulador.enviarString(ANYADIR);
                 emulador.enviarEnter();
                 emulador.enviarString(idTarea);
@@ -103,14 +102,21 @@ public class Tasks2job {
                 emulador.enviarString(fecha);
                 emulador.enviarEnter();
                 emulador.enviarEnter();
-                emulador.logout(true);
+                emulador.logout();
                 return 1;
-            }else{
+            } else {
                 return resultadoExisteTarea;
             }
         } else {
             return resultado;
         }
+    }
+
+    private void guardarTarea() {
+        emulador.enviarString(GUARDAR);
+        emulador.enviarEnter();
+        emulador.enviarEnter();
+
     }
 
     /**
@@ -121,66 +127,9 @@ public class Tasks2job {
      * @param descripcionTarea
      * @return
      */
-    private int comprobacionTarea(String idTarea, String nombreTarea, String descripcionTarea) {
-        if (idTarea.matches(PATRON_NUMERO)) {
-            if (nombreTarea.length() > 0 && nombreTarea.length() <= 16) {
-                if (descripcionTarea.length() > 0 && descripcionTarea.length() <= 32) {
-                    return 1;
-                } else {
-                    return -3;
-                }
-            } else {
-                return -2;
-            }
-        } else {
-            return -1;
-        }
-    }
 
-    /**
-     * Comunica con tasks2.job para listar las tareas.
-     *
-     * @return
-     * @throws InterruptedException
-     * @throws IOException
-     */
-    private void obtenerTareas() throws InterruptedException, IOException {
-        int codigo_error = 0;
-        emulador.login();
-        emulador.enviarString(LISTAR);
-        emulador.enviarEnter();
-        emulador.enviarAscii();
-        emulador.enviarEnter();
-        List<String> resultado = emulador.obtenerRespuestaMaquina();
-        emulador.logout(false);
-        parsearTareas(resultado);
-    }
 
-    /**
-     * Parsea la lista de tareas recibida del mainframe.
-     *
-     * @param resultado
-     * @return
-     */
-    private void parsearTareas(List<String> resultado) {
-        String idTarea = "";
-        String nombre = "";
-        String descripcion = "";
-        String fecha = "";
 
-        for (String line : resultado) {
-            if (line.matches(PATRON_IDTAREA)) {
-                idTarea = line.replace(TEXTO_ID_TAREA, "").strip();
-            } else if (line.matches(PATRON_NOMBRE)) {
-                nombre = line.replace(TEXTO_NOMBRE, "").strip();
-            } else if (line.matches(PATRON_DESCRIPCION)) {
-                descripcion = line.replace(TEXTO_DESCRIPCION, "").strip();
-            } else if (line.matches(PATRON_FECHA)) {
-                fecha = line.replace(TEXTO_FECHA, "").strip();
-                tareas.almacenarTarea(idTarea, new Tarea(idTarea, nombre, descripcion, fecha));
-            }
-        }
-    }
 
     /**
      * Comunica con tasks2.job para eliminar una tarea.
@@ -193,7 +142,7 @@ public class Tasks2job {
     public int eliminarTarea(String idTarea) throws InterruptedException, IOException {
         if (idTarea.matches(PATRON_NUMERO)) {
             int resultadoExisteTarea = tareas.eliminarTarea(idTarea);
-            if(resultadoExisteTarea == 1) {
+            if (resultadoExisteTarea == 1) {
                 emulador.login();
                 emulador.enviarString(ELIMINAR);
                 emulador.enviarEnter();
@@ -202,9 +151,9 @@ public class Tasks2job {
                 emulador.enviarString(SI);
                 emulador.enviarEnter();
                 emulador.enviarEnter();
-                emulador.logout(true);
+                emulador.logout();
                 return 1;
-            }else{
+            } else {
                 return -2;
             }
         }
@@ -220,9 +169,9 @@ public class Tasks2job {
      * @throws IOException
      */
     public int buscarTareas(String fecha) throws InterruptedException, IOException {
-        List<Tarea> tareasBusqueda = tareas.buscarTareas(fecha.replace(" ","/"));
-        if(tareasBusqueda.size() > 0){
-            for(Tarea t : tareasBusqueda){
+        List<Tarea> tareasBusqueda = tareas.buscarTareas(fecha.replace(" ", "/"));
+        if (tareasBusqueda.size() > 0) {
+            for (Tarea t : tareasBusqueda) {
                 System.out.println(t.toString());
             }
             return 1;
@@ -232,8 +181,8 @@ public class Tasks2job {
 
     public int listarTareas() {
         List<Tarea> tareasBusqueda = tareas.obtenerTareas();
-        if(tareasBusqueda.size() > 0){
-            for(Tarea t : tareasBusqueda){
+        if (tareasBusqueda.size() > 0) {
+            for (Tarea t : tareasBusqueda) {
                 System.out.println(t.toString());
             }
             return 1;
