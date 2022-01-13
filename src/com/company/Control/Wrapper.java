@@ -15,7 +15,7 @@ import static java.lang.Thread.sleep;
 
 public class Wrapper {
     public static final String TERMINAL_SIN_PANTALLA = "s3270";
-    public static final String CADENA_CONECTAR_HOST = "connect 155.210.71.101:823";
+    public static final String CONNECT = "connect ";
     public static final String PATRON_OBTENER_SALIDA = "^data: .*";
     public static final String FORMATO_CADENA_TEXTO = "String(\"%s\")";
     public static final String COMANDO_EXIT = "exit";
@@ -27,9 +27,10 @@ public class Wrapper {
     public static final String TASKS2JOB = "tasks2.job";
     public static final String CADENA_EXIT = "e";
     public static final String CADENA_OFF = "off";
-    public static final int DELAY_CONNECT = 100;
-    public static final int DELAY_TASKS = 200;
-    public static final int DELAY_ENTER = 700;
+    public static final String WAIT = "wait(";
+    public static final int DELAY_WAIT = 5;
+    public static final String OUTPUT = ",output)";
+    public static final String UNLOCK = ",unlock)";
     public static final String SI = "y";
     public static final String NUEVO_FICHERO = "n";
     public static final String GUARDAR = "s";
@@ -47,6 +48,7 @@ public class Wrapper {
     public static final String TEXTO_DESCRIPCION = " DESCRIPTION: ";
     public static final String TEXTO_NOMBRE = " NAME       : ";
     public static final String TEXTO_ID_TAREA = " TASK NUMBER: ";
+
 
     private Process proceso;
     private PrintWriter out = null;
@@ -67,15 +69,6 @@ public class Wrapper {
      * @throws IOException
      */
     public Wrapper() throws IOException, InterruptedException {
-        inicializarTerminal();
-    }
-
-    /**
-     * Inicializa la terminal sin pantalla para la conexión con el mainframe.
-     *
-     * @throws IOException
-     */
-    private void inicializarTerminal() throws IOException {
         proceso = Runtime.getRuntime().exec(TERMINAL_SIN_PANTALLA);
         inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
@@ -94,19 +87,26 @@ public class Wrapper {
     }
 
     /**
-     * Envía un ENTER a la terminal s3270.
+     * Envía el comando ENTER a la terminal s3270.
      *
      * @return
      */
-    private int enviarEnter() {
-        try {
-            out.println(COMANDO_ENTER);
-            out.flush();
-            sleep(DELAY_ENTER);
-            return 1;
-        } catch (InterruptedException e) {
-            return -1;
-        }
+    private int enviarEnter() throws InterruptedException {
+        out.println(COMANDO_ENTER);
+        out.flush();
+        sleep(550);
+        return 1;
+    }
+
+    /**
+     * Envía el comando WAIT(output) a la terminal s3270.
+     *
+     * @return
+     */
+    private int enviarWaitOutput() {
+        out.println(WAIT + DELAY_WAIT + OUTPUT);
+        out.flush();
+        return 1;
     }
 
     /**
@@ -114,11 +114,10 @@ public class Wrapper {
      *
      * @return
      */
-    private int enviarAscii() {
+    private void enviarAscii() {
         out.println(COMANDO_ASCII);
         out.flush();
-        return 1;
-
+        //obtenerRespuestaMaquina();
     }
 
     /**
@@ -131,16 +130,41 @@ public class Wrapper {
         String line = "";
         try {
             while (inStream.ready() && (line = inStream.readLine()) != null) {
-                if (line.matches(PATRON_OBTENER_SALIDA)) {
+                /*if (line.matches(PATRON_OBTENER_SALIDA)) {
                     resultado.add(line.replace(PATRON_DATA, ""));
-                }
+                }*/
+                System.out.println(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return resultado;
-
     }
+
+    private void conectarHost(String host) throws IOException, InterruptedException {
+        out.println(CONNECT + host);
+        out.println("wait(5,output)");
+    }
+
+    private boolean ejecutarSiguienteComando() {
+        String line = "";
+        Boolean okEncontrado= false;
+        //long fin = System.currentTimeMillis() + 5000;
+        try {
+
+            while ((line = inStream.readLine()) != null && !okEncontrado) {
+                if (line == "ok") {
+                    okEncontrado = true;
+                }
+            }
+            System.out.println("HOla");
+            enviarWaitOutput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     /**
      * Realiza el login en el mainframe.
@@ -148,20 +172,27 @@ public class Wrapper {
      * @return
      * @throws InterruptedException
      */
-    private int login() throws InterruptedException, IOException {
-        inicializarTerminal();
-        out.println(CADENA_CONECTAR_HOST);
+    protected int login(String host, String username, String password) throws InterruptedException, IOException {
+        //conectarHost(host);
+        out.println(CONNECT + host);
         out.flush();
-        sleep(DELAY_CONNECT);
+        ejecutarSiguienteComando();
+        //enviarEnter();
+        enviarAscii();
+        /*
         enviarEnter();
         enviarString(USERNAME);
+        enviarAscii();
         enviarEnter();
         enviarString(PASSWORD);
+        enviarAscii();
         enviarEnter();
         enviarEnter();
         enviarString(TASKS2JOB);
+        enviarAscii();
         enviarEnter();
-        sleep(DELAY_TASKS);
+        sleep(500);
+        */
         return 0;
     }
 
@@ -171,7 +202,7 @@ public class Wrapper {
      * @return
      * @throws IOException
      */
-    private int logout() throws IOException {
+    protected int logout() throws IOException, InterruptedException {
         enviarString(CADENA_EXIT);
         enviarEnter();
 
@@ -206,7 +237,7 @@ public class Wrapper {
      */
     public void nuevoFicheroTareas() throws IOException, InterruptedException {
         // TODO Comprobar si existen tareas y confirmar con usuario el nuevo fichero.
-        login();
+        login("", "", "");
         enviarString(NUEVO_FICHERO);
         enviarEnter();
         enviarAscii();
@@ -231,7 +262,7 @@ public class Wrapper {
                                      String descripcionTarea, String fecha) throws IOException, InterruptedException {
         CODIGO_ERROR resultado = comprobacionAnyadirTarea(idTarea, nombreTarea, descripcionTarea, fecha);
         if (resultado == CODIGO_ERROR.DATOS_TAREA_OK) {
-            login();
+            login("", "", "");
             enviarString(ANYADIR);
             enviarEnter();
             enviarString(idTarea);
@@ -262,7 +293,7 @@ public class Wrapper {
     public CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException {
         CODIGO_ERROR resultado = comprobacionEliminarTarea(idTarea);
         if (resultado == CODIGO_ERROR.DATOS_TAREA_OK) {
-            login();
+            login("", "", "");
             enviarString(ELIMINAR);
             enviarEnter();
             enviarString(idTarea);
@@ -286,7 +317,7 @@ public class Wrapper {
      * @throws InterruptedException
      */
     public void buscarTareas(String fecha) throws IOException, InterruptedException {
-        login();
+        login("", "", "");
         enviarString(BUSCAR);
         enviarEnter();
         enviarString(fecha);
@@ -307,13 +338,13 @@ public class Wrapper {
      * @throws InterruptedException
      */
     public void listarTareas() throws IOException, InterruptedException {
-        login();
+        //login("", "", "");
         enviarString(LISTAR);
         enviarEnter();
         enviarAscii();
         enviarEnter();
         List<String> resultado = obtenerRespuestaMaquina();
-        logout();
+        //logout();
         for (String line : resultado) {
             System.out.println(line);
         }
@@ -327,7 +358,7 @@ public class Wrapper {
      * @throws InterruptedException
      */
     public void guardarTareas() throws IOException, InterruptedException {
-        login();
+        login("", "", "");
         enviarString(GUARDAR);
         enviarEnter();
         enviarEnter();
@@ -337,7 +368,7 @@ public class Wrapper {
     /**
      * Guarda de forma implícita una tarea añadida o eliminada.
      */
-    private void guardarTarea() {
+    private void guardarTarea() throws InterruptedException {
         enviarString(GUARDAR);
         enviarEnter();
         enviarEnter();
