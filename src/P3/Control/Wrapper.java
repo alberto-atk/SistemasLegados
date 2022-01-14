@@ -5,7 +5,7 @@
  * <p>
  * Alberto Pérez & Radu Constantin Robu - Diciembre 2021
  */
-package com.company.Control;
+package P3.Control;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

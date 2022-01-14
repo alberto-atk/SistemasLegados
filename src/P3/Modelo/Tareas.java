@@ -1,4 +1,4 @@
-package com.company.Modelo;
+package P3.Modelo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

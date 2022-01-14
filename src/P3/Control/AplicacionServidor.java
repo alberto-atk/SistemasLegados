@@ -1,4 +1,6 @@
-package com.company.Control;
+package P3.Control;
+
+import P3.Vista.MainframeVista;
 
 import java.io.IOException;
 
@@ -8,6 +10,9 @@ public class AplicacionServidor {
     private static Wrapper emulador = null;
 
     public static void main(String[] args) throws IOException {
+        MainframeVista m = new MainframeVista();
+    }
+       /*
         try {
             emulador = new Wrapper();
             emulador.login("155.210.71.101:823", "prog", "prog123");
@@ -27,5 +32,5 @@ public class AplicacionServidor {
         } catch (IOException e) {
             System.out.println(e.toString());
         }
-    }
+    }*/
 }

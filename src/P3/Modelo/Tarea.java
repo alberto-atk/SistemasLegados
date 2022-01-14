@@ -1,4 +1,4 @@
-package com.company.Modelo;
+package P3.Modelo;
 
 public class Tarea {
     private String id;
