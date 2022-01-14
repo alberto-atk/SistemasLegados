@@ -8,6 +8,7 @@
 package com.company.Control;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class Wrapper {
 
 
     private Process proceso;
-    private PrintWriter out = null;
+    private PrintWriter outStream = null;
     private BufferedReader inStream = null;
 
     private enum CODIGO_ERROR {
@@ -71,7 +72,7 @@ public class Wrapper {
     public Wrapper() throws IOException, InterruptedException {
         proceso = Runtime.getRuntime().exec(TERMINAL_SIN_PANTALLA);
         inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-        out = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
+        outStream = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
     }
 
     /**
@@ -81,8 +82,8 @@ public class Wrapper {
      * @return
      */
     private int enviarString(String mensaje) {
-        out.println(String.format(FORMATO_CADENA_TEXTO, mensaje));
-        out.flush();
+        outStream.println(String.format(FORMATO_CADENA_TEXTO, mensaje));
+        outStream.flush();
         return 1;
     }
 
@@ -92,8 +93,8 @@ public class Wrapper {
      * @return
      */
     private int enviarEnter() throws InterruptedException {
-        out.println(COMANDO_ENTER);
-        out.flush();
+        outStream.println(COMANDO_ENTER);
+        outStream.flush();
         sleep(550);
         return 1;
     }
@@ -104,8 +105,8 @@ public class Wrapper {
      * @return
      */
     private int enviarWaitOutput() {
-        out.println(WAIT + DELAY_WAIT + OUTPUT);
-        out.flush();
+        outStream.println(WAIT + DELAY_WAIT + OUTPUT);
+        outStream.flush();
         return 1;
     }
 
@@ -114,10 +115,14 @@ public class Wrapper {
      *
      * @return
      */
-    private void enviarAscii() {
-        out.println(COMANDO_ASCII);
-        out.flush();
-        //obtenerRespuestaMaquina();
+    private void enviarAscii() throws IOException {
+        outStream.println(COMANDO_ASCII);
+        outStream.flush();
+        List<String> respuesta = obtenerRespuestaMaquina();
+
+        for (String linea : respuesta) {
+            System.out.println(linea);
+        }
     }
 
     /**
@@ -125,30 +130,31 @@ public class Wrapper {
      *
      * @return
      */
-    private List<String> obtenerRespuestaMaquina() {
+    private List<String> obtenerRespuestaMaquina() throws IOException {
         List<String> resultado = new ArrayList();
         String line = "";
-        try {
-            while (inStream.ready() && (line = inStream.readLine()) != null) {
+        while ((inStream.ready()) && (line = inStream.readLine()) != null) {
                 /*if (line.matches(PATRON_OBTENER_SALIDA)) {
                     resultado.add(line.replace(PATRON_DATA, ""));
                 }*/
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            resultado.add(line);
         }
         return resultado;
     }
 
     private void conectarHost(String host) throws IOException, InterruptedException {
-        out.println(CONNECT + host);
-        out.println("wait(5,output)");
+        outStream.println(CONNECT + host);
+        outStream.flush();
+        String line = "";
+
+        while (!line.matches(".*ok.*")) {
+            line = inStream.readLine();
+        }
     }
 
     private boolean ejecutarSiguienteComando() {
         String line = "";
-        Boolean okEncontrado= false;
+        Boolean okEncontrado = false;
         //long fin = System.currentTimeMillis() + 5000;
         try {
 
@@ -173,10 +179,10 @@ public class Wrapper {
      * @throws InterruptedException
      */
     protected int login(String host, String username, String password) throws InterruptedException, IOException {
-        //conectarHost(host);
-        out.println(CONNECT + host);
-        out.flush();
-        ejecutarSiguienteComando();
+        conectarHost(host);
+        //out.println(CONNECT + host);
+        //out.flush();
+        //ejecutarSiguienteComando();
         //enviarEnter();
         enviarAscii();
         /*
@@ -219,8 +225,8 @@ public class Wrapper {
      * @return
      */
     private int salir() {
-        out.println(COMANDO_EXIT);
-        out.flush();
+        outStream.println(COMANDO_EXIT);
+        outStream.flush();
         return 1;
     }
 

@@ -7,11 +7,6 @@ import static java.lang.Thread.sleep;
 public class AplicacionServidor {
     private static Wrapper emulador = null;
 
-
-
-
-
-
     public static void main(String[] args) throws IOException {
         try {
             emulador = new Wrapper();
