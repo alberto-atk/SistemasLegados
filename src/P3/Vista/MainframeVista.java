@@ -26,10 +26,12 @@ public class MainframeVista extends javax.swing.JFrame {
 
 
     public MainframeVista() {
-        pantallaPrincipal();
+        //pantallaPrincipal();
+        login();
     }
 
     private void login() {
+        /*
         JTextField host = new JTextField(15);
         JTextField usuario = new JTextField(10);
         JPasswordField contrasenya = new JPasswordField(10);
@@ -54,21 +56,20 @@ public class MainframeVista extends javax.swing.JFrame {
             System.out.println("Contraseña: " + contrasenya.getText());
         }
 
-/*
-        String[] hh = {
-               "host",
-               "usuario",
-               "contrasenya"
-        };
-        String[] cc = {
-                "Confirmar",
-                "Cancelar"
-        };
-        ComplexDialoguePanel c = new ComplexDialoguePanel("Introduzca ", hh,3);
-        String[] prueba = c.obtenerDatosViajero(cc);
-        for (String i: prueba) {
-            System.out.println(i);
-        }*/
+         */
+
+
+        String[] campos = {"Host", "Usuario", "Contraseña"};
+        String[] opciones = {"Conectar", "Cancelar"};
+
+        ComplexDialoguePanel c = new ComplexDialoguePanel("Conexión con el mainframe", campos, 16);
+        String[] prueba = c.obtenerDatosViajero(opciones);
+
+        if (prueba != null) {
+            for (String i : prueba) {
+                System.out.println(i);
+            }
+        }
     }
 
     private void pantallaPrincipal() {

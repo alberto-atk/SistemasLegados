@@ -1,10 +1,3 @@
-/**
- * ComplexDialoguePanel.java
- *
- * Radu Constantin Robu (RCR) y Eduardo Castellón Ramírez (ECR)
- *
- * 09/05/2020
- */
 package P3.Vista;
 
 import java.awt.GridBagConstraints;
@@ -19,6 +12,9 @@ import javax.swing.*;
  * por teclado.
  */
 public class ComplexDialoguePanel extends JPanel {
+    public static final String ETIQUETA_CONTRASEÑA = "Contraseña";
+    public static final String ETIQUETA_CONEXION = "Conexión host";
+    private String[] etiquetasDatos;
     private Map<String, JTextField> camposTexto = new HashMap<>();
 
     /**
@@ -33,6 +29,7 @@ public class ComplexDialoguePanel extends JPanel {
         setLayout(new GridBagLayout());
         inicializar(etiquetasDatos, tamanyoCamposTexto);
         setBorder(BorderFactory.createTitledBorder(textoVentana));
+        this.etiquetasDatos = etiquetasDatos;
     }
 
     /**
@@ -46,9 +43,15 @@ public class ComplexDialoguePanel extends JPanel {
             String etiqueta = etiquetasDatos[i];
             add(new JLabel(etiqueta), createGbc(0, i));
 
-            JTextField textField = new JTextField(tamanyo);
-            camposTexto.put(etiqueta, textField);
-            add(textField, createGbc(1, i));
+            if (etiqueta != ETIQUETA_CONTRASEÑA) {
+                JTextField textField = new JTextField(tamanyo);
+                camposTexto.put(etiqueta, textField);
+                add(textField, createGbc(1, i));
+            } else {
+                JPasswordField passwordField = new JPasswordField(tamanyo);
+                camposTexto.put(etiqueta, passwordField);
+                add(passwordField, createGbc(1, i));
+            }
         }
     }
 
@@ -113,16 +116,16 @@ public class ComplexDialoguePanel extends JPanel {
 
             int respuesta
                     = JOptionPane
-                    .showOptionDialog(null, this, "hola",
+                    .showOptionDialog(null, this, ETIQUETA_CONEXION,
                             tipoOpcion, tipoMensaje, icono,
                             opciones, valorInicial);
 
             if (respuesta == 0) {
                 for (int i = 0; i < numDatos; i++) {
-                    datos[i] = this.getText(datos[i]);
+                    datos[i] = this.getText(this.etiquetasDatos[i]);
                 }
                 for (String texto : datos) {
-                    if ( ! (texto.equals(""))) {
+                    if (!(texto.equals(""))) {
                         datosValidos++;
                     }
                 }
