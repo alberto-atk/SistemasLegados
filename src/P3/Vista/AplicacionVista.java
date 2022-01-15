@@ -9,18 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import P3.Control.OyenteVista;
 
 public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final int ANCHO_PANEL_BOTONES = 200;
     private static final int ALTO_PANEL_BOTONES = 200;
-    public static final int OK = 0;
-    public static final int ERROR_LONG_DESCRIPCION = 3;
-    public static final int ERROR_LONG_NOMBRE = 2;
-    public static final int ERROR_ID_TAREA = 1;
     private OyenteVista oyenteVista;
     private static final String INICIAR_SESION = "Iniciar sesión";
     private static final String NUEVO_FICHERO = "Nuevo fichero";
@@ -54,6 +48,22 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final String[] CAMPOS_BUSCAR_TAREAS = {"Fecha"};
     private static final String[] OPCIONES_BUSCAR_TAREAS = {"Buscar", "Cancelar"};
 
+    private static final String ETIQUETA_VENTANA_ERROR_FECHA = "Fecha incorrecta";
+    private static final String MENSAJE_FECHA_INCORRECTA = "El formato de la fecha introducida no es correcto.\n" +
+            "Formatos aceptados:\n" +
+            "DD/MM/AAAA\n" +
+            "DD-MM-AAAA\n" +
+            "DD MM AAAA\n";
+
+    private static final String ETIQUETA_VENTANA_ID_INCORRECTO = "ID incorrecto";
+    private static final String MENSAJE_ID_INCORRECTO = "El id de una tarea debe contener únicamente números.";
+
+    private static final String ETIQUETA_VENTANA_NOMBRE_INCORRECTO = "Nombre incorrecto";
+    private static final String MENSAJE_NOMBRE_INCORRECTO = "El nombre de la tarea debe tener menos de 16 caracteres.";
+
+    private static final String ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA = "Descripción incorrecta";
+    private static final String MENSAJE_DESCRIPCION_INCORRECTA = "La descripción de la tarea debe tener menos de 32 caracteres.";
+
     private JButton botonIniciarSesion;
     private JButton botonNuevoFichero;
     private JButton botonAnyadirTarea;
@@ -63,10 +73,14 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private JButton botonGuardarTareas;
     private JButton botonSalir;
 
-    private enum Errores {
-        OK, ERROR_ID_TAREA, ERROR_LONG_NOMBRE, ERROR_LONG_DESCRIPCION
+    private enum CodigoRespuesta {
+        OK, ERROR_ID_TAREA, ERROR_LONG_NOMBRE, DATOS_VACIOS, ERROR_FECHA_INCORRECTA, ERROR_LONG_DESCRIPCION
     }
-    
+
+    private static final String FORMATO_FECHA = "^[0-9]{2}( |/|-)[0-9]{2}( |/|-)[0-9]{4}$";
+    private static final String FORMATO_FECHA_SLASH = "^[0-9]{2}/[0-9]{2}/[0-9]{4}$";
+    private static final String FORMATO_FECHA_BARRA = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
+
     /**
      * Constructor de la clase.
      */
@@ -225,13 +239,39 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @return
      */
     private String[] anyadirTarea() {
+        String[] datosAnyadirTarea = null;
+
         ComplexDialoguePanel ventanaAnyadirTarea = new ComplexDialoguePanel(TITULO_VENTANA_ANYADIR_TAREA,
                 CAMPOS_ANYADIR_TAREA, 32);
-        String[] datosAnyadirTarea = ventanaAnyadirTarea.obtenerTextoCampos(OPCIONES_ANYADIR_TAREA);
+        datosAnyadirTarea = ventanaAnyadirTarea.obtenerTextoCampos(OPCIONES_ANYADIR_TAREA);
 
-        verificarDatosTarea(datosAnyadirTarea);
+        CodigoRespuesta codigo = verificarDatosTarea(datosAnyadirTarea);
 
-        return datosAnyadirTarea;
+        switch (codigo) {
+            case OK:
+                return datosAnyadirTarea;
+
+            case ERROR_FECHA_INCORRECTA:
+                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_FECHA_INCORRECTA, ETIQUETA_VENTANA_ERROR_FECHA,
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+
+            case ERROR_ID_TAREA:
+                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_ID_INCORRECTO, ETIQUETA_VENTANA_ID_INCORRECTO,
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+
+            case ERROR_LONG_NOMBRE:
+                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_NOMBRE_INCORRECTO,
+                        ETIQUETA_VENTANA_NOMBRE_INCORRECTO, JOptionPane.ERROR_MESSAGE);
+                break;
+
+            case ERROR_LONG_DESCRIPCION:
+                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_DESCRIPCION_INCORRECTA,
+                        ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA, JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+        return null;
     }
 
     /**
@@ -240,26 +280,27 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @param datosTarea
      * @return
      */
-    private Errores verificarDatosTarea(String[] datosTarea) {
-        if (datosTarea[0].matches("^[0-9]+]$")) {
-            if ((datosTarea[1].length() > 0) && (datosTarea[1].length() <= 16)) {
-                if ((datosTarea[2].length() > 0) && (datosTarea[2].length() <= 32)) {
-                    //TODO devolver error fecha aqui?
-                    return Errores.OK;
+    private CodigoRespuesta verificarDatosTarea(String[] datosTarea) {
+        if (datosTarea != null) {
+            if (datosTarea[0].matches("^[0-9]+$")) {
+                if ((datosTarea[1].length() > 0) && (datosTarea[1].length() <= 16)) {
+                    if ((datosTarea[2].length() > 0) && (datosTarea[2].length() <= 32)) {
+                        if (datosTarea[3].matches(FORMATO_FECHA)) {
+                            return CodigoRespuesta.OK;
+                        } else {
+                            return CodigoRespuesta.ERROR_FECHA_INCORRECTA;
+                        }
+                    }
+                    return CodigoRespuesta.ERROR_LONG_DESCRIPCION;
+                } else {
+                    return CodigoRespuesta.ERROR_LONG_NOMBRE;
                 }
-                return Errores.ERROR_LONG_DESCRIPCION;
             } else {
-                return Errores.ERROR_LONG_NOMBRE;
+                return CodigoRespuesta.ERROR_ID_TAREA;
             }
         } else {
-            return Errores.ERROR_ID_TAREA;
+            return CodigoRespuesta.DATOS_VACIOS;
         }
-    }
-
-    private String[] parsearFecha(String fecha) {
-        String[] valoresFecha = fecha.split(" ");
-
-        return valoresFecha;
     }
 
     /**
