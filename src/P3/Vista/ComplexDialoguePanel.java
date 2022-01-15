@@ -12,8 +12,12 @@ import javax.swing.*;
  * por teclado.
  */
 public class ComplexDialoguePanel extends JPanel {
-    public static final String ETIQUETA_CONTRASEÑA = "Contraseña";
-    public static final String ETIQUETA_CONEXION = "Conexión host";
+    private static final String ETIQUETA_VENTANA = "Introducir información";
+    private static final String ETIQUETA_CONTRASEÑA = "Contraseña";
+    private static final String ETIQUETA_FECHA = "Fecha";
+    public static final String MENSAJE_FECHA_INCORRECTA = "La fecha introducida no es correcta.";
+    public static final String ETIQUETA_VENTANA_ERROR_FECHA = "Fecha incorrecta";
+    public static final int FECHA = 3;
     private String[] etiquetasDatos;
     private Map<String, JTextField> camposTexto = new HashMap<>();
 
@@ -47,7 +51,7 @@ public class ComplexDialoguePanel extends JPanel {
                 JTextField textField = new JTextField(tamanyo);
                 camposTexto.put(etiqueta, textField);
                 add(textField, createGbc(1, i));
-            } else {
+            } else if (etiqueta == ETIQUETA_CONTRASEÑA) {
                 JPasswordField passwordField = new JPasswordField(tamanyo);
                 camposTexto.put(etiqueta, passwordField);
                 add(passwordField, createGbc(1, i));
@@ -102,8 +106,8 @@ public class ComplexDialoguePanel extends JPanel {
      * @param opciones
      * @return
      */
-    public String[] obtenerDatosViajero(String[] opciones) {
-        int numDatos = 3;
+    public String[] obtenerTextoCampos(String[] opciones) {
+        int numDatos = this.etiquetasDatos.length;
         boolean datosVacios = true;
         while (datosVacios) {
             int datosValidos = 0;
@@ -116,7 +120,7 @@ public class ComplexDialoguePanel extends JPanel {
 
             int respuesta
                     = JOptionPane
-                    .showOptionDialog(null, this, ETIQUETA_CONEXION,
+                    .showOptionDialog(null, this, ETIQUETA_VENTANA,
                             tipoOpcion, tipoMensaje, icono,
                             opciones, valorInicial);
 
@@ -124,11 +128,20 @@ public class ComplexDialoguePanel extends JPanel {
                 for (int i = 0; i < numDatos; i++) {
                     datos[i] = this.getText(this.etiquetasDatos[i]);
                 }
+                //TODO no dejar al usuario pasar hasta que no se introduzca una fecha correcta.
+/*
+                if ((datos[FECHA] != null) && (!(datos[FECHA].matches("^[0-9]{2}( |\\/|-)[0-9]{2}( |\\/|-)[0-9]{4}$")))) {
+                    datosValidos = -1;
+                    JOptionPane.showMessageDialog(new JFrame(), MENSAJE_FECHA_INCORRECTA,
+                            ETIQUETA_VENTANA_ERROR_FECHA, JOptionPane.ERROR_MESSAGE);
+                }
+*/
                 for (String texto : datos) {
                     if (!(texto.equals(""))) {
                         datosValidos++;
                     }
                 }
+
                 if (datosValidos == datos.length) {
                     datosVacios = false;
                     return datos;
