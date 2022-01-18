@@ -49,7 +49,7 @@ public class Wrapper {
     public static final String TEXTO_DESCRIPCION = " DESCRIPTION: ";
     public static final String TEXTO_NOMBRE = " NAME       : ";
     public static final String TEXTO_ID_TAREA = " TASK NUMBER: ";
-
+    public static final Long TIEMPO_EJEC_MAXIMO = 500L;
 
     private Process proceso;
     private PrintWriter outStream = null;
@@ -81,10 +81,10 @@ public class Wrapper {
      * @param mensaje
      * @return
      */
-    private int enviarString(String mensaje) {
+    private boolean enviarString(String mensaje) throws IOException {
         outStream.println(String.format(FORMATO_CADENA_TEXTO, mensaje));
         outStream.flush();
-        return 1;
+        return ejecutarSiguienteComando();
     }
 
     /**
@@ -92,11 +92,10 @@ public class Wrapper {
      *
      * @return
      */
-    private int enviarEnter() throws InterruptedException {
+    private Boolean enviarEnter() throws IOException {
         outStream.println(COMANDO_ENTER);
         outStream.flush();
-        sleep(550);
-        return 1;
+        return ejecutarSiguienteComando();
     }
 
     /**
@@ -118,57 +117,65 @@ public class Wrapper {
     private void enviarAscii() throws IOException {
         outStream.println(COMANDO_ASCII);
         outStream.flush();
-        List<String> respuesta = obtenerRespuestaMaquina();
-
-        for (String linea : respuesta) {
-            System.out.println(linea);
-        }
     }
+
+
+    private Boolean esperarPantalla(String lineaABuscar) throws IOException, InterruptedException {
+        Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();
+        String resultado = "";
+        do{
+            enviarAscii();
+            sleep(50);
+            resultado = obtenerRespuestaMaquina();
+            if(resultado.contains(lineaABuscar)){
+                //System.out.println(resultado);
+                return true;
+            }
+
+        }while(maxTime > System.currentTimeMillis());
+        System.out.println("No hay nada");
+
+        return false;
+    }
+
 
     /**
      * Obtiene la respuesta textual del mainframe en la terminal s3270.
      *
      * @return
      */
-    private List<String> obtenerRespuestaMaquina() throws IOException {
-        List<String> resultado = new ArrayList();
+    private String obtenerRespuestaMaquina() throws IOException {
+        String resultado = "";
         String line = "";
-        while ((inStream.ready()) && (line = inStream.readLine()) != null) {
-                /*if (line.matches(PATRON_OBTENER_SALIDA)) {
-                    resultado.add(line.replace(PATRON_DATA, ""));
-                }*/
-            resultado.add(line);
-        }
+        do{
+            line = inStream.readLine();
+            //TODO esto mirar a ver lo del OK y lo de UUC
+            resultado += line + "\n";
+        } while (inStream.ready());
         return resultado;
     }
 
     private void conectarHost(String host) throws IOException, InterruptedException {
         outStream.println(CONNECT + host);
         outStream.flush();
-        String line = "";
 
-        while (!line.matches(".*ok.*")) {
-            line = inStream.readLine();
-        }
     }
 
-    private boolean ejecutarSiguienteComando() {
+    private boolean ejecutarSiguienteComando() throws IOException {
         String line = "";
-        Boolean okEncontrado = false;
-        //long fin = System.currentTimeMillis() + 5000;
-        try {
-
-            while ((line = inStream.readLine()) != null && !okEncontrado) {
-                if (line == "ok") {
-                    okEncontrado = true;
-                }
+        Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();
+        while (maxTime > System.currentTimeMillis()) {
+            line = inStream.readLine();
+            if(line.matches(".*ok.*")){
+                return true;
             }
-            System.out.println("HOla");
-            enviarWaitOutput();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return false;
+        /*
+        while(!line.matches(".*ok.*")){
+            line = inStream.readLine();
+        }
+        return true;*/
     }
 
 
@@ -182,9 +189,33 @@ public class Wrapper {
         conectarHost(host);
         //out.println(CONNECT + host);
         //out.flush();
-        //ejecutarSiguienteComando();
-        //enviarEnter();
-        enviarAscii();
+        if(ejecutarSiguienteComando()) {
+            System.out.println("Entro");
+            //enviarEnter();
+            if (esperarPantalla("data:          Multi-User System for Interactive Computing / System Product           ")) {
+                if (enviarEnter()) {
+                    if (esperarPantalla("data:  *MUSIC/SP ESA/390, sign on                                                     ")) {
+                        if(enviarString(username)){
+                            if(enviarEnter()) {
+                                if(enviarString(password)){
+                                   if(enviarEnter()) {
+                                       /* CON ESTO SE REVIENTAN LAS MAQUINAS, 678 MUERTAS
+                                       if (esperarPantalla("data: Userid is in use. Type OK to cancel previous session                            ")){
+                                           if(enviarString("OK")){
+                                               if(enviarEnter()) {
+                                                   enviarAscii();
+                                                   System.out.println(obtenerRespuestaMaquina());
+                                               }
+                                           }
+                                       }*/
+                                   }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /*
         enviarEnter();
         enviarString(USERNAME);
@@ -209,8 +240,8 @@ public class Wrapper {
      * @throws IOException
      */
     protected int logout() throws IOException, InterruptedException {
-        enviarString(CADENA_EXIT);
-        enviarEnter();
+        //enviarString(CADENA_EXIT);
+        //enviarEnter();
 
         enviarString(CADENA_OFF);
         enviarEnter();
@@ -330,11 +361,11 @@ public class Wrapper {
         enviarEnter();
         enviarAscii();
         enviarEnter();
-        List<String> resultado = obtenerRespuestaMaquina();
+        //List<String> resultado = obtenerRespuestaMaquina();
         logout();
-        for (String line : resultado) {
-            System.out.println(line);
-        }
+        //for (String line : resultado) {
+      //      System.out.println(line);
+      //  }
     }
 
     /**
@@ -349,11 +380,11 @@ public class Wrapper {
         enviarEnter();
         enviarAscii();
         enviarEnter();
-        List<String> resultado = obtenerRespuestaMaquina();
-        //logout();
-        for (String line : resultado) {
-            System.out.println(line);
-        }
+        //List<String> resultado = obtenerRespuestaMaquina();
+        logout();
+        //for (String line : resultado) {
+     //       System.out.println(line);
+       // }
         //parsearTareas(resultado);
     }
 
@@ -374,7 +405,7 @@ public class Wrapper {
     /**
      * Guarda de forma implícita una tarea añadida o eliminada.
      */
-    private void guardarTarea() throws InterruptedException {
+    private void guardarTarea() throws InterruptedException, IOException {
         enviarString(GUARDAR);
         enviarEnter();
         enviarEnter();

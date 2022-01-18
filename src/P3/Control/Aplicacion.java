@@ -11,7 +11,27 @@ public class Aplicacion implements OyenteVista {
     private static AplicacionVista vista;
 
     public static void main(String[] args) throws IOException {
-        new Aplicacion();
+        try {
+
+            emulador = new Wrapper();
+
+            emulador.login("155.210.71.101:623", "PROG", "PROG123");
+
+            //emulador.listarTareas();
+            //emulador.listarTareas();
+            //emulador.anyadirTarea("1","Prueba1","Prueba1", "28 03 2022");
+            //emulador.buscarTareas("28 03 2022");
+
+            //emulador.eliminarTarea("999");
+            //emulador.guardarTareas();
+            //emulador.listarTareas();
+            //emulador.buscarTareas("28 03 2022");
+            emulador.logout();
+        } catch (InterruptedException ex) {
+            System.out.println(ex.toString());
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
     }
 
     public Aplicacion() {
@@ -20,13 +40,14 @@ public class Aplicacion implements OyenteVista {
 
     @Override
     public void eventoProducido(Evento evento, Object obj) {
+        /*
         switch (evento) {
             case INICIAR_SESION:
                 String[] datos = (String[]) obj;
                 for (String dato : datos) {
                     System.out.println(dato);
                 }
-        }
+        }*/
     }
        /*
         try {
