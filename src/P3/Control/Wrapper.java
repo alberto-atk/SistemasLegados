@@ -70,6 +70,7 @@ public class Wrapper {
      * @throws IOException
      */
     public Wrapper() throws IOException, InterruptedException {
+        //TODO HACERLA SINGLETON
         proceso = Runtime.getRuntime().exec(TERMINAL_SIN_PANTALLA);
         inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
         outStream = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
@@ -149,6 +150,9 @@ public class Wrapper {
         String line = "";
         do{
             line = inStream.readLine();
+            if(line == null || line.equals("error")){
+                return "NOK";
+            }
             //TODO esto mirar a ver lo del OK y lo de UUC
             resultado += line + "\n";
         } while (inStream.ready());
@@ -190,25 +194,36 @@ public class Wrapper {
         //out.println(CONNECT + host);
         //out.flush();
         if(ejecutarSiguienteComando()) {
-            System.out.println("Entro");
-            //enviarEnter();
-            if (esperarPantalla("data:          Multi-User System for Interactive Computing / System Product           ")) {
+            if (esperarPantalla("Multi-User System for Interactive Computing / System Product")) {
                 if (enviarEnter()) {
-                    if (esperarPantalla("data:  *MUSIC/SP ESA/390, sign on                                                     ")) {
+                    if (esperarPantalla("*MUSIC/SP ESA/390, sign on")) {
                         if(enviarString(username)){
                             if(enviarEnter()) {
                                 if(enviarString(password)){
                                    if(enviarEnter()) {
-                                       /* CON ESTO SE REVIENTAN LAS MAQUINAS, 678 MUERTAS
-                                       if (esperarPantalla("data: Userid is in use. Type OK to cancel previous session                            ")){
+                                       enviarAscii();
+                                       System.out.println(obtenerRespuestaMaquina());
+                                       if (esperarPantalla("Userid is in use. Type OK to cancel previous session")){
                                            if(enviarString("OK")){
                                                if(enviarEnter()) {
-                                                   enviarAscii();
-                                                   System.out.println(obtenerRespuestaMaquina());
+                                                   //TODO comprobar que sale el mensaje de your workstation
+                                                   if(enviarEnter()) {
+                                                       enviarAscii();
+                                                       System.out.println(obtenerRespuestaMaquina());
+                                                   }
                                                }
                                            }
-                                       }*/
-                                   }
+                                       }else if(esperarPantalla("*Your workstation cannot support requested language")){
+                                           if(enviarEnter()){
+                                               enviarAscii();
+                                               System.out.println(obtenerRespuestaMaquina());
+                                           }
+                                       }else if(esperarPantalla("Userid is not authorized")){
+                                            //TODO el nombre de usuario es incorrecto
+                                       }else if(esperarPantalla("Password incorrect! Retry.")){
+                                           //TODO la password es incorrecta
+                                       }
+                                  }
                                 }
                             }
                         }

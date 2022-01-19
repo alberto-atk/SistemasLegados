@@ -11,10 +11,15 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import P3.Control.OyenteVista;
+import P3.Modelo.Tarea;
 
 public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final int ANCHO_PANEL_BOTONES = 200;
     private static final int ALTO_PANEL_BOTONES = 200;
+    private static final int ANCHO_PANEL_TAREAS = 600;
+    private static final int ALTO_PANEL_TAREAS = 200;
+
+
     private OyenteVista oyenteVista;
     private static final String INICIAR_SESION = "Iniciar sesión";
     private static final String NUEVO_FICHERO = "Nuevo fichero";
@@ -48,6 +53,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final String[] CAMPOS_BUSCAR_TAREAS = {"Fecha"};
     private static final String[] OPCIONES_BUSCAR_TAREAS = {"Buscar", "Cancelar"};
 
+    private static final String TITULO_VENTANA_ELIMINAR_TAREA = "Eliminar tarea";
+    private static final String[] CAMPOS_ELIMINAR_TAREA = {"Fecha"};
+    private static final String[] OPCIONES_ELIMINAR_TAREA = {"Buscar", "Cancelar"};
+
+
     private static final String ETIQUETA_VENTANA_ERROR_FECHA = "Fecha incorrecta";
     private static final String MENSAJE_FECHA_INCORRECTA = "El formato de la fecha introducida no es correcto.\n" +
             "Formatos aceptados:\n" +
@@ -72,6 +82,9 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private JButton botonListarTareas;
     private JButton botonGuardarTareas;
     private JButton botonSalir;
+    private JPanel panelTareas;
+    private JTextArea areaTextoTareas;
+
 
     private enum CodigoRespuesta {
         OK, ERROR_ID_TAREA, ERROR_LONG_NOMBRE, DATOS_VACIOS, ERROR_FECHA_INCORRECTA, ERROR_LONG_DESCRIPCION
@@ -81,26 +94,55 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final String FORMATO_FECHA_SLASH = "^[0-9]{2}/[0-9]{2}/[0-9]{4}$";
     private static final String FORMATO_FECHA_BARRA = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
 
+
+    private String[] datosInicioSesion;
     /**
      * Constructor de la clase.
      */
     public AplicacionVista(OyenteVista oyenteVista) {
-        crearElementosVentanaPrincipal();
+        //datosInicioSesion = iniciarSesion(); DESCOMENTARR
         this.oyenteVista = oyenteVista;
+    }
+
+    public String[] obtenerDatosInicioSesion(){
+        return datosInicioSesion;
     }
 
     /**
      * Crea la ventana principal de la interfaz y sus elementos.
      */
-    private void crearElementosVentanaPrincipal() {
+    public void crearElementosVentanaPrincipal() {
         JFrame ventanaPrincipal = new JFrame(MAINFRAME_WRAPPER);
         ventanaPrincipal.setSize(ANCHO, ALTO);
         ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventanaPrincipal.setLocationRelativeTo(null);
         ventanaPrincipal.setLayout(new BorderLayout());
         ventanaPrincipal.add(crearPanelBotones());
+        ventanaPrincipal.add(crearPanelMostrarTareas(), BorderLayout.EAST);
         ventanaPrincipal.setVisible(true);
+
     }
+
+    /**
+     * Crea el panel de tareas de la ventana principal.
+     *
+     * @return
+     */
+    public JPanel crearPanelMostrarTareas(){
+        panelTareas = new JPanel(new BorderLayout());
+        Border bordePanelTareas = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        panelTareas.setBorder(bordePanelTareas);
+        panelTareas.setPreferredSize(new Dimension(ANCHO_PANEL_TAREAS,ALTO_PANEL_TAREAS));
+
+        JScrollPane panelDeslizable = new JScrollPane();
+        areaTextoTareas = new JTextArea();
+        areaTextoTareas.setEditable(false);
+        panelDeslizable.setViewportView(areaTextoTareas);
+        panelTareas.add(panelDeslizable);
+
+        return panelTareas;
+    }
+
 
     /**
      * Crea el panel de botones de la ventana principal.
@@ -118,7 +160,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         layoutBotones.setBorder(bordePanelBotones);
 
         JPanel contenedorBotones = new JPanel(new GridLayout(10, 1, 10, 20));
-        contenedorBotones.add(botonIniciarSesion);
+        //contenedorBotones.add(botonIniciarSesion);
         contenedorBotones.add(botonNuevoFichero);
         contenedorBotones.add(botonAnyadirTarea);
         contenedorBotones.add(botonEliminarTarea);
@@ -128,6 +170,8 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         contenedorBotones.add(botonSalir);
         layoutBotones.add(contenedorBotones);
         layoutBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
+        panelBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,ALTO_PANEL_BOTONES));
+        contenedorBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,ALTO_PANEL_BOTONES));
         panelBotones.add(layoutBotones, BorderLayout.WEST);
 
         return panelBotones;
@@ -163,11 +207,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
         botonGuardarTareas = new JButton(GUARDAR_TAREAS);
         botonGuardarTareas.addActionListener(this);
-        botonGuardarTareas.setActionCommand(GUARDAR_TAREAS);
+        botonGuardarTareas.setActionCommand(ACCION_GUARDAR_TAREAS);
 
         botonSalir = new JButton(SALIR);
         botonSalir.addActionListener(this);
-        botonSalir.setActionCommand(SALIR);
+        botonSalir.setActionCommand(ACCION_SALIR);
     }
 
     /**
@@ -185,12 +229,41 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
             case ACCION_ANYADIR_TAREA:
                 String[] datosAnyadirTarea = anyadirTarea();
+                //oyenteVista.eventoProducido(OyenteVista.Evento.INICIAR_SESION, datosAnyadirTarea);
                 break;
 
             case ACCION_BUSCAR_TAREAS:
                 String[] datosBuscarTareas = buscarTareas();
+                //oyenteVista.eventoProducido(OyenteVista.Evento.INICIAR_SESION, datosBuscarTareas);
+                Tarea a = new Tarea("b","b","b","b");
+                String tareas2 = a.toString() + a.toString();
+                mostrarTareas(tareas2);
                 break;
+                
+            case ACCION_SALIR:
+                oyenteVista.eventoProducido(OyenteVista.Evento.SALIR,null);
+                break;
+                
+            case ACCION_ELIMINAR_TAREA:
+                String[] datosEliminarTarea = obtenerDatosEliminarTarea();
+                //oyenteVista.eventoProducido(OyenteVista.Evento.ELIMINAR_TAREA,datosEliminarTarea);
+                break;
+            case ACCION_LISTAR_TAREAS:
+                Tarea t = new Tarea("a","a","a","a");
+                String tareas = t.toString() + t + t + t + t + t + t + t + t + t + t + t + t + t;
+                mostrarTareas(tareas);
+                //TODO mirar a ver como pasar las tareas de control a vista ¿return en oyentevista?
+                break;
+
         }
+    }
+
+    /**
+     * Método para mostrar tareas en un mainframe.
+     */
+    private void mostrarTareas(String tareas){
+        areaTextoTareas.setText("");
+        areaTextoTareas.append(tareas);
     }
 
     /**
@@ -312,6 +385,19 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         ComplexDialoguePanel ventanaBuscarTareas = new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS,
                 CAMPOS_BUSCAR_TAREAS, 10);
         String[] datosBuscarTareas = ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_BUSCAR_TAREAS);
+
+        return datosBuscarTareas;
+    }
+
+    /**
+     * Método para ELIMINAR una tarea.
+     *
+     * @return
+     */
+    private String[] obtenerDatosEliminarTarea() {
+        ComplexDialoguePanel ventanaBuscarTareas = new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
+                CAMPOS_ELIMINAR_TAREA, 10);
+        String[] datosBuscarTareas = ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_ELIMINAR_TAREA);
 
         return datosBuscarTareas;
     }

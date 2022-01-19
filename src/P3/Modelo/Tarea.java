@@ -19,11 +19,9 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "Tarea{" +
-                "id='" + id + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", fecha='" + fecha + '\'' +
-                '}';
+        return  "Num tarea  : " + id + "\n" +
+                "Nombre     : " + nombre + "\n" +
+                "Descripcion: " + descripcion + "\n" +
+                "Fecha      : " + fecha + "\n" + "\n";
     }
 }

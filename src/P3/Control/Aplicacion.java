@@ -1,5 +1,6 @@
 package P3.Control;
 
+import P3.Modelo.Tarea;
 import P3.Vista.AplicacionVista;
 
 import java.io.IOException;
@@ -11,11 +12,13 @@ public class Aplicacion implements OyenteVista {
     private static AplicacionVista vista;
 
     public static void main(String[] args) throws IOException {
+        new Aplicacion();
+        /*
         try {
 
             emulador = new Wrapper();
 
-            emulador.login("155.210.71.101:623", "PROG", "PROG123");
+            emulador.login("155.210.71.101:323", "PROG", "PROG123");
 
             //emulador.listarTareas();
             //emulador.listarTareas();
@@ -31,24 +34,42 @@ public class Aplicacion implements OyenteVista {
             System.out.println(ex.toString());
         } catch (IOException e) {
             System.out.println(e.toString());
-        }
+        }*/
     }
 
     public Aplicacion() {
+
         vista = new AplicacionVista(this);
+        vista.obtenerDatosInicioSesion();
+        /*
+        emulador = new Wrapper();
+
+        if(emulador.login("155.210.71.101:323", "PROG", "PROG123")){
+            vista.crearElementosVentanaPrincipal()
+        }
+       */
+        vista.crearElementosVentanaPrincipal();
+
+        /*
+        Tarea t = new Tarea("a", "a", "s", "s");
+        System.out.println(t);
+        System.out.println(t);*/
     }
 
     @Override
     public void eventoProducido(Evento evento, Object obj) {
-        /*
         switch (evento) {
+            /*
             case INICIAR_SESION:
                 String[] datos = (String[]) obj;
                 for (String dato : datos) {
                     System.out.println(dato);
                 }
         }*/
-    }
+            case SALIR:
+                //emulador.logout();
+                System.exit(0);
+        }
        /*
         try {
             emulador = new Wrapper();
@@ -70,4 +91,5 @@ public class Aplicacion implements OyenteVista {
             System.out.println(e.toString());
         }
     }*/
+    }
 }
