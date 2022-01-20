@@ -8,17 +8,17 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 
 public class Aplicacion implements OyenteVista {
-    private static Wrapper emulador = null;
+    private static Mainframe emulador = null;
     private static AplicacionVista vista;
 
     public static void main(String[] args) throws IOException {
-        new Aplicacion();
-        /*
+        //new Aplicacion();
+
         try {
 
-            emulador = new Wrapper();
+            emulador = new Mainframe();
 
-            emulador.login("155.210.71.101:323", "PROG", "PROG123");
+            emulador.conexion("155.210.71.101:823", "PROG", "PROG123");
 
             //emulador.listarTareas();
             //emulador.listarTareas();
@@ -34,7 +34,7 @@ public class Aplicacion implements OyenteVista {
             System.out.println(ex.toString());
         } catch (IOException e) {
             System.out.println(e.toString());
-        }*/
+        }
     }
 
     public Aplicacion() {

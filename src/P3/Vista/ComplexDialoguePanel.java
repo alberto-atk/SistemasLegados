@@ -1,3 +1,10 @@
+/**
+ * ComplexDialoguePanel.java
+ *
+ * Diálogo dinámico emergente con campos de texto.
+ *
+ * Radu Constantin Robu y Alberto Pérez
+ */
 package P3.Vista;
 
 import java.awt.GridBagConstraints;
