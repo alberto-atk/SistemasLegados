@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +21,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final int ALTO_PANEL_BOTONES = 200;
     private static final int ANCHO_PANEL_TAREAS = 600;
     private static final int ALTO_PANEL_TAREAS = 200;
+    public static final int INDENT_TAREAS = 150;
 
 
     private OyenteVista oyenteVista;
@@ -54,7 +58,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final String[] OPCIONES_BUSCAR_TAREAS = {"Buscar", "Cancelar"};
 
     private static final String TITULO_VENTANA_ELIMINAR_TAREA = "Eliminar tarea";
-    private static final String[] CAMPOS_ELIMINAR_TAREA = {"Fecha"};
+    private static final String[] CAMPOS_ELIMINAR_TAREA = {"Id"};
     private static final String[] OPCIONES_ELIMINAR_TAREA = {"Buscar", "Cancelar"};
 
 
@@ -83,7 +87,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private JButton botonGuardarTareas;
     private JButton botonSalir;
     private JPanel panelTareas;
-    private JTextArea areaTextoTareas;
+    private JTextPane areaTextoTareas;
 
 
     private enum CodigoRespuesta {
@@ -100,7 +104,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * Constructor de la clase.
      */
     public AplicacionVista(OyenteVista oyenteVista) {
-        //datosInicioSesion = iniciarSesion(); DESCOMENTARR
+        datosInicioSesion = iniciarSesion();
         this.oyenteVista = oyenteVista;
     }
 
@@ -135,10 +139,17 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         panelTareas.setPreferredSize(new Dimension(ANCHO_PANEL_TAREAS,ALTO_PANEL_TAREAS));
 
         JScrollPane panelDeslizable = new JScrollPane();
-        areaTextoTareas = new JTextArea();
+        areaTextoTareas = new JTextPane();
         areaTextoTareas.setEditable(false);
+        areaTextoTareas.setAlignmentX(70);
         panelDeslizable.setViewportView(areaTextoTareas);
         panelTareas.add(panelDeslizable);
+
+        StyledDocument doc = areaTextoTareas.getStyledDocument();
+
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setLeftIndent(center, INDENT_TAREAS);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
         return panelTareas;
     }
@@ -249,7 +260,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
                 //oyenteVista.eventoProducido(OyenteVista.Evento.ELIMINAR_TAREA,datosEliminarTarea);
                 break;
             case ACCION_LISTAR_TAREAS:
-                Tarea t = new Tarea("a","a","a","a");
+                Tarea t = new Tarea("a","a","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","a");
                 String tareas = t.toString() + t + t + t + t + t + t + t + t + t + t + t + t + t;
                 mostrarTareas(tareas);
                 //TODO mirar a ver como pasar las tareas de control a vista ¿return en oyentevista?
@@ -263,7 +274,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      */
     private void mostrarTareas(String tareas){
         areaTextoTareas.setText("");
-        areaTextoTareas.append(tareas);
+        areaTextoTareas.setText(tareas);
     }
 
     /**
@@ -395,11 +406,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @return
      */
     private String[] obtenerDatosEliminarTarea() {
-        ComplexDialoguePanel ventanaBuscarTareas = new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
+        ComplexDialoguePanel ventanaEliminarTareas = new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
                 CAMPOS_ELIMINAR_TAREA, 10);
-        String[] datosBuscarTareas = ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_ELIMINAR_TAREA);
+        String[] datoseliminarTareas = ventanaEliminarTareas.obtenerTextoCampos(OPCIONES_ELIMINAR_TAREA);
 
-        return datosBuscarTareas;
+        return datoseliminarTareas;
     }
 
     /**
