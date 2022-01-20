@@ -107,7 +107,7 @@ public class Mainframe implements MainframeAPI {
                     if(esperarPantalla("TASK MANAGEMENT 2.0 BY TURO-SL SOFT")) {
                         enviarComando(COMANDO_ASCII);
                         System.out.println(obtenerRespuestaMaquina());
-                        //
+                        //TODO QUITARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
                         enviarString("e");
                         enviarComando(COMANDO_ENTER);
                     }
