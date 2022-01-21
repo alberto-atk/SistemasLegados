@@ -1,25 +1,28 @@
 package P3.Control;
 
+import P3.Modelo.Tarea;
+
 import java.io.IOException;
+import java.util.List;
 
 public interface TasksAPI {
     enum CODIGO_ERROR {
-        IDTAREA_INCORRECTO, NOMBRE_INCORRECTO, DESCRIPCION_INCORRECTA, FECHA_INCORRECTA, DATOS_TAREA_OK, OK
+        IDTAREA_INCORRECTO, NOMBRE_INCORRECTO, DESCRIPCION_INCORRECTA, FECHA_INCORRECTA, DATOS_TAREA_OK, OK, NOK
     }
 
 
-    boolean nuevoFicheroTareas() throws IOException;
+    boolean nuevoFicheroTareas() throws IOException, InterruptedException;
 
-    CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha) throws IOException;
+    CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha) throws IOException, InterruptedException;
 
-    CODIGO_ERROR eliminarTarea(String idTarea) throws IOException;
+    CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException;
 
-    boolean buscarTareas(String fecha) throws IOException;
+    List<Tarea> buscarTareas(String fecha) throws IOException, InterruptedException;
 
-    boolean listarTareas() throws IOException;
+    List<Tarea> listarTareas() throws IOException, InterruptedException;
 
-    boolean guardarTareas() throws IOException;
+    boolean guardarTareas() throws IOException, InterruptedException;
 
-    boolean salir() throws IOException;
+    boolean salir(String guardarTareas) throws IOException, InterruptedException;
 
 }

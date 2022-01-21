@@ -1,10 +1,16 @@
 package P3.Control;
 
+import P3.Modelo.Tarea;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 
 public class TasksJob implements TasksAPI {
-    private static final String NUEVO_FICHERO = "n";
+    private static final String NUEVO_FICHERO = "N";
     private static final String GUARDAR = "s";
     private static final String ANYADIR = "a";
     private static final String LISTAR = "l";
@@ -13,13 +19,30 @@ public class TasksJob implements TasksAPI {
     private static final String SI = "y";
 
     private static final String PATRON_NUMERO = "[+-]?\\d*(\\.\\d+)?";
+    public static final String PATRON_IDTAREA = "^data: TASK NUMBER: .*$";
+    public static final String PATRON_NOMBRE = "^data: NAME.*$";
+    public static final String PATRON_DESCRIPCION = "^data: DESCRIPTION.*$";
+    public static final String PATRON_FECHA = "^data: DATE .*$";
+    public static final String TEXTO_FECHA = "data: DATE       : ";
+    public static final String TEXTO_DESCRIPCION = "data: DESCRIPTION: ";
+    public static final String TEXTO_NOMBRE = "data: NAME       : ";
+    public static final String TEXTO_ID_TAREA = "data: TASK NUMBER: ";
+
+    public static final String MENSAJE_NUEVO_FICHERO = "**NEW TASK FILE**";
+    public static final String FICHERO_TAREAS_CREADO = "NEW TASK FILE HAS BEEN CREATED";
+    public static final String MENSAJE_SALIDA = "BYE";
+    public static final String MENSAJE_GUARDAR_TAREAS = "SAVE TASKS";
+    public static final String MENSAJE_LISTAR_TAREAS = "**LIST TASK**";
+    public static final String TAREAS_GUARDADAS = "TASKS HAVE BEEN SAVED";
+    public static final String MENSAJE_FIN_LISTA = "**END**";
+    public static final String MENSAJE_BUSCAR_TAREAS = "**SEARCH TASK**";
 
     private Mainframe mainframe;
 
 
-    public TasksJob() throws IOException {
+    public TasksJob(Mainframe mainframe) throws IOException {
         //TODO HACER SINGLETON
-        mainframe = new Mainframe();
+        this.mainframe = mainframe;
     }
 
 
@@ -28,14 +51,23 @@ public class TasksJob implements TasksAPI {
      *
      * @Override
      */
-    public boolean nuevoFicheroTareas() throws IOException {
-        // TODO Comprobar si existen tareas y confirmar con usuario el nuevo fichero.
-        mainframe.enviarString(NUEVO_FICHERO);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        mainframe.enviarString(SI);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        return true;
+    public boolean nuevoFicheroTareas() throws IOException, InterruptedException {
+        if(mainframe.enviarString(NUEVO_FICHERO)){
+            if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                if(mainframe.esperarPantalla(MENSAJE_NUEVO_FICHERO)){
+                    if(mainframe.enviarString(SI)){
+                        if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                            if(mainframe.esperarPantalla(FICHERO_TAREAS_CREADO)){
+                                if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -49,7 +81,8 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      * @Override
      */
-    public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha)  throws IOException{
+    public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha)
+            throws IOException, InterruptedException{
         CODIGO_ERROR resultado = comprobacionAnyadirTarea(idTarea, nombreTarea, descripcionTarea, fecha);
         if (resultado == CODIGO_ERROR.DATOS_TAREA_OK) {
             mainframe.enviarString(ANYADIR);
@@ -71,7 +104,8 @@ public class TasksJob implements TasksAPI {
     }
 
 
-    private CODIGO_ERROR comprobacionAnyadirTarea(String idTarea, String nombre, String descripcion, String fecha) throws IOException{
+    private CODIGO_ERROR comprobacionAnyadirTarea(String idTarea, String nombre, String descripcion, String fecha)
+    throws IOException, InterruptedException{
         if (idTarea.matches(PATRON_NUMERO)) {
             if (nombre.length() > 0 && nombre.length() <= 16) {
                 if (descripcion.length() > 0 && descripcion.length() <= 32) {
@@ -94,21 +128,31 @@ public class TasksJob implements TasksAPI {
      * @param idTarea
      * @Override
      */
-    public CODIGO_ERROR eliminarTarea(String idTarea) throws IOException {
-        CODIGO_ERROR resultado = comprobacionIDTarea(idTarea);
-        if (resultado == CODIGO_ERROR.DATOS_TAREA_OK) {
-            mainframe.enviarString(ELIMINAR);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarString(idTarea);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarString(SI);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            return CODIGO_ERROR.OK;
-        } else {
-            return resultado;
+    public CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException {
+        if(mainframe.enviarString(ELIMINAR)){
+            if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                if(mainframe.esperarPantalla("**REMOVE TASK**")){
+                    if(mainframe.enviarString(idTarea)){
+                        if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                            if(mainframe.esperarPantalla("TASK NOT FOUND")){
+                                if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                                    return CODIGO_ERROR.IDTAREA_INCORRECTO;
+                                }
+                            }else if(mainframe.esperarPantalla("CONFIRM (Y/N)")){
+                                if(mainframe.enviarString(SI)){
+                                    if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                                        if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                                            return CODIGO_ERROR.OK;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+        return CODIGO_ERROR.NOK;
     }
 
     /**
@@ -119,19 +163,27 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      * @Override
      */
-    public boolean buscarTareas(String fecha) throws IOException{
-        mainframe.enviarString(BUSCAR);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        mainframe.enviarString(fecha);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        mainframe.enviarComando(Mainframe.COMANDO_ASCII);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        //List<String> resultado = obtenerRespuestaMaquina();
-        //for (String line : resultado) {
-        //      System.out.println(line);
-        //  }
-        return true;
-
+    public List<Tarea> buscarTareas(String fecha) throws IOException, InterruptedException{
+        List<Tarea> tareas = new ArrayList();
+        if(mainframe.enviarString(BUSCAR)){
+            if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                if(mainframe.esperarPantalla(MENSAJE_BUSCAR_TAREAS)){
+                    if(mainframe.enviarString(fecha)){
+                        if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                            if(mainframe.esperarPantalla(MENSAJE_FIN_LISTA)){
+                                if(mainframe.enviarComando(Mainframe.COMANDO_ASCII)){
+                                    tareas = obtenerListaTareas();
+                                    if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                        return tareas;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return tareas;
     }
 
     /**
@@ -141,18 +193,55 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      * @Override
      */
-    public boolean listarTareas() throws IOException{
-        mainframe.enviarString(LISTAR);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        mainframe.enviarComando(Mainframe.COMANDO_ASCII);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        //List<String> resultado = obtenerRespuestaMaquina();
-        //for (String line : resultado) {
-        //       System.out.println(line);
-        // }
-        //parsearTareas(resultado);
-        return true;
+    public List<Tarea> listarTareas() throws IOException, InterruptedException{
+        List<Tarea> tareas = new ArrayList();
+        if(mainframe.enviarString(LISTAR)){
+           if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+               if(mainframe.esperarPantalla(MENSAJE_LISTAR_TAREAS)){
+                   if(mainframe.enviarComando(Mainframe.COMANDO_ASCII)){
+                       tareas = obtenerListaTareas();
+                       if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                           return tareas;
+                       }
+                   }
+               }
+           }
+        }
+        return tareas;
+    }
 
+    private List<Tarea> obtenerListaTareas() throws IOException {
+        String resultado = mainframe.obtenerRespuestaMaquina();
+        String[] lineas = resultado.split(System.getProperty("line.separator"));
+        return parsearTareas(lineas);
+    }
+
+    /**
+     * Parsea la lista de tareas recibida del mainframe.
+     *
+     * @param resultado
+     * @return
+     */
+    private List<Tarea> parsearTareas(String[] resultado) {
+        String idTarea = "";
+        String nombre = "";
+        String descripcion = "";
+        String fecha = "";
+        List<Tarea> tareas = new ArrayList();
+
+        for (String line : resultado) {
+            if (line.matches(PATRON_IDTAREA)) {
+                idTarea = line.replace(TEXTO_ID_TAREA, "").strip();
+            } else if (line.matches(PATRON_NOMBRE)) {
+                nombre = line.replace(TEXTO_NOMBRE, "").strip();
+            } else if (line.matches(PATRON_DESCRIPCION)) {
+                descripcion = line.replace(TEXTO_DESCRIPCION, "").strip();
+            } else if (line.matches(PATRON_FECHA)) {
+                fecha = line.replace(TEXTO_FECHA, "").strip();
+                tareas.add(new Tarea(idTarea, nombre, descripcion, fecha));
+            }
+        }
+        return tareas;
     }
 
     /**
@@ -162,12 +251,17 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      * @Override
      */
-    public boolean guardarTareas() throws IOException {
-        mainframe.enviarString(GUARDAR);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-        return true;
-
+    public boolean guardarTareas() throws IOException, InterruptedException {
+        if(mainframe.enviarString(GUARDAR)){
+            if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                if(mainframe.esperarPantalla(TAREAS_GUARDADAS)){
+                    if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -176,17 +270,27 @@ public class TasksJob implements TasksAPI {
      * @return
      * @Override
      */
-    public boolean salir() throws IOException {
-        mainframe.enviarString(Mainframe.COMANDO_EXIT);
-        return true;
-    }
-
-    private CODIGO_ERROR comprobacionIDTarea(String idTarea) {
-        if (idTarea.matches(PATRON_NUMERO)) {
-            return CODIGO_ERROR.DATOS_TAREA_OK;
-        } else {
-            return CODIGO_ERROR.IDTAREA_INCORRECTO;
+    public boolean salir(String guardarTareas) throws IOException, InterruptedException {
+        if(mainframe.enviarString(Mainframe.COMANDO_EXIT)){
+            if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                if(mainframe.esperarPantalla(MENSAJE_SALIDA)){
+                    if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                        return true;
+                    }
+                }else if(mainframe.esperarPantalla(MENSAJE_GUARDAR_TAREAS)){
+                    if(mainframe.enviarString(guardarTareas)){
+                        if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                            if(mainframe.esperarPantalla(MENSAJE_SALIDA)){
+                                if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+        return false;
     }
 
 }

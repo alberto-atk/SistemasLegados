@@ -25,7 +25,7 @@ public interface MainframeAPI {
 
 
     int conexion(String host, String username, String password) throws IOException, InterruptedException ;
-    boolean logout() throws IOException ;
+    boolean logout() throws IOException, InterruptedException;
     boolean enviarComando(String comando) throws IOException;
     boolean enviarString(String mensaje) throws IOException ;
     boolean esperarPantalla(String lineaABuscar) throws IOException, InterruptedException;

@@ -1,5 +1,6 @@
 package P3.Control;
 
+import com.sun.tools.javac.Main;
 import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.*;
@@ -9,17 +10,28 @@ import static java.lang.Thread.sleep;
 public class Mainframe implements MainframeAPI {
     private static final String NOK = "NOK";
     private static final String TASKS2JOB = "tasks2.job";
+    public static final String MENU_TASKS2 = "TASK MANAGEMENT 2.0 BY TURO-SL SOFT";
 
     private Process proceso;
     private PrintWriter outStream = null;
     private BufferedReader inStream = null;
 
-    public Mainframe() throws IOException {
-        //TODO HACER SINGLETON
+    private static Mainframe singleton = null;
+
+    private Mainframe() throws IOException {
         proceso = Runtime.getRuntime().exec(TERMINAL_SIN_PANTALLA);
         inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
         outStream = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
     }
+
+
+    public static Mainframe getInstance() throws IOException {
+        if(singleton == null){
+            singleton = new Mainframe();
+        }
+        return singleton;
+    }
+
 
     private boolean conectarHost(String host) throws IOException, InterruptedException {
         outStream.println(CONNECT + host);
@@ -32,7 +44,8 @@ public class Mainframe implements MainframeAPI {
      *
      * @return
      */
-    private String obtenerRespuestaMaquina() throws IOException {
+    //ESTO PONERLO A PRIVATE
+    public String obtenerRespuestaMaquina() throws IOException {
         String resultado = "";
         String line = "";
         do {
@@ -40,7 +53,6 @@ public class Mainframe implements MainframeAPI {
             if (line == null || line.matches(PATRON_RESPUESTA_MAINFRAME_ERROR)) {
                 return NOK;
             }
-            //TODO esto mirar a ver lo del OK y lo de UUC
             resultado += line + "\n";
         } while (inStream.ready());
         return resultado;
@@ -92,6 +104,7 @@ public class Mainframe implements MainframeAPI {
                 resultadoInicioSesion = falloInicioSesion();
                 if (resultadoInicioSesion == 1) {
                     ejecutarTasksJob();
+                    return 1;
                 } else {
                     return resultadoInicioSesion;
                 }
@@ -104,12 +117,12 @@ public class Mainframe implements MainframeAPI {
         if (esperarPantalla(PANTALLA_MENU_PRINCIPAL)) {
             if (enviarString(TASKS2JOB)) {
                 if (enviarComando(COMANDO_ENTER)) {
-                    if(esperarPantalla("TASK MANAGEMENT 2.0 BY TURO-SL SOFT")) {
-                        enviarComando(COMANDO_ASCII);
-                        System.out.println(obtenerRespuestaMaquina());
+                    if(esperarPantalla(MENU_TASKS2)) {
+                        //enviarComando(COMANDO_ASCII);
+                        //System.out.println(obtenerRespuestaMaquina());
                         //TODO QUITARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-                        enviarString("e");
-                        enviarComando(COMANDO_ENTER);
+                        //enviarString("e");
+                        //enviarComando(COMANDO_ENTER);
                     }
                 }
             }
@@ -122,10 +135,11 @@ public class Mainframe implements MainframeAPI {
      * @return
      * @throws IOException
      */
-    public boolean logout() throws IOException {
+    public boolean logout() throws IOException, InterruptedException {
         enviarString(CADENA_OFF);
         enviarComando(COMANDO_ENTER);
         enviarComando(COMANDO_EXIT);
+
         return true;
     }
 
@@ -179,6 +193,7 @@ public class Mainframe implements MainframeAPI {
         while (maxTime > System.currentTimeMillis()) {
             line = inStream.readLine();
             if (line == null || line.matches(PATRON_RESPUESTA_MAINFRAME_ERROR)) {
+                System.out.println(line);
                 return false;
             } else if (line.matches(PATRON_RESPUESTA_MAINFRAME_OK)) {
                 return true;
