@@ -1,6 +1,7 @@
 package P3.Control;
 
 import P3.Modelo.Tarea;
+import P3.Modelo.Tupla;
 import P3.Vista.AplicacionVista;
 import com.sun.tools.javac.Main;
 
@@ -14,9 +15,9 @@ public class Aplicacion implements OyenteVista {
     private static TasksJob tasks2 = null;
     private static AplicacionVista vista;
 
-    public static void main(String[] args) throws IOException {
-        //new Aplicacion();
-
+    public static void main(String[] args) throws IOException, InterruptedException {
+        new Aplicacion();
+/*
         try {
 
             emulador = Mainframe.getInstance();
@@ -29,16 +30,16 @@ public class Aplicacion implements OyenteVista {
 
 
             List<Tarea> tareas = tasks2.listarTareas();
-            if(tareas.size() != 0) {
+            if (tareas.size() != 0) {
                 for (Tarea t : tareas) {
                     System.out.println(t.toString());
                 }
-            }else{
+            } else {
                 System.out.println("Esta vacio");
             }
 
 
-/*
+
             List<Tarea> tareas2 = tasks2.listarTareas();
             if(tareas2.size() != 0) {
                 System.out.println(tareas2.size());
@@ -47,10 +48,9 @@ public class Aplicacion implements OyenteVista {
                 }
             }else{
                 System.out.println("Esta vacio");
-            }*/
+            }
 
             //System.out.println(tasks2.guardarTareas());
-
 
 
             System.out.println(tasks2.salir("y"));
@@ -59,62 +59,115 @@ public class Aplicacion implements OyenteVista {
             System.out.println(ex.toString());
         } catch (IOException e) {
             System.out.println(e.toString());
-        }
+        }*/
     }
 
-    public Aplicacion() {
+    public Aplicacion() throws IOException, InterruptedException {
 
         vista = new AplicacionVista(this);
-        vista.obtenerDatosInicioSesion();
-        /*
-        emulador = new Wrapper();
+        String[] datosInicioSesion = vista.obtenerDatosInicioSesion();
 
-        if(emulador.login("155.210.71.101:323", "PROG", "PROG123")){
-            vista.crearElementosVentanaPrincipal()
+        emulador = Mainframe.getInstance();
+
+        switch (emulador.conexion(datosInicioSesion[0], datosInicioSesion[1], datosInicioSesion[2])) {
+            case 0:
+                tasks2 = new TasksJob(emulador);
+                vista.crearElementosVentanaPrincipal();
+                break;
+            //TODO COMPROBAR TODAS POSIBILIDADES
         }
-       */
-        vista.crearElementosVentanaPrincipal();
-
-        /*
-        Tarea t = new Tarea("a", "a", "s", "s");
-        System.out.println(t);
-        System.out.println(t);*/
     }
 
+    /**
+     * Método sobreescrito para tratamiento de errores.
+     *
+     * @param evento
+     * @param obj
+     */
     @Override
     public void eventoProducido(Evento evento, Object obj) {
-        switch (evento) {
-            /*
-            case INICIAR_SESION:
-                String[] datos = (String[]) obj;
-                for (String dato : datos) {
-                    System.out.println(dato);
-                }
-        }*/
-            case SALIR:
-                //emulador.logout();
-                System.exit(0);
-        }
-       /*
         try {
-            emulador = new Wrapper();
-            emulador.login("155.210.71.101:823", "prog", "prog123");
+            switch (evento) {
+                case NUEVO_FICHERO:
+                    if (!tasks2.nuevoFicheroTareas()) {
+                        vista.notificarMensajeError("Error fichero tareas", "No se ha creado el fichero de tareas.");
+                    }
+                    break;
 
-            //emulador.listarTareas();
-            //emulador.listarTareas();
-            //emulador.anyadirTarea("1","Prueba1","Prueba1", "28 03 2022");
-            //emulador.buscarTareas("28 03 2022");
+                case ANYADIR_TAREA:
+                    Tupla<Tupla, Tupla> tuplaTarea = (Tupla<Tupla, Tupla>) obj;
+                    Tupla<String, String> tuplaIdNombre = tuplaTarea.a;
+                    Tupla<String, String> tuplaDescFecha = tuplaTarea.b;
 
-            //emulador.eliminarTarea("999");
-            //emulador.guardarTareas();
-            //emulador.listarTareas();
-            //emulador.buscarTareas("28 03 2022");
-            emulador.logout();
-        } catch (InterruptedException ex) {
-            System.out.println(ex.toString());
+                    TasksAPI.CODIGO_ERROR codigoAnyadir = tasks2.anyadirTarea(tuplaIdNombre.a, tuplaIdNombre.b,
+                            tuplaDescFecha.a, tuplaDescFecha.b);
+                    switch (codigoAnyadir) {
+                        case NOK:
+                            break;
+                        case IDTAREA_INCORRECTO:
+                            break;
+                        case OK:
+                            break;
+                    }
+                    break;
+
+                case ELIMINAR_TAREA:
+                    String idTarea = (String) obj;
+                    TasksAPI.CODIGO_ERROR codigoEliminar = tasks2.eliminarTarea(idTarea);
+                    switch (codigoEliminar) {
+                        case NOK:
+                            break;
+                        case IDTAREA_REPETIDO:
+                            break;
+                        case OK:
+                            break;
+                    }
+                    break;
+
+                case LISTAR_TAREAS:
+                    List<Tarea> tareasListar = tasks2.listarTareas();
+                    String cadenaTareasListar = "";
+                    if (tareasListar.size() == 0) {
+                        System.out.println("Esta vacio");
+                    } else {
+                        for (Tarea tarea : tareasListar) {
+                            System.out.println(tarea.toString());
+                            cadenaTareasListar += tarea.toString();
+                        }
+                        vista.mostrarTareas(cadenaTareasListar);
+                    }
+                    break;
+
+                case BUSCAR_TAREA:
+                    String fecha = (String) obj;
+                    String cadenaTareasBuscar = "";
+                    List<Tarea> tareasBuscar = tasks2.buscarTareas(fecha);
+                    if (tareasBuscar.size() == 0) {
+
+                    } else {
+                        for (Tarea tarea : tareasBuscar) {
+                            cadenaTareasBuscar += tarea.toString();
+                        }
+                        vista.mostrarTareas(cadenaTareasBuscar);
+
+                    }
+                    break;
+
+                case GUARDAR_TAREAS:
+                    if (!tasks2.guardarTareas()) {
+                        vista.notificarMensajeError("Error guardar tareas", "No se han guardado las tareas.");
+                    }
+
+                case SALIR:
+                    String guardarCambios = (String) obj;
+                    tasks2.salir(guardarCambios);
+                    emulador.logout();
+                    System.exit(0);
+            }
         } catch (IOException e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    }*/
     }
 }

@@ -38,7 +38,6 @@ public class Wrapper {
     public static final String TEXTO_ID_TAREA = " TASK NUMBER: ";
 
 
-
     private enum CODIGO_ERROR {
         IDTAREA_INCORRECTO,
         NOMBRE_INCORRECTO,
@@ -64,7 +63,6 @@ public class Wrapper {
      * @return
      * @throws InterruptedException
      */
-
 
 
 }

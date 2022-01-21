@@ -24,11 +24,16 @@ public interface MainframeAPI {
     String MENSAJE_USUARIO_EN_USO = "Userid is in use. Type OK to cancel previous session";
 
 
-    int conexion(String host, String username, String password) throws IOException, InterruptedException ;
+    int conexion(String host, String username, String password) throws IOException, InterruptedException;
+
     boolean logout() throws IOException, InterruptedException;
+
     boolean enviarComando(String comando) throws IOException;
-    boolean enviarString(String mensaje) throws IOException ;
+
+    boolean enviarString(String mensaje) throws IOException;
+
     boolean esperarPantalla(String lineaABuscar) throws IOException, InterruptedException;
 
+    String obtenerRespuestaMaquina() throws IOException;
 
 }

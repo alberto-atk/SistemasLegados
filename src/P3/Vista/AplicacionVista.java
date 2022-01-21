@@ -63,11 +63,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
 
     private static final String ETIQUETA_VENTANA_ERROR_FECHA = "Fecha incorrecta";
-    private static final String MENSAJE_FECHA_INCORRECTA = "El formato de la fecha introducida no es correcto.\n" +
-            "Formatos aceptados:\n" +
-            "DD/MM/AAAA\n" +
-            "DD-MM-AAAA\n" +
-            "DD MM AAAA\n";
+    private static final String MENSAJE_FECHA_INCORRECTA = "El formato de la fecha introducida no es correcto.\n" + "Formatos aceptados:\n" + "DD/MM/AAAA\n" + "DD-MM-AAAA\n" + "DD MM AAAA\n";
 
     private static final String ETIQUETA_VENTANA_ID_INCORRECTO = "ID incorrecto";
     private static final String MENSAJE_ID_INCORRECTO = "El id de una tarea debe contener únicamente números.";
@@ -100,6 +96,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
 
     private String[] datosInicioSesion;
+
     /**
      * Constructor de la clase.
      */
@@ -108,7 +105,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         this.oyenteVista = oyenteVista;
     }
 
-    public String[] obtenerDatosInicioSesion(){
+    public String[] obtenerDatosInicioSesion() {
         return datosInicioSesion;
     }
 
@@ -132,11 +129,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      *
      * @return
      */
-    public JPanel crearPanelMostrarTareas(){
+    public JPanel crearPanelMostrarTareas() {
         panelTareas = new JPanel(new BorderLayout());
         Border bordePanelTareas = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         panelTareas.setBorder(bordePanelTareas);
-        panelTareas.setPreferredSize(new Dimension(ANCHO_PANEL_TAREAS,ALTO_PANEL_TAREAS));
+        panelTareas.setPreferredSize(new Dimension(ANCHO_PANEL_TAREAS, ALTO_PANEL_TAREAS));
 
         JScrollPane panelDeslizable = new JScrollPane();
         areaTextoTareas = new JTextPane();
@@ -181,8 +178,8 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         contenedorBotones.add(botonSalir);
         layoutBotones.add(contenedorBotones);
         layoutBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
-        panelBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,ALTO_PANEL_BOTONES));
-        contenedorBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,ALTO_PANEL_BOTONES));
+        panelBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
+        contenedorBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
         panelBotones.add(layoutBotones, BorderLayout.WEST);
 
         return panelBotones;
@@ -246,24 +243,25 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
             case ACCION_BUSCAR_TAREAS:
                 String[] datosBuscarTareas = buscarTareas();
                 //oyenteVista.eventoProducido(OyenteVista.Evento.INICIAR_SESION, datosBuscarTareas);
-                Tarea a = new Tarea("b","b","b","b");
+                Tarea a = new Tarea("b", "b", "b", "b");
                 String tareas2 = a.toString() + a.toString();
                 mostrarTareas(tareas2);
                 break;
-                
+
             case ACCION_SALIR:
-                oyenteVista.eventoProducido(OyenteVista.Evento.SALIR,null);
+                oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, null);
                 break;
-                
+
             case ACCION_ELIMINAR_TAREA:
                 String[] datosEliminarTarea = obtenerDatosEliminarTarea();
                 //oyenteVista.eventoProducido(OyenteVista.Evento.ELIMINAR_TAREA,datosEliminarTarea);
                 break;
             case ACCION_LISTAR_TAREAS:
-                Tarea t = new Tarea("a","a","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","a");
+                oyenteVista.eventoProducido(OyenteVista.Evento.LISTAR_TAREAS, null);
+                /*
+                Tarea t = new Tarea("a", "a", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "a");
                 String tareas = t.toString() + t + t + t + t + t + t + t + t + t + t + t + t + t;
-                mostrarTareas(tareas);
-                //TODO mirar a ver como pasar las tareas de control a vista ¿return en oyentevista?
+                mostrarTareas(tareas);*/
                 break;
 
         }
@@ -272,7 +270,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     /**
      * Método para mostrar tareas en un mainframe.
      */
-    private void mostrarTareas(String tareas){
+    public void mostrarTareas(String tareas) {
         areaTextoTareas.setText("");
         areaTextoTareas.setText(tareas);
     }
@@ -281,40 +279,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * Método para iniciar sesión en un mainframe.
      */
     private String[] iniciarSesion() {
-        /*
-        JTextField host = new JTextField(15);
-        JTextField usuario = new JTextField(10);
-        JPasswordField contrasenya = new JPasswordField(10);
-
-
-        JPanel myPanel = new JPanel(new GridLayout(0, 3));
-        myPanel.add(new JLabel("Host"));
-        myPanel.add(host);
-        myPanel.add(Box.createVerticalStrut(15)); // a spacer
-        myPanel.add(new JLabel("Usuario"));
-        myPanel.add(usuario);
-        myPanel.add(Box.createVerticalStrut(15)); // a spacer
-        myPanel.add(new JLabel("Contraseña"));
-        myPanel.add(contrasenya);
-
-
-        int result = JOptionPane.showConfirmDialog(null, myPanel,
-                "Introduzca usuario y contraseña", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            System.out.println("host: " + host.getText());
-            System.out.println("Usuario: " + usuario.getText());
-            System.out.println("Contraseña: " + contrasenya.getText());
-        }
-
-         */
         ComplexDialoguePanel ventanaIniciarSesion = new ComplexDialoguePanel(TITULO_VENTANA_INICIAR_SESION,
                 CAMPOS_INICIAR_SESION, 16);
         String[] datosInicioSesion = ventanaIniciarSesion.obtenerTextoCampos(OPCIONES_INICIAR_SESION);
 
-        if (datosInicioSesion != null) {
-            return datosInicioSesion;
-        }
-        return null;
+        return datosInicioSesion;
     }
 
     /**
@@ -325,8 +294,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private String[] anyadirTarea() {
         String[] datosAnyadirTarea = null;
 
-        ComplexDialoguePanel ventanaAnyadirTarea = new ComplexDialoguePanel(TITULO_VENTANA_ANYADIR_TAREA,
-                CAMPOS_ANYADIR_TAREA, 32);
+        ComplexDialoguePanel ventanaAnyadirTarea = new ComplexDialoguePanel(TITULO_VENTANA_ANYADIR_TAREA, CAMPOS_ANYADIR_TAREA, 32);
         datosAnyadirTarea = ventanaAnyadirTarea.obtenerTextoCampos(OPCIONES_ANYADIR_TAREA);
 
         CodigoRespuesta codigo = verificarDatosTarea(datosAnyadirTarea);
@@ -346,8 +314,8 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
                 break;
 
             case ERROR_LONG_NOMBRE:
-                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_NOMBRE_INCORRECTO,
-                        ETIQUETA_VENTANA_NOMBRE_INCORRECTO, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_NOMBRE_INCORRECTO, ETIQUETA_VENTANA_NOMBRE_INCORRECTO,
+                        JOptionPane.ERROR_MESSAGE);
                 break;
 
             case ERROR_LONG_DESCRIPCION:
@@ -393,8 +361,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @return
      */
     private String[] buscarTareas() {
-        ComplexDialoguePanel ventanaBuscarTareas = new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS,
-                CAMPOS_BUSCAR_TAREAS, 10);
+        ComplexDialoguePanel ventanaBuscarTareas = new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS, CAMPOS_BUSCAR_TAREAS, 10);
         String[] datosBuscarTareas = ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_BUSCAR_TAREAS);
 
         return datosBuscarTareas;
@@ -406,11 +373,20 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @return
      */
     private String[] obtenerDatosEliminarTarea() {
-        ComplexDialoguePanel ventanaEliminarTareas = new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
-                CAMPOS_ELIMINAR_TAREA, 10);
+        ComplexDialoguePanel ventanaEliminarTareas = new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA, CAMPOS_ELIMINAR_TAREA, 10);
         String[] datoseliminarTareas = ventanaEliminarTareas.obtenerTextoCampos(OPCIONES_ELIMINAR_TAREA);
 
         return datoseliminarTareas;
+    }
+
+    /**
+     *
+     * @param titulo
+     * @param mensaje
+     */
+    public void notificarMensajeError(String titulo, String mensaje) {
+        JOptionPane.showMessageDialog(new JFrame(), mensaje, titulo,
+                JOptionPane.ERROR_MESSAGE);
     }
 
     /**

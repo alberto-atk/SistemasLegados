@@ -1,8 +1,5 @@
 package P3.Control;
 
-import com.sun.tools.javac.Main;
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.io.*;
 
 import static java.lang.Thread.sleep;
@@ -10,7 +7,7 @@ import static java.lang.Thread.sleep;
 public class Mainframe implements MainframeAPI {
     private static final String NOK = "NOK";
     private static final String TASKS2JOB = "tasks2.job";
-    public static final String MENU_TASKS2 = "TASK MANAGEMENT 2.0 BY TURO-SL SOFT";
+    private static final String MENU_TASKS2 = "TASK MANAGEMENT 2.0 BY TURO-SL SOFT";
 
     private Process proceso;
     private PrintWriter outStream = null;
@@ -26,7 +23,7 @@ public class Mainframe implements MainframeAPI {
 
 
     public static Mainframe getInstance() throws IOException {
-        if(singleton == null){
+        if (singleton == null) {
             singleton = new Mainframe();
         }
         return singleton;
@@ -44,7 +41,6 @@ public class Mainframe implements MainframeAPI {
      *
      * @return
      */
-    //ESTO PONERLO A PRIVATE
     public String obtenerRespuestaMaquina() throws IOException {
         String resultado = "";
         String line = "";
@@ -58,7 +54,13 @@ public class Mainframe implements MainframeAPI {
         return resultado;
     }
 
-
+    /**
+     * Verifica si se inicia sesión correctamente.
+     *
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
     private int falloInicioSesion() throws InterruptedException, IOException {
         if (esperarPantalla(MENSAJE_USUARIO_EN_USO)) {
             if (enviarString(OK)) {
@@ -78,6 +80,15 @@ public class Mainframe implements MainframeAPI {
         return 0;
     }
 
+    /**
+     * Inicio de sesión en el mainframe.
+     *
+     * @param username
+     * @param password
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
     private boolean login(String username, String password) throws InterruptedException, IOException {
         if (esperarPantalla(PANTALLA_CONEXION)) {
             if (enviarComando(COMANDO_ENTER)) {
@@ -97,36 +108,50 @@ public class Mainframe implements MainframeAPI {
         return false;
     }
 
+    /**
+     * Conexión con el host.
+     *
+     * @param host
+     * @param username
+     * @param password
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public int conexion(String host, String username, String password) throws InterruptedException, IOException {
         int resultadoInicioSesion = 0;
         if (conectarHost(host)) {
             if (login(username, password)) {
                 resultadoInicioSesion = falloInicioSesion();
                 if (resultadoInicioSesion == 1) {
-                    ejecutarTasksJob();
-                    return 1;
+                    if (ejecutarTasksJob()) {
+                        return 0;
+                    }
                 } else {
                     return resultadoInicioSesion;
                 }
             }
         }
-        return 0;
+        return 1;
     }
 
-    public void ejecutarTasksJob() throws InterruptedException, IOException {
+    /**
+     * Ejecuta la aplicación legada.
+     *
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public boolean ejecutarTasksJob() throws InterruptedException, IOException {
         if (esperarPantalla(PANTALLA_MENU_PRINCIPAL)) {
             if (enviarString(TASKS2JOB)) {
                 if (enviarComando(COMANDO_ENTER)) {
-                    if(esperarPantalla(MENU_TASKS2)) {
-                        //enviarComando(COMANDO_ASCII);
-                        //System.out.println(obtenerRespuestaMaquina());
-                        //TODO QUITARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-                        //enviarString("e");
-                        //enviarComando(COMANDO_ENTER);
+                    if (esperarPantalla(MENU_TASKS2)) {
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 
     /**
@@ -143,7 +168,13 @@ public class Mainframe implements MainframeAPI {
         return true;
     }
 
-
+    /**
+     * Método sobreescrito para enviar un comando al mainframe.
+     *
+     * @param comando
+     * @return
+     * @throws IOException
+     */
     @Override
     public boolean enviarComando(String comando) throws IOException {
         outStream.println(comando);
@@ -162,12 +193,21 @@ public class Mainframe implements MainframeAPI {
      * @return
      * @Override
      */
+    @Override
     public boolean enviarString(String mensaje) throws IOException {
         outStream.println(String.format(FORMATO_CADENA_TEXTO, mensaje));
         outStream.flush();
         return ejecutarSiguienteComando();
     }
 
+    /**
+     * Método sobreecrito para esperar una pantalla del emulador.
+     *
+     * @param lineaABuscar
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public boolean esperarPantalla(String lineaABuscar) throws IOException, InterruptedException {
         Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();
@@ -186,7 +226,12 @@ public class Mainframe implements MainframeAPI {
         return false;
     }
 
-
+    /**
+     * Método para esperar para poder ejecutar el siguiente comando.
+     *
+     * @return
+     * @throws IOException
+     */
     private boolean ejecutarSiguienteComando() throws IOException {
         String line = "";
         Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();

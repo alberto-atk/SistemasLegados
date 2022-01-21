@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TasksAPI {
     enum CODIGO_ERROR {
-        IDTAREA_INCORRECTO,IDTAREA_REPETIDO, OK, NOK
+        IDTAREA_INCORRECTO, IDTAREA_REPETIDO, OK, NOK
     }
 
 
