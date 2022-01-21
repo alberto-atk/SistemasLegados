@@ -91,6 +91,8 @@ public class Aplicacion implements OyenteVista {
                 case NUEVO_FICHERO:
                     if (!tasks2.nuevoFicheroTareas()) {
                         vista.notificarMensajeError("Error fichero tareas", "No se ha creado el fichero de tareas.");
+                    }else{
+                        vista.notificarMensajeError("Nuevo fichero creado", "Fichero de tareas creado correctamente.");
                     }
                     break;
 
@@ -103,10 +105,13 @@ public class Aplicacion implements OyenteVista {
                             tuplaDescFecha.a, tuplaDescFecha.b);
                     switch (codigoAnyadir) {
                         case NOK:
+                            vista.notificarMensajeError("ERROR", "Error inesperado, cierre la app");
                             break;
                         case IDTAREA_INCORRECTO:
+                            vista.notificarMensajeError("ERROR", "Id de la tarea no existe");
                             break;
                         case OK:
+                            vista.notificarMensajeError("Tarea añadida", "Tarea añadida correctamente");
                             break;
                     }
                     break;
@@ -116,10 +121,13 @@ public class Aplicacion implements OyenteVista {
                     TasksAPI.CODIGO_ERROR codigoEliminar = tasks2.eliminarTarea(idTarea);
                     switch (codigoEliminar) {
                         case NOK:
+                            vista.notificarMensajeError("ERROR", "Error inesperado, cierre la app");
                             break;
                         case IDTAREA_REPETIDO:
+                            vista.notificarMensajeError("ERROR", "Id de la tarea está repetido");
                             break;
                         case OK:
+                            vista.notificarMensajeError("Tarea eliminada", "Tarea eliminada correctamente");
                             break;
                     }
                     break;
@@ -128,7 +136,7 @@ public class Aplicacion implements OyenteVista {
                     List<Tarea> tareasListar = tasks2.listarTareas();
                     String cadenaTareasListar = "";
                     if (tareasListar.size() == 0) {
-                        System.out.println("Esta vacio");
+                        vista.notificarMensajeError("Lista tareas", "La lista de tareas está vacía");
                     } else {
                         for (Tarea tarea : tareasListar) {
                             System.out.println(tarea.toString());
@@ -143,7 +151,7 @@ public class Aplicacion implements OyenteVista {
                     String cadenaTareasBuscar = "";
                     List<Tarea> tareasBuscar = tasks2.buscarTareas(fecha);
                     if (tareasBuscar.size() == 0) {
-
+                        vista.notificarMensajeError("Lista tareas", "La lista de tareas está vacía");
                     } else {
                         for (Tarea tarea : tareasBuscar) {
                             cadenaTareasBuscar += tarea.toString();
@@ -156,8 +164,9 @@ public class Aplicacion implements OyenteVista {
                 case GUARDAR_TAREAS:
                     if (!tasks2.guardarTareas()) {
                         vista.notificarMensajeError("Error guardar tareas", "No se han guardado las tareas.");
+                    }else{
+                        vista.notificarMensajeError("Guardar tareas", "Tareas guardadas correctamente.");
                     }
-
                 case SALIR:
                     String guardarCambios = (String) obj;
                     tasks2.salir(guardarCambios);

@@ -15,6 +15,7 @@ import java.beans.PropertyChangeListener;
 
 import P3.Control.OyenteVista;
 import P3.Modelo.Tarea;
+import P3.Modelo.Tupla;
 
 public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final int ANCHO_PANEL_BOTONES = 200;
@@ -25,7 +26,6 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
 
     private OyenteVista oyenteVista;
-    private static final String INICIAR_SESION = "Iniciar sesión";
     private static final String NUEVO_FICHERO = "Nuevo fichero";
     private static final String ANYADIR_TAREA = "Añadir tarea";
     private static final String ELIMINAR_TAREA = "Eliminar tarea";
@@ -37,7 +37,6 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final int ALTO = 1000;
     private static final String MAINFRAME_WRAPPER = "Mainframe Wrapper";
     private static final String ACCION_NUEVO_FICHERO = "NUEVO_FICHERO";
-    private static final String ACCION_INICIAR_SESION = "INICIAR_SESION";
     private static final String ACCION_ANYADIR_TAREA = "ANYADIR_TAREA";
     private static final String ACCION_ELIMINAR_TAREA = "ELIMINAR_TAREA";
     private static final String ACCION_BUSCAR_TAREAS = "BUCAR_TAREAS";
@@ -74,7 +73,6 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final String ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA = "Descripción incorrecta";
     private static final String MENSAJE_DESCRIPCION_INCORRECTA = "La descripción de la tarea debe tener menos de 32 caracteres.";
 
-    private JButton botonIniciarSesion;
     private JButton botonNuevoFichero;
     private JButton botonAnyadirTarea;
     private JButton botonEliminarTarea;
@@ -168,7 +166,7 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         layoutBotones.setBorder(bordePanelBotones);
 
         JPanel contenedorBotones = new JPanel(new GridLayout(10, 1, 10, 20));
-        //contenedorBotones.add(botonIniciarSesion);
+
         contenedorBotones.add(botonNuevoFichero);
         contenedorBotones.add(botonAnyadirTarea);
         contenedorBotones.add(botonEliminarTarea);
@@ -189,9 +187,6 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * Crea los botones del panel de botones.
      */
     private void crearBotones() {
-        botonIniciarSesion = new JButton(INICIAR_SESION);
-        botonIniciarSesion.addActionListener(this);
-        botonIniciarSesion.setActionCommand(ACCION_INICIAR_SESION);
 
         botonNuevoFichero = new JButton(NUEVO_FICHERO);
         botonNuevoFichero.addActionListener(this);
@@ -230,40 +225,34 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case ACCION_INICIAR_SESION:
-                String[] datosInicioSesion = iniciarSesion();
-                oyenteVista.eventoProducido(OyenteVista.Evento.INICIAR_SESION, datosInicioSesion);
-                break;
+            case ACCION_NUEVO_FICHERO:
+                oyenteVista.eventoProducido(OyenteVista.Evento.NUEVO_FICHERO, null);
 
             case ACCION_ANYADIR_TAREA:
                 String[] datosAnyadirTarea = anyadirTarea();
-                //oyenteVista.eventoProducido(OyenteVista.Evento.INICIAR_SESION, datosAnyadirTarea);
+                Tupla<Tupla, Tupla> tupla = new Tupla(new Tupla(datosAnyadirTarea[0],datosAnyadirTarea[1]),
+                        new Tupla(datosAnyadirTarea[2],datosAnyadirTarea[3]));
+                oyenteVista.eventoProducido(OyenteVista.Evento.ANYADIR_TAREA, tupla);
                 break;
 
             case ACCION_BUSCAR_TAREAS:
+                //COMPROBAR QUE ES FECHA VALIDA SI DA TIEMPO
                 String[] datosBuscarTareas = buscarTareas();
-                //oyenteVista.eventoProducido(OyenteVista.Evento.INICIAR_SESION, datosBuscarTareas);
-                Tarea a = new Tarea("b", "b", "b", "b");
-                String tareas2 = a.toString() + a.toString();
-                mostrarTareas(tareas2);
+                oyenteVista.eventoProducido(OyenteVista.Evento.BUSCAR_TAREA, datosBuscarTareas[0]);
                 break;
 
             case ACCION_SALIR:
-                oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, null);
+                //TODO PONER LO DEL SELECTOR DE SI NO
+                oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, "y");
                 break;
 
             case ACCION_ELIMINAR_TAREA:
                 String[] datosEliminarTarea = obtenerDatosEliminarTarea();
-                //oyenteVista.eventoProducido(OyenteVista.Evento.ELIMINAR_TAREA,datosEliminarTarea);
+                oyenteVista.eventoProducido(OyenteVista.Evento.ELIMINAR_TAREA,datosEliminarTarea[0]);
                 break;
             case ACCION_LISTAR_TAREAS:
                 oyenteVista.eventoProducido(OyenteVista.Evento.LISTAR_TAREAS, null);
-                /*
-                Tarea t = new Tarea("a", "a", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "a");
-                String tareas = t.toString() + t + t + t + t + t + t + t + t + t + t + t + t + t;
-                mostrarTareas(tareas);*/
                 break;
-
         }
     }
 
