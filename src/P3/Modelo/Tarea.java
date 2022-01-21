@@ -17,6 +17,11 @@ public class Tarea {
         return fecha;
     }
 
+    public String getId() {
+        return id;
+    }
+
+
     @Override
     public String toString() {
         return  "Num tarea  : " + id + "\n" +

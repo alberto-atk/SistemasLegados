@@ -25,9 +25,11 @@ public class Aplicacion implements OyenteVista {
             System.out.println(emulador.conexion("155.210.71.101:323", "PROG", "PROG123"));
 
 
+            System.out.println(tasks2.anyadirTarea("6", "prueba5", "prueba5", "10 12 2021"));
+
+
             List<Tarea> tareas = tasks2.listarTareas();
             if(tareas.size() != 0) {
-                System.out.println(tareas.size());
                 for (Tarea t : tareas) {
                     System.out.println(t.toString());
                 }
@@ -35,9 +37,8 @@ public class Aplicacion implements OyenteVista {
                 System.out.println("Esta vacio");
             }
 
-            //System.out.println(tasks2.eliminarTarea("455"));
-/*
 
+/*
             List<Tarea> tareas2 = tasks2.listarTareas();
             if(tareas2.size() != 0) {
                 System.out.println(tareas2.size());

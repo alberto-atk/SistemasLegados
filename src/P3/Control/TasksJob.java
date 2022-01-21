@@ -28,6 +28,7 @@ public class TasksJob implements TasksAPI {
     public static final String TEXTO_NOMBRE = "data: NAME       : ";
     public static final String TEXTO_ID_TAREA = "data: TASK NUMBER: ";
 
+    public static final String MENU_TASKS2 = "**MENU**";
     public static final String MENSAJE_NUEVO_FICHERO = "**NEW TASK FILE**";
     public static final String FICHERO_TAREAS_CREADO = "NEW TASK FILE HAS BEEN CREATED";
     public static final String MENSAJE_SALIDA = "BYE";
@@ -36,6 +37,9 @@ public class TasksJob implements TasksAPI {
     public static final String TAREAS_GUARDADAS = "TASKS HAVE BEEN SAVED";
     public static final String MENSAJE_FIN_LISTA = "**END**";
     public static final String MENSAJE_BUSCAR_TAREAS = "**SEARCH TASK**";
+    public static final String MENSAJE_CONFIRMAR_ELIMINAR = "CONFIRM (Y/N)";
+    public static final String MENSAJE_TAREA_NO_ENCONTRADA = "TASK NOT FOUND";
+    public static final String MENSAJE_ELIMINAR_TAREA = "**REMOVE TASK**";
 
     private Mainframe mainframe;
 
@@ -59,7 +63,9 @@ public class TasksJob implements TasksAPI {
                         if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
                             if(mainframe.esperarPantalla(FICHERO_TAREAS_CREADO)){
                                 if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
-                                    return true;
+                                    if(mainframe.esperarPantalla(MENU_TASKS2)){
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -83,44 +89,51 @@ public class TasksJob implements TasksAPI {
      */
     public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha)
             throws IOException, InterruptedException{
-        CODIGO_ERROR resultado = comprobacionAnyadirTarea(idTarea, nombreTarea, descripcionTarea, fecha);
-        if (resultado == CODIGO_ERROR.DATOS_TAREA_OK) {
-            mainframe.enviarString(ANYADIR);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarString(idTarea);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarString(nombreTarea);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarString(descripcionTarea);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            //TODO controlar la fecha en el cliente, formato: dd mm yyyy
-            mainframe.enviarString(fecha);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            mainframe.enviarComando(Mainframe.COMANDO_ENTER);
-            return CODIGO_ERROR.OK;
-        } else {
-            return resultado;
-        }
-    }
 
+           if(existeIdTarea(idTarea)){
+               return CODIGO_ERROR.IDTAREA_REPETIDO;
+           }
 
-    private CODIGO_ERROR comprobacionAnyadirTarea(String idTarea, String nombre, String descripcion, String fecha)
-    throws IOException, InterruptedException{
-        if (idTarea.matches(PATRON_NUMERO)) {
-            if (nombre.length() > 0 && nombre.length() <= 16) {
-                if (descripcion.length() > 0 && descripcion.length() <= 32) {
-                    //TODO TRATAR LA FECHAA
-                    return CODIGO_ERROR.DATOS_TAREA_OK;
-                } else {
-                    return CODIGO_ERROR.DESCRIPCION_INCORRECTA;
+            if(mainframe.enviarString(ANYADIR)){
+                if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                    if(mainframe.esperarPantalla("**ADD TASK**")){
+                        if(mainframe.enviarString(idTarea)){
+                            if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                if(mainframe.enviarString(nombreTarea)){
+                                    if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                        if(mainframe.enviarString(descripcionTarea)){
+                                            if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                                if(mainframe.enviarString(fecha)){
+                                                    if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                                        if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
+                                                            if(mainframe.esperarPantalla(MENU_TASKS2)){
+                                                                return CODIGO_ERROR.OK;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            } else {
-                return CODIGO_ERROR.NOMBRE_INCORRECTO;
             }
-        } else {
-            return CODIGO_ERROR.IDTAREA_INCORRECTO;
-        }
+            return CODIGO_ERROR.NOK;
     }
+
+    private boolean existeIdTarea(String idTarea) throws IOException, InterruptedException {
+        List<Tarea> tareas = listarTareas();
+        for(Tarea t :tareas){
+            if(t.getId().equals(idTarea)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Opción de tasks2 para eliminar una tarea.
@@ -131,18 +144,22 @@ public class TasksJob implements TasksAPI {
     public CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException {
         if(mainframe.enviarString(ELIMINAR)){
             if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
-                if(mainframe.esperarPantalla("**REMOVE TASK**")){
+                if(mainframe.esperarPantalla(MENSAJE_ELIMINAR_TAREA)){
                     if(mainframe.enviarString(idTarea)){
                         if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
-                            if(mainframe.esperarPantalla("TASK NOT FOUND")){
+                            if(mainframe.esperarPantalla(MENSAJE_TAREA_NO_ENCONTRADA)){
                                 if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
-                                    return CODIGO_ERROR.IDTAREA_INCORRECTO;
+                                    if(mainframe.esperarPantalla(MENU_TASKS2)){
+                                        return CODIGO_ERROR.IDTAREA_INCORRECTO;
+                                    }
                                 }
-                            }else if(mainframe.esperarPantalla("CONFIRM (Y/N)")){
+                            }else if(mainframe.esperarPantalla(MENSAJE_CONFIRMAR_ELIMINAR)){
                                 if(mainframe.enviarString(SI)){
                                     if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
                                         if(mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)){
-                                            return CODIGO_ERROR.OK;
+                                            if(mainframe.esperarPantalla(MENU_TASKS2)){
+                                                return CODIGO_ERROR.OK;
+                                            }
                                         }
                                     }
                                 }
@@ -174,7 +191,9 @@ public class TasksJob implements TasksAPI {
                                 if(mainframe.enviarComando(Mainframe.COMANDO_ASCII)){
                                     tareas = obtenerListaTareas();
                                     if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
-                                        return tareas;
+                                        if(mainframe.esperarPantalla(MENU_TASKS2)) {
+                                            return tareas;
+                                        }
                                     }
                                 }
                             }
@@ -201,7 +220,9 @@ public class TasksJob implements TasksAPI {
                    if(mainframe.enviarComando(Mainframe.COMANDO_ASCII)){
                        tareas = obtenerListaTareas();
                        if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
-                           return tareas;
+                           if(mainframe.esperarPantalla(MENU_TASKS2)){
+                               return tareas;
+                           }
                        }
                    }
                }
@@ -256,7 +277,9 @@ public class TasksJob implements TasksAPI {
             if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
                 if(mainframe.esperarPantalla(TAREAS_GUARDADAS)){
                     if(mainframe.enviarComando(Mainframe.COMANDO_ENTER)){
-                        return true;
+                        if(mainframe.esperarPantalla(MENU_TASKS2)){
+                            return true;
+                        }
                     }
                 }
             }
