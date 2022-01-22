@@ -56,7 +56,7 @@ public class TasksJob implements TasksAPI {
     public TasksJob(Mainframe mainframe) throws IOException {
         this.mainframe = mainframe;
     }
-    
+
     /**
      * Opción de tasks2 para crear un nuevo fichero de tareas.
      */
@@ -338,5 +338,4 @@ public class TasksJob implements TasksAPI {
         }
         return false;
     }
-
 }
