@@ -21,7 +21,7 @@ public class TasksJob implements TasksAPI {
     private static final String ELIMINAR = "r";
     private static final String BUSCAR = "t";
     private static final String SI = "y";
-    
+
     private static final String PATRON_IDTAREA = "^data: TASK NUMBER: .*$";
     private static final String PATRON_NOMBRE = "^data: NAME.*$";
     private static final String PATRON_DESCRIPCION = "^data: DESCRIPTION.*$";
@@ -56,13 +56,11 @@ public class TasksJob implements TasksAPI {
     public TasksJob(Mainframe mainframe) throws IOException {
         this.mainframe = mainframe;
     }
-
-
+    
     /**
      * Opción de tasks2 para crear un nuevo fichero de tareas.
-     *
-     * @Override
      */
+    @Override
     public boolean nuevoFicheroTareas() throws IOException, InterruptedException {
         if (mainframe.enviarString(NUEVO_FICHERO)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
@@ -93,8 +91,8 @@ public class TasksJob implements TasksAPI {
      * @param fecha
      * @throws IOException
      * @throws InterruptedException
-     * @Override
      */
+    @Override
     public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha)
             throws IOException, InterruptedException {
 
@@ -155,8 +153,8 @@ public class TasksJob implements TasksAPI {
      * Opción de tasks2 para eliminar una tarea.
      *
      * @param idTarea
-     * @Override
      */
+    @Override
     public CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException {
         if (mainframe.enviarString(ELIMINAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
@@ -194,8 +192,8 @@ public class TasksJob implements TasksAPI {
      * @param fecha
      * @throws IOException
      * @throws InterruptedException
-     * @Override
      */
+    @Override
     public List<Tarea> buscarTareas(String fecha) throws IOException, InterruptedException {
         List<Tarea> tareas = new ArrayList();
         if (mainframe.enviarString(BUSCAR)) {
@@ -228,6 +226,7 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      * @Override
      */
+    @Override
     public List<Tarea> listarTareas() throws IOException, InterruptedException {
         List<Tarea> tareas = new ArrayList();
         if (mainframe.enviarString(LISTAR)) {
@@ -294,6 +293,7 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      * @Override
      */
+    @Override
     public boolean guardarTareas() throws IOException, InterruptedException {
         if (mainframe.enviarString(GUARDAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
@@ -315,6 +315,7 @@ public class TasksJob implements TasksAPI {
      * @return
      * @Override
      */
+    @Override
     public boolean salir(String guardarTareas) throws IOException, InterruptedException {
         if (mainframe.enviarString(Mainframe.COMANDO_EXIT)) {
             if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
