@@ -109,34 +109,6 @@ public class Mainframe implements MainframeAPI {
     }
 
     /**
-     * Inicio de sesión en el mainframe.
-     *
-     * @param username
-     * @param password
-     * @return
-     * @throws InterruptedException
-     * @throws IOException
-     */
-    private boolean login(String username, String password) throws InterruptedException, IOException {
-        if (esperarPantalla(PANTALLA_CONEXION)) {
-            if (enviarComando(COMANDO_ENTER)) {
-                if (esperarPantalla(PANTALLA_LOGIN)) {
-                    if (enviarString(username)) {
-                        if (enviarComando(COMANDO_ENTER)) {
-                            if (enviarString(password)) {
-                                if (enviarComando(COMANDO_ENTER)) {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * Conexión con el host.
      *
      * @param host
@@ -165,6 +137,34 @@ public class Mainframe implements MainframeAPI {
     }
 
     /**
+     * Inicio de sesión en el mainframe.
+     *
+     * @param username
+     * @param password
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    private boolean login(String username, String password) throws InterruptedException, IOException {
+        if (esperarPantalla(PANTALLA_CONEXION)) {
+            if (enviarComando(COMANDO_ENTER)) {
+                if (esperarPantalla(PANTALLA_LOGIN)) {
+                    if (enviarString(username)) {
+                        if (enviarComando(COMANDO_ENTER)) {
+                            if (enviarString(password)) {
+                                if (enviarComando(COMANDO_ENTER)) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Ejecuta la aplicación legada.
      *
      * @throws InterruptedException
@@ -188,7 +188,9 @@ public class Mainframe implements MainframeAPI {
      *
      * @return
      * @throws IOException
+     * @throws InterruptedException
      */
+    @Override
     public boolean logout() throws IOException, InterruptedException {
         enviarString(CADENA_OFF);
         enviarComando(COMANDO_ENTER);
@@ -260,7 +262,8 @@ public class Mainframe implements MainframeAPI {
      * @return
      * @throws IOException
      */
-    private boolean ejecutarSiguienteComando() throws IOException {
+    @Override
+    public boolean ejecutarSiguienteComando() throws IOException {
         String line = "";
         Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();
         while (maxTime > System.currentTimeMillis()) {

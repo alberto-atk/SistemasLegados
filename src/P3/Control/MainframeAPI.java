@@ -18,7 +18,6 @@ public interface MainframeAPI {
     String CADENA_OFF = "off";
     String FORMATO_CADENA_TEXTO = "String(\"%s\")";
     String CONNECT = "connect ";
-    String OK = "ok";
 
     String PATRON_RESPUESTA_MAINFRAME_OK = ".*ok.*";
     String PATRON_RESPUESTA_MAINFRAME_ERROR = ".*error.*";
@@ -91,4 +90,11 @@ public interface MainframeAPI {
      * @throws IOException
      */
     String obtenerRespuestaMaquina() throws IOException;
+
+    /**
+     * Método para esperar a ejecutar el siguiente comando.
+     * @return
+     * @throws IOException
+     */
+    boolean ejecutarSiguienteComando() throws IOException;
 }
