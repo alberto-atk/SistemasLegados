@@ -70,7 +70,11 @@ public class Aplicacion implements OyenteVista {
         vista = new AplicacionVista(this);
         String[] datosInicioSesion = vista.obtenerDatosInicioSesion();
 
-        falloConexion(datosInicioSesion);
+        if (datosInicioSesion != null) {
+            falloConexion(datosInicioSesion);
+        } else {
+            System.exit(0);
+        }
     }
 
     /**
