@@ -1,3 +1,10 @@
+/**
+ * Tupla.java
+ * <p>
+ * Clase que representa una tupla de objetos.
+ * <p>
+ * Radu Constantin Robu y Alberto Pérez
+ */
 package P3.Modelo;
 
 import java.util.Objects;
@@ -9,7 +16,6 @@ import java.util.Objects;
  * @param <B>
  */
 public class Tupla<A, B> {
-
     public final A a;
     public final B b;
 

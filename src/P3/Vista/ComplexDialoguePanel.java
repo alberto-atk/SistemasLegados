@@ -1,8 +1,8 @@
 /**
  * ComplexDialoguePanel.java
- *
+ * <p>
  * Diálogo dinámico emergente con campos de texto.
- *
+ * <p>
  * Radu Constantin Robu y Alberto Pérez
  */
 package P3.Vista;
@@ -21,8 +21,6 @@ import javax.swing.*;
 public class ComplexDialoguePanel extends JPanel {
     private static final String ETIQUETA_VENTANA = "Introducir información";
     private static final String ETIQUETA_CONTRASEÑA = "Contraseña";
-    private static final String ETIQUETA_FECHA = "Fecha";
-    private static final int FECHA = 3;
     private String[] etiquetasDatos;
     private Map<String, JTextField> camposTexto = new HashMap<>();
 
@@ -144,7 +142,12 @@ public class ComplexDialoguePanel extends JPanel {
         return null;
     }
 
-
+    /**
+     * Método que devuelve si los datos introducidos son correctos o no.
+     *
+     * @param datos
+     * @return
+     */
     private boolean comprobarDatosIntroducidos(String[] datos) {
         int datosValidos = 0;
         boolean datosIncorrectos = true;

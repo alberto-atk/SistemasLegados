@@ -1,3 +1,10 @@
+/**
+ * TasksJob.java
+ * <p>
+ * Clase que implementa los métodos para la ejecución de las funciones de la aplicación legada.
+ * <p>
+ * Radu Constantin Robu y Alberto Pérez
+ */
 package P3.Control;
 
 import P3.Modelo.Tarea;
@@ -5,9 +12,6 @@ import P3.Modelo.Tarea;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Thread.sleep;
-
 
 public class TasksJob implements TasksAPI {
     private static final String NUEVO_FICHERO = "N";
@@ -17,8 +21,7 @@ public class TasksJob implements TasksAPI {
     private static final String ELIMINAR = "r";
     private static final String BUSCAR = "t";
     private static final String SI = "y";
-
-    private static final String PATRON_NUMERO = "[+-]?\\d*(\\.\\d+)?";
+    
     private static final String PATRON_IDTAREA = "^data: TASK NUMBER: .*$";
     private static final String PATRON_NOMBRE = "^data: NAME.*$";
     private static final String PATRON_DESCRIPCION = "^data: DESCRIPTION.*$";
@@ -252,7 +255,7 @@ public class TasksJob implements TasksAPI {
      */
     private List<Tarea> obtenerListaTareas() throws IOException {
         String resultado = mainframe.obtenerRespuestaMaquina();
-        String[] lineas = resultado.split(System.getProperty("line.separator"));
+        String[] lineas = resultado.split("\n");
         return parsearTareas(lineas);
     }
 

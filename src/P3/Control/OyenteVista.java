@@ -1,16 +1,12 @@
 /**
  * OyenteVista.java
- *
+ * <p>
  * Interfaz oyente para la comunicación MVC.
- *
+ * <p>
  * Radu Constantin Robu y Alberto Pérez
  */
 package P3.Control;
 
-
-/**
- *  Interfaz de oyente para recibir eventos de la interfaz de usuario
- */
 public interface OyenteVista {
     enum Evento {
         INICIAR_SESION, CERRAR_SESION, NUEVO_FICHERO, ANYADIR_TAREA, LISTAR_TAREAS, BUSCAR_TAREA,

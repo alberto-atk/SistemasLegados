@@ -1,3 +1,11 @@
+/**
+ * Mainframe.java
+ * <p>
+ * Clase que contiene la implementación de los métodos para conectarse con el mainframe y
+ * ejecutar la aplicación legada.
+ * <p>
+ * Radu Constantin Robu y Alberto Pérez
+ */
 package P3.Control;
 
 import java.io.*;
@@ -8,6 +16,7 @@ public class Mainframe implements MainframeAPI {
     private static final String NOK = "NOK";
     private static final String TASKS2JOB = "tasks2.job";
     private static final String MENU_TASKS2 = "TASK MANAGEMENT 2.0 BY TURO-SL SOFT";
+    private static final int DELAY = 50;
 
     private Process proceso;
     private PrintWriter outStream = null;
@@ -15,13 +24,23 @@ public class Mainframe implements MainframeAPI {
 
     private static Mainframe singleton = null;
 
+    /**
+     * Constructor de la clase.
+     *
+     * @throws IOException
+     */
     private Mainframe() throws IOException {
         proceso = Runtime.getRuntime().exec(TERMINAL_SIN_PANTALLA);
         inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
         outStream = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
     }
 
-
+    /**
+     * Devuelve la instancia del objeto de la clase.
+     *
+     * @return
+     * @throws IOException
+     */
     public static Mainframe getInstance() throws IOException {
         if (singleton == null) {
             singleton = new Mainframe();
@@ -29,7 +48,14 @@ public class Mainframe implements MainframeAPI {
         return singleton;
     }
 
-
+    /**
+     * Realiza la conexión con la máquina.
+     *
+     * @param host
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private boolean conectarHost(String host) throws IOException, InterruptedException {
         outStream.println(CONNECT + host);
         outStream.flush();
@@ -61,23 +87,25 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      * @throws IOException
      */
-    private int falloInicioSesion() throws InterruptedException, IOException {
+    private RESPUESTAS_INICIO_SESION falloInicioSesion() throws InterruptedException, IOException {
         if (esperarPantalla(MENSAJE_USUARIO_EN_USO)) {
-            if (enviarString(OK)) {
-                if (enviarComando(COMANDO_ENTER)) {
-                    falloInicioSesion();
-                }
+            if (enviarComando(COMANDO_ENTER)) {
+                return RESPUESTAS_INICIO_SESION.USUARIO_EN_USO;
             }
         } else if (esperarPantalla(MENSAJE_IDIOMA_NO_SOPORTADO)) {
             if (enviarComando(COMANDO_ENTER)) {
-                return 1;
+                return RESPUESTAS_INICIO_SESION.OK;
             }
         } else if (esperarPantalla(MENSAJE_USUARIO_INCORRECTO)) {
-            //TODO el nombre de usuario es incorrecto
+            if (enviarComando(COMANDO_ENTER)) {
+                return RESPUESTAS_INICIO_SESION.USUARIO_INCORRECTO;
+            }
         } else if (esperarPantalla(MENSAJE_CONTRASENYA_INCORRECTA)) {
-            //TODO la password es incorrecta
+            if (enviarComando(COMANDO_ENTER)) {
+                return RESPUESTAS_INICIO_SESION.CONTRASENYA_INCORRECTA;
+            }
         }
-        return 0;
+        return RESPUESTAS_INICIO_SESION.NOK;
     }
 
     /**
@@ -118,21 +146,22 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      * @throws IOException
      */
-    public int conexion(String host, String username, String password) throws InterruptedException, IOException {
-        int resultadoInicioSesion = 0;
+    public RESPUESTAS_INICIO_SESION conexion(String host, String username, String password)
+            throws InterruptedException, IOException {
+        RESPUESTAS_INICIO_SESION resultadoInicioSesion;
         if (conectarHost(host)) {
             if (login(username, password)) {
                 resultadoInicioSesion = falloInicioSesion();
-                if (resultadoInicioSesion == 1) {
+                if (resultadoInicioSesion == RESPUESTAS_INICIO_SESION.OK) {
                     if (ejecutarTasksJob()) {
-                        return 0;
+                        return RESPUESTAS_INICIO_SESION.OK;
                     }
                 } else {
                     return resultadoInicioSesion;
                 }
             }
         }
-        return 1;
+        return RESPUESTAS_INICIO_SESION.NOK;
     }
 
     /**
@@ -214,10 +243,9 @@ public class Mainframe implements MainframeAPI {
         String resultado = "";
         do {
             enviarComando(COMANDO_ASCII);
-            sleep(50);
+            sleep(DELAY);
             resultado = obtenerRespuestaMaquina();
             if (resultado.contains(lineaABuscar)) {
-                //System.out.println(resultado);
                 return true;
             }
 
