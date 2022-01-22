@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SistemasLegados:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SistemasLegados_jar</output-path>
+    <root id="archive" name="SistemasLegados.jar">
+      <element id="module-output" name="SistemasLegados" />
+    </root>
+  </artifact>
+</component>
