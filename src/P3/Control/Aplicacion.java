@@ -22,8 +22,8 @@ public class Aplicacion implements OyenteVista {
     private static final String MENSAJE_CONFIRMACION_FICHERO_TAREAS = "Fichero de tareas creado correctamente.";
     private static final String TITULO_ERROR = "ERROR";
     private static final String MENSAJE_ERROR_INESPERADO = "Error inesperado, cierre la app.";
-    private static final String TITULO_ERROR_ELIMINAR_TAREA = "Error añadir tareas";
-    private static final String MENSAJE_ERROR_ELIMINAR_TAREA = "Id de la tarea está repetido.";
+    private static final String TITULO_ERROR_ELIMINAR_TAREA = "Error eliminar tarea";
+    private static final String MENSAJE_ERROR_ELIMINAR_TAREA = "Id de la tarea no existe.";
     private static final String TITULO_CONFIRMACION_ELIMINAR_TAREA = "Tarea eliminada";
     private static final String MENSAJE_CONFIRMACION_ELIMINAR_TAREA = "Tarea eliminada correctamente.";
     private static final String TITULO_ERROR_ANYADIR_TAREA = "ID incorrecto";
@@ -106,6 +106,9 @@ public class Aplicacion implements OyenteVista {
                 vista.notificarMensajeError(TITULO_ERROR_USUARIO_INCORRECTO, MENSAJE_ERROR_USUARIO_INCORRECTO);
                 System.exit(0);
                 break;
+            case NOK:
+                vista.notificarMensajeError(TITULO_ERROR, MENSAJE_ERROR_INESPERADO);
+                System.exit(0);
         }
     }
 
@@ -215,7 +218,7 @@ public class Aplicacion implements OyenteVista {
             case NOK:
                 vista.notificarMensajeError(TITULO_ERROR, MENSAJE_ERROR_INESPERADO);
                 break;
-            case IDTAREA_REPETIDO:
+            case IDTAREA_INCORRECTO:
                 vista.notificarMensajeError(TITULO_ERROR_ELIMINAR_TAREA, MENSAJE_ERROR_ELIMINAR_TAREA);
                 break;
             case OK:
