@@ -1,8 +1,8 @@
 /**
  * Mainframe.java
  * <p>
- * Clase que contiene la implementación de los métodos para conectarse con el mainframe y
- * ejecutar la aplicación legada.
+ * Clase que contiene la implementación de los métodos para conectarse con el
+ * mainframe y ejecutar la aplicación legada.
  * <p>
  * Radu Constantin Robu y Alberto Pérez
  */
@@ -15,7 +15,8 @@ import static java.lang.Thread.sleep;
 public class Mainframe implements MainframeAPI {
     private static final String NOK = "NOK";
     private static final String TASKS2JOB = "tasks2.job";
-    private static final String MENU_TASKS2 = "TASK MANAGEMENT 2.0 BY TURO-SL SOFT";
+    private static final String MENU_TASKS2 =
+            "TASK MANAGEMENT 2.0 BY TURO-SL SOFT";
     private static final int DELAY = 50;
 
     private Process proceso;
@@ -31,8 +32,10 @@ public class Mainframe implements MainframeAPI {
      */
     private Mainframe() throws IOException {
         proceso = Runtime.getRuntime().exec(TERMINAL_SIN_PANTALLA);
-        inStream = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-        outStream = new PrintWriter(new OutputStreamWriter(proceso.getOutputStream()));
+        inStream = new BufferedReader(new InputStreamReader(
+                proceso.getInputStream()));
+        outStream = new PrintWriter(new OutputStreamWriter(
+                proceso.getOutputStream()));
     }
 
     /**
@@ -56,7 +59,7 @@ public class Mainframe implements MainframeAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    private boolean conectarHost(String host) throws IOException, InterruptedException {
+    private boolean conectarHost(String host) throws IOException {
         outStream.println(CONNECT + host);
         outStream.flush();
         return ejecutarSiguienteComando();
@@ -72,7 +75,8 @@ public class Mainframe implements MainframeAPI {
         String line = "";
         do {
             line = inStream.readLine();
-            if (line == null || line.matches(PATRON_RESPUESTA_MAINFRAME_ERROR)) {
+            if (line == null ||
+                    line.matches(PATRON_RESPUESTA_MAINFRAME_ERROR)) {
                 return NOK;
             }
             resultado += line + "\n";
@@ -87,7 +91,8 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      * @throws IOException
      */
-    private RESPUESTAS_INICIO_SESION falloInicioSesion() throws InterruptedException, IOException {
+    private RESPUESTAS_INICIO_SESION falloInicioSesion()
+            throws InterruptedException, IOException {
         if (esperarPantalla(MENSAJE_USUARIO_EN_USO)) {
             if (enviarComando(COMANDO_ENTER)) {
                 return RESPUESTAS_INICIO_SESION.USUARIO_EN_USO;
@@ -118,7 +123,8 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      * @throws IOException
      */
-    public RESPUESTAS_INICIO_SESION conexion(String host, String username, String password)
+    public RESPUESTAS_INICIO_SESION conexion(String host, String username,
+                                             String password)
             throws InterruptedException, IOException {
         RESPUESTAS_INICIO_SESION resultadoInicioSesion;
         if (conectarHost(host)) {
@@ -145,7 +151,8 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      * @throws IOException
      */
-    private boolean login(String username, String password) throws InterruptedException, IOException {
+    private boolean login(String username, String password)
+            throws InterruptedException, IOException {
         if (esperarPantalla(PANTALLA_CONEXION)) {
             if (enviarComando(COMANDO_ENTER)) {
                 if (esperarPantalla(PANTALLA_LOGIN)) {
@@ -170,7 +177,8 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      * @throws IOException
      */
-    public boolean ejecutarTasksJob() throws InterruptedException, IOException {
+    public boolean ejecutarTasksJob() throws InterruptedException,
+            IOException {
         if (esperarPantalla(PANTALLA_MENU_PRINCIPAL)) {
             if (enviarString(TASKS2JOB)) {
                 if (enviarComando(COMANDO_ENTER)) {
@@ -184,14 +192,15 @@ public class Mainframe implements MainframeAPI {
     }
 
     /**
-     * Realiza la salida controlada del mainframe a través de la terminal s3270.
+     * Realiza la salida controlada del mainframe a través de la terminal
+     * s3270.
      *
      * @return
      * @throws IOException
      * @throws InterruptedException
      */
     @Override
-    public boolean logout() throws IOException, InterruptedException {
+    public boolean logout() throws IOException {
         enviarString(CADENA_OFF);
         enviarComando(COMANDO_ENTER);
         enviarComando(COMANDO_EXIT);
@@ -240,7 +249,8 @@ public class Mainframe implements MainframeAPI {
      * @throws InterruptedException
      */
     @Override
-    public boolean esperarPantalla(String lineaABuscar) throws IOException, InterruptedException {
+    public boolean esperarPantalla(String lineaABuscar)
+            throws IOException, InterruptedException {
         Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();
         String resultado = "";
         do {
@@ -268,7 +278,8 @@ public class Mainframe implements MainframeAPI {
         Long maxTime = TIEMPO_EJEC_MAXIMO + System.currentTimeMillis();
         while (maxTime > System.currentTimeMillis()) {
             line = inStream.readLine();
-            if (line == null || line.matches(PATRON_RESPUESTA_MAINFRAME_ERROR)) {
+            if (line == null ||
+                    line.matches(PATRON_RESPUESTA_MAINFRAME_ERROR)) {
                 System.out.println(line);
                 return false;
             } else if (line.matches(PATRON_RESPUESTA_MAINFRAME_OK)) {

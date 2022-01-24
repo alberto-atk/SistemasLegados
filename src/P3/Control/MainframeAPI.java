@@ -21,13 +21,17 @@ public interface MainframeAPI {
 
     String PATRON_RESPUESTA_MAINFRAME_OK = ".*ok.*";
     String PATRON_RESPUESTA_MAINFRAME_ERROR = ".*error.*";
-    String PANTALLA_CONEXION = "Multi-User System for Interactive Computing / System Product";
+    String PANTALLA_CONEXION =
+            "Multi-User System for Interactive Computing / System Product";
     String PANTALLA_LOGIN = "*MUSIC/SP ESA/390, sign on";
-    String PANTALLA_MENU_PRINCIPAL = "--------------------Full Screen Interface for MUSIC------------------ Page 1/1";
+    String PANTALLA_MENU_PRINCIPAL = "--------------------Full Screen " +
+            "Interface for MUSIC------------------ Page 1/1";
     String MENSAJE_USUARIO_INCORRECTO = "Userid is not authorized";
     String MENSAJE_CONTRASENYA_INCORRECTA = "Password incorrect! Retry.";
-    String MENSAJE_IDIOMA_NO_SOPORTADO = "*Your workstation cannot support requested language";
-    String MENSAJE_USUARIO_EN_USO = "Userid is in use. Type OK to cancel previous session";
+    String MENSAJE_IDIOMA_NO_SOPORTADO =
+            "*Your workstation cannot support requested language";
+    String MENSAJE_USUARIO_EN_USO =
+            "Userid is in use. Type OK to cancel previous session";
 
     enum RESPUESTAS_INICIO_SESION {
         OK, USUARIO_INCORRECTO, USUARIO_EN_USO, CONTRASENYA_INCORRECTA, NOK
@@ -43,7 +47,8 @@ public interface MainframeAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    RESPUESTAS_INICIO_SESION conexion(String host, String username, String password)
+    RESPUESTAS_INICIO_SESION conexion(String host, String username,
+                                      String password)
             throws IOException, InterruptedException;
 
     /**
@@ -81,7 +86,8 @@ public interface MainframeAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    boolean esperarPantalla(String lineaABuscar) throws IOException, InterruptedException;
+    boolean esperarPantalla(String lineaABuscar)
+            throws IOException, InterruptedException;
 
     /**
      * Método para esperar una respuesta de la máquina.
@@ -93,6 +99,7 @@ public interface MainframeAPI {
 
     /**
      * Método para esperar a ejecutar el siguiente comando.
+     *
      * @return
      * @throws IOException
      */

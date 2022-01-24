@@ -1,7 +1,8 @@
 /**
  * TasksJob.java
  * <p>
- * Clase que implementa los métodos para la ejecución de las funciones de la aplicación legada.
+ * Clase que implementa los métodos para la ejecución de las
+ * funciones de la aplicación legada.
  * <p>
  * Radu Constantin Robu y Alberto Pérez
  */
@@ -33,7 +34,8 @@ public class TasksJob implements TasksAPI {
 
     private static final String MENU_TASKS2 = "**MENU**";
     private static final String MENSAJE_NUEVO_FICHERO = "**NEW TASK FILE**";
-    private static final String FICHERO_TAREAS_CREADO = "NEW TASK FILE HAS BEEN CREATED";
+    private static final String FICHERO_TAREAS_CREADO =
+            "NEW TASK FILE HAS BEEN CREATED";
     private static final String MENSAJE_SALIDA = "BYE";
     private static final String MENSAJE_GUARDAR_TAREAS = "SAVE TASKS";
     private static final String MENSAJE_LISTAR_TAREAS = "**LIST TASK**";
@@ -61,15 +63,19 @@ public class TasksJob implements TasksAPI {
      * Opción de tasks2 para crear un nuevo fichero de tareas.
      */
     @Override
-    public boolean nuevoFicheroTareas() throws IOException, InterruptedException {
+    public boolean nuevoFicheroTareas()
+            throws IOException, InterruptedException {
         if (mainframe.enviarString(NUEVO_FICHERO)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_NUEVO_FICHERO)) {
                     if (mainframe.enviarString(SI)) {
                         if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            if (mainframe.esperarPantalla(FICHERO_TAREAS_CREADO)) {
-                                if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                                    if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                            if (mainframe
+                                    .esperarPantalla(FICHERO_TAREAS_CREADO)) {
+                                if (mainframe.enviarComando(
+                                        Mainframe.COMANDO_ENTER)) {
+                                    if (mainframe
+                                            .esperarPantalla(MENU_TASKS2)) {
                                         return true;
                                     }
                                 }
@@ -93,7 +99,8 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      */
     @Override
-    public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha)
+    public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea,
+                                     String descripcionTarea, String fecha)
             throws IOException, InterruptedException {
 
         if (existeIdTarea(idTarea)) {
@@ -138,7 +145,8 @@ public class TasksJob implements TasksAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    private boolean existeIdTarea(String idTarea) throws IOException, InterruptedException {
+    private boolean existeIdTarea(String idTarea)
+            throws IOException, InterruptedException {
         List<Tarea> tareas = listarTareas();
         for (Tarea t : tareas) {
             if (t.getId().equals(idTarea)) {
@@ -155,23 +163,31 @@ public class TasksJob implements TasksAPI {
      * @param idTarea
      */
     @Override
-    public CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException {
+    public CODIGO_ERROR eliminarTarea(String idTarea)
+            throws IOException, InterruptedException {
         if (mainframe.enviarString(ELIMINAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_ELIMINAR_TAREA)) {
                     if (mainframe.enviarString(idTarea)) {
                         if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            if (mainframe.esperarPantalla(MENSAJE_TAREA_NO_ENCONTRADA)) {
-                                if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                                    if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                            if (mainframe.esperarPantalla(
+                                    MENSAJE_TAREA_NO_ENCONTRADA)) {
+                                if (mainframe.enviarComando(
+                                        MainframeAPI.COMANDO_ENTER)) {
+                                    if (mainframe.esperarPantalla(
+                                            MENU_TASKS2)) {
                                         return CODIGO_ERROR.IDTAREA_INCORRECTO;
                                     }
                                 }
-                            } else if (mainframe.esperarPantalla(MENSAJE_CONFIRMAR_ELIMINAR)) {
+                            } else if (mainframe.esperarPantalla(
+                                    MENSAJE_CONFIRMAR_ELIMINAR)) {
                                 if (mainframe.enviarString(SI)) {
-                                    if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                                        if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                                            if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                                    if (mainframe.enviarComando(
+                                            MainframeAPI.COMANDO_ENTER)) {
+                                        if (mainframe.enviarComando(
+                                                MainframeAPI.COMANDO_ENTER)) {
+                                            if (mainframe.esperarPantalla(
+                                                    MENU_TASKS2)) {
                                                 return CODIGO_ERROR.OK;
                                             }
                                         }
@@ -200,12 +216,16 @@ public class TasksJob implements TasksAPI {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_BUSCAR_TAREAS)) {
                     if (mainframe.enviarString(fecha)) {
-                        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                        if (mainframe.enviarComando(
+                                Mainframe.COMANDO_ENTER)) {
                             if (mainframe.esperarPantalla(MENSAJE_FIN_LISTA)) {
-                                if (mainframe.enviarComando(Mainframe.COMANDO_ASCII)) {
+                                if (mainframe.enviarComando(
+                                        Mainframe.COMANDO_ASCII)) {
                                     tareas = obtenerListaTareas();
-                                    if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                                        if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                                    if (mainframe.enviarComando(
+                                            Mainframe.COMANDO_ENTER)) {
+                                        if (mainframe.esperarPantalla(
+                                                MENU_TASKS2)) {
                                             return tareas;
                                         }
                                     }
@@ -227,7 +247,8 @@ public class TasksJob implements TasksAPI {
      * @Override
      */
     @Override
-    public List<Tarea> listarTareas() throws IOException, InterruptedException {
+    public List<Tarea> listarTareas()
+            throws IOException, InterruptedException {
         List<Tarea> tareas = new ArrayList();
         if (mainframe.enviarString(LISTAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
@@ -294,7 +315,8 @@ public class TasksJob implements TasksAPI {
      * @Override
      */
     @Override
-    public boolean guardarTareas() throws IOException, InterruptedException {
+    public boolean guardarTareas()
+            throws IOException, InterruptedException {
         if (mainframe.enviarString(GUARDAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(TAREAS_GUARDADAS)) {
@@ -316,7 +338,8 @@ public class TasksJob implements TasksAPI {
      * @Override
      */
     @Override
-    public boolean salir(String guardarTareas) throws IOException, InterruptedException {
+    public boolean salir(String guardarTareas)
+            throws IOException, InterruptedException {
         if (mainframe.enviarString(Mainframe.COMANDO_EXIT)) {
             if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_SALIDA)) {
@@ -325,9 +348,11 @@ public class TasksJob implements TasksAPI {
                     }
                 } else if (mainframe.esperarPantalla(MENSAJE_GUARDAR_TAREAS)) {
                     if (mainframe.enviarString(guardarTareas)) {
-                        if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                        if (mainframe.enviarComando(
+                                MainframeAPI.COMANDO_ENTER)) {
                             if (mainframe.esperarPantalla(MENSAJE_SALIDA)) {
-                                if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                                if (mainframe.enviarComando(
+                                        MainframeAPI.COMANDO_ENTER)) {
                                     return true;
                                 }
                             }
