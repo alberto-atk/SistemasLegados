@@ -110,6 +110,7 @@ public class TasksJob implements TasksAPI {
         if (mainframe.enviarString(ANYADIR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_ANYADIR_TAREA)) {
+                    // TODO Partir en dos
                     if (mainframe.enviarString(idTarea)) {
                         if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                             if (mainframe.enviarString(nombreTarea)) {
@@ -210,7 +211,8 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      */
     @Override
-    public List<Tarea> buscarTareas(String fecha) throws IOException, InterruptedException {
+    public List<Tarea> buscarTareas(String fecha)
+            throws IOException, InterruptedException {
         List<Tarea> tareas = new ArrayList();
         if (mainframe.enviarString(BUSCAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {

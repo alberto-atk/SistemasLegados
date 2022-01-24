@@ -121,7 +121,8 @@ public class ComplexDialoguePanel extends JPanel {
             Icon icono = null;
             Object valorInicial = opciones[0];
 
-            respuesta = JOptionPane.showOptionDialog(null, this, ETIQUETA_VENTANA,
+            respuesta = JOptionPane.showOptionDialog(null,
+                    this, ETIQUETA_VENTANA,
                     tipoOpcion, tipoMensaje, icono,
                     opciones, valorInicial);
 
