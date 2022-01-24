@@ -1,7 +1,8 @@
 /**
  * Aplicación.java
  * <p>
- * Aplicación con interfaz gráfica para emplear una aplicación legada sobre una máquina mainframe.
+ * Aplicación con interfaz gráfica para emplear una aplicación legada sobre una máquina
+ * mainframe.
  * <p>
  * Radu Constantin Robu y Alberto Pérez
  */
@@ -86,8 +87,7 @@ public class Aplicacion implements OyenteVista {
      */
     private void falloConexion(String[] datos) throws IOException, InterruptedException {
         emulador = Mainframe.getInstance();
-        RESPUESTAS_INICIO_SESION resultadoConexion = emulador.
-                conexion(datos[0], datos[1], datos[2]);
+        RESPUESTAS_INICIO_SESION resultadoConexion = emulador.conexion(datos[0], datos[1], datos[2]);
 
         switch (resultadoConexion) {
             case OK:
@@ -170,8 +170,7 @@ public class Aplicacion implements OyenteVista {
         if (!tasks2.nuevoFicheroTareas()) {
             vista.notificarMensajeError(TITULO_ERROR_FICHERO_TAREAS, MENSAJE_ERROR_FICHERO_TAREAS);
         } else {
-            vista.notificarMensajeConfirmacion(TITULO_CONFIRMACION_FICHERO_TAREAS,
-                    MENSAJE_CONFIRMACION_FICHERO_TAREAS);
+            vista.notificarMensajeConfirmacion(TITULO_CONFIRMACION_FICHERO_TAREAS, MENSAJE_CONFIRMACION_FICHERO_TAREAS);
         }
     }
 
@@ -187,8 +186,7 @@ public class Aplicacion implements OyenteVista {
         Tupla<String, String> tuplaIdNombre = tuplaTarea.a;
         Tupla<String, String> tuplaDescFecha = tuplaTarea.b;
 
-        TasksAPI.CODIGO_ERROR codigoAnyadir = tasks2.anyadirTarea(tuplaIdNombre.a, tuplaIdNombre.b,
-                tuplaDescFecha.a, tuplaDescFecha.b);
+        TasksAPI.CODIGO_ERROR codigoAnyadir = tasks2.anyadirTarea(tuplaIdNombre.a, tuplaIdNombre.b, tuplaDescFecha.a, tuplaDescFecha.b);
 
         switch (codigoAnyadir) {
             case NOK:
@@ -198,8 +196,7 @@ public class Aplicacion implements OyenteVista {
                 vista.notificarMensajeError(TITULO_ERROR_ANYADIR_TAREA, MENSAJE_ERROR_ID_INCORRECTO);
                 break;
             case OK:
-                vista.notificarMensajeConfirmacion(TITULO_CONFIRMACION_ANYADIR_TAREA,
-                        MENSAJE_CONFIRMACION_TAREA_ANYADIDA);
+                vista.notificarMensajeConfirmacion(TITULO_CONFIRMACION_ANYADIR_TAREA, MENSAJE_CONFIRMACION_TAREA_ANYADIDA);
                 break;
         }
     }
@@ -222,8 +219,7 @@ public class Aplicacion implements OyenteVista {
                 vista.notificarMensajeError(TITULO_ERROR_ELIMINAR_TAREA, MENSAJE_ERROR_ELIMINAR_TAREA);
                 break;
             case OK:
-                vista.notificarMensajeConfirmacion(TITULO_CONFIRMACION_ELIMINAR_TAREA,
-                        MENSAJE_CONFIRMACION_ELIMINAR_TAREA);
+                vista.notificarMensajeConfirmacion(TITULO_CONFIRMACION_ELIMINAR_TAREA, MENSAJE_CONFIRMACION_ELIMINAR_TAREA);
                 break;
         }
     }
