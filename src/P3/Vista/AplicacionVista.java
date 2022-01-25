@@ -33,11 +33,15 @@ public class AplicacionVista implements ActionListener,
     private static final int ALTO_PANEL_TAREAS = 200;
     private static final int INDENT_TAREAS = 70;
     private static final int TAMANYO_NOMBRE_TAREA = 16;
+    private static final int TAMANYO_CAMPOS_INICIO_SESION = 16;
     private static final int TAMANYO_DESCRIPCION_TAREA = 32;
     private static final int TAMANYO_CAMPOS_TEXTO = 10;
 
     private static final String FORMATO_FECHA = "^[0-9]{2} [0-9]{2} [0-9]{4}$";
     private static final String PATRON_CADENA_DIGITOS = "^[0-9]+$";
+    private static final String RESPUESTA_SI = "y";
+    private static final String RESPUESTA_NO = "n";
+
 
     private OyenteVista oyenteVista;
     private static final String NUEVO_FICHERO = "Nuevo fichero";
@@ -89,7 +93,7 @@ public class AplicacionVista implements ActionListener,
             "Fecha incorrecta";
     private static final String MENSAJE_FECHA_INCORRECTA =
             "El formato de la fecha introducida no es correcto.\n" +
-            "Formato aceptado:\n" + "DD MM AAAA\n";
+                    "Formato aceptado:\n" + "DD MM AAAA\n";
 
     private static final String ETIQUETA_VENTANA_ID_INCORRECTO =
             "ID incorrecto";
@@ -100,13 +104,13 @@ public class AplicacionVista implements ActionListener,
             "Nombre incorrecto";
     private static final String MENSAJE_NOMBRE_INCORRECTO =
             "El nombre de la tarea debe tener menos de " +
-            TAMANYO_NOMBRE_TAREA + " caracteres.";
+                    TAMANYO_NOMBRE_TAREA + " caracteres.";
 
     private static final String ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA =
             "Descripción incorrecta";
     private static final String MENSAJE_DESCRIPCION_INCORRECTA =
             "La descripción de la tarea debe tener menos de " +
-            TAMANYO_DESCRIPCION_TAREA + " caracteres.";
+                    TAMANYO_DESCRIPCION_TAREA + " caracteres.";
 
     private String[] datosInicioSesion;
 
@@ -127,12 +131,19 @@ public class AplicacionVista implements ActionListener,
 
     /**
      * Constructor de la clase.
+     *
+     * @param oyenteVista
      */
     public AplicacionVista(OyenteVista oyenteVista) {
         datosInicioSesion = iniciarSesion();
         this.oyenteVista = oyenteVista;
     }
 
+    /**
+     * Devuelve los datos de inicio de sesión.
+     *
+     * @return
+     */
     public String[] obtenerDatosInicioSesion() {
         return datosInicioSesion;
     }
@@ -270,8 +281,8 @@ public class AplicacionVista implements ActionListener,
                 String[] datosAnyadirTarea = anyadirTarea();
                 if (datosAnyadirTarea != null) {
                     Tupla<Tupla, Tupla> tupla = new Tupla(
-                        new Tupla(datosAnyadirTarea[0], datosAnyadirTarea[1]),
-                        new Tupla(datosAnyadirTarea[2], datosAnyadirTarea[3]));
+                            new Tupla(datosAnyadirTarea[0], datosAnyadirTarea[1]),
+                            new Tupla(datosAnyadirTarea[2], datosAnyadirTarea[3]));
                     oyenteVista.eventoProducido(
                             OyenteVista.Evento.ANYADIR_TAREA, tupla);
                 }
@@ -290,9 +301,11 @@ public class AplicacionVista implements ActionListener,
                         MENSAJE_GUARDAR_CAMBIOS,
                         TITULO_GUARDAR_SALIR, JOptionPane.YES_NO_OPTION);
                 if (resp == JOptionPane.YES_OPTION) {
-                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, "y");
+                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR,
+                            RESPUESTA_SI);
                 } else if (resp == JOptionPane.NO_OPTION) {
-                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, "n");
+                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR,
+                            RESPUESTA_NO);
                 }
                 break;
 
@@ -319,6 +332,8 @@ public class AplicacionVista implements ActionListener,
 
     /**
      * Método para mostrar tareas en un mainframe.
+     *
+     * @param tareas
      */
     public void mostrarTareas(String tareas) {
         areaTextoTareas.setText("");
@@ -327,11 +342,13 @@ public class AplicacionVista implements ActionListener,
 
     /**
      * Método para iniciar sesión en un mainframe.
+     *
+     * @return
      */
     private String[] iniciarSesion() {
         ComplexDialoguePanel ventanaIniciarSesion =
                 new ComplexDialoguePanel(TITULO_VENTANA_INICIAR_SESION,
-                CAMPOS_INICIAR_SESION, 16);
+                        CAMPOS_INICIAR_SESION, TAMANYO_CAMPOS_INICIO_SESION);
         String[] datosInicioSesion =
                 ventanaIniciarSesion.obtenerTextoCampos(
                         OPCIONES_INICIAR_SESION);
@@ -428,7 +445,7 @@ public class AplicacionVista implements ActionListener,
     private String[] buscarTareas() {
         ComplexDialoguePanel ventanaBuscarTareas =
                 new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS,
-                CAMPOS_BUSCAR_TAREAS, TAMANYO_CAMPOS_TEXTO);
+                        CAMPOS_BUSCAR_TAREAS, TAMANYO_CAMPOS_TEXTO);
         String[] datosBuscarTareas =
                 ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_BUSCAR_TAREAS);
 
@@ -436,14 +453,14 @@ public class AplicacionVista implements ActionListener,
     }
 
     /**
-     * Método para ELIMINAR una tarea.
+     * Método para eliminar una tarea.
      *
      * @return
      */
     private String[] obtenerDatosEliminarTarea() {
         ComplexDialoguePanel ventanaEliminarTareas =
                 new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
-                CAMPOS_ELIMINAR_TAREA, TAMANYO_CAMPOS_TEXTO);
+                        CAMPOS_ELIMINAR_TAREA, TAMANYO_CAMPOS_TEXTO);
         String[] datoseliminarTareas =
                 ventanaEliminarTareas.obtenerTextoCampos(
                         OPCIONES_ELIMINAR_TAREA);

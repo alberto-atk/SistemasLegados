@@ -14,7 +14,10 @@ public interface OyenteVista {
     }
 
     /**
-     * Llamado para notificar un evento de la interfaz de usuario
+     * Llamado para notificar un evento de la interfaz de usuario.
+     *
+     * @param evento
+     * @param obj
      */
     void eventoProducido(Evento evento, Object obj);
 }

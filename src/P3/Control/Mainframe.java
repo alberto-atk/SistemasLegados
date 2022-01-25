@@ -57,7 +57,6 @@ public class Mainframe implements MainframeAPI {
      * @param host
      * @return
      * @throws IOException
-     * @throws InterruptedException
      */
     private boolean conectarHost(String host) throws IOException {
         outStream.println(CONNECT + host);
@@ -69,6 +68,7 @@ public class Mainframe implements MainframeAPI {
      * Obtiene la respuesta textual del mainframe en la terminal s3270.
      *
      * @return
+     * @throws IOException
      */
     public String obtenerRespuestaMaquina() throws IOException {
         String resultado = "";
@@ -174,6 +174,7 @@ public class Mainframe implements MainframeAPI {
     /**
      * Ejecuta la aplicación legada.
      *
+     * @return
      * @throws InterruptedException
      * @throws IOException
      */
@@ -197,7 +198,6 @@ public class Mainframe implements MainframeAPI {
      *
      * @return
      * @throws IOException
-     * @throws InterruptedException
      */
     @Override
     public boolean logout() throws IOException {
@@ -231,7 +231,7 @@ public class Mainframe implements MainframeAPI {
      *
      * @param mensaje
      * @return
-     * @Override
+     * @throws IOException
      */
     @Override
     public boolean enviarString(String mensaje) throws IOException {

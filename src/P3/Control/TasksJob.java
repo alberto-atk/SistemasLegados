@@ -61,6 +61,10 @@ public class TasksJob implements TasksAPI {
 
     /**
      * Opción de tasks2 para crear un nuevo fichero de tareas.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
      */
     @Override
     public boolean nuevoFicheroTareas()
@@ -95,6 +99,7 @@ public class TasksJob implements TasksAPI {
      * @param nombreTarea
      * @param descripcionTarea
      * @param fecha
+     * @return
      * @throws IOException
      * @throws InterruptedException
      */
@@ -102,6 +107,7 @@ public class TasksJob implements TasksAPI {
     public CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea,
                                      String descripcionTarea, String fecha)
             throws IOException, InterruptedException {
+        CODIGO_ERROR codigo = CODIGO_ERROR.NOK;
 
         if (existeIdTarea(idTarea)) {
             return CODIGO_ERROR.IDTAREA_REPETIDO;
@@ -110,21 +116,44 @@ public class TasksJob implements TasksAPI {
         if (mainframe.enviarString(ANYADIR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_ANYADIR_TAREA)) {
-                    // TODO Partir en dos
-                    if (mainframe.enviarString(idTarea)) {
-                        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            if (mainframe.enviarString(nombreTarea)) {
-                                if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                                    if (mainframe.enviarString(descripcionTarea)) {
-                                        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                                            if (mainframe.enviarString(fecha)) {
-                                                if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                                                    if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                                                        if (mainframe.esperarPantalla(MENU_TASKS2)) {
-                                                            return CODIGO_ERROR.OK;
-                                                        }
-                                                    }
-                                                }
+                    codigo = auxiliarEnviarDatosTarea(idTarea, nombreTarea,
+                            descripcionTarea, fecha);
+
+                }
+            }
+        }
+        return codigo;
+    }
+
+    /**
+     * Método auxiliar para enviar los datos de la tarea.
+     *
+     * @param idTarea
+     * @param nombreTarea
+     * @param descripcionTarea
+     * @param fecha
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public CODIGO_ERROR auxiliarEnviarDatosTarea(
+            String idTarea, String nombreTarea, String descripcionTarea,
+            String fecha) throws IOException, InterruptedException {
+        if (mainframe.enviarString(idTarea)) {
+            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                if (mainframe.enviarString(nombreTarea)) {
+                    if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                        if (mainframe.enviarString(descripcionTarea)) {
+                            if (mainframe.enviarComando(
+                                    Mainframe.COMANDO_ENTER)) {
+                                if (mainframe.enviarString(fecha)) {
+                                    if (mainframe.enviarComando(
+                                            Mainframe.COMANDO_ENTER)) {
+                                        if (mainframe.enviarComando(
+                                                Mainframe.COMANDO_ENTER)) {
+                                            if (mainframe.esperarPantalla(
+                                                    MENU_TASKS2)) {
+                                                return CODIGO_ERROR.OK;
                                             }
                                         }
                                     }
@@ -157,44 +186,54 @@ public class TasksJob implements TasksAPI {
         return false;
     }
 
-
     /**
      * Opción de tasks2 para eliminar una tarea.
      *
      * @param idTarea
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
      */
     @Override
     public CODIGO_ERROR eliminarTarea(String idTarea)
             throws IOException, InterruptedException {
+        CODIGO_ERROR codigo = CODIGO_ERROR.NOK;
         if (mainframe.enviarString(ELIMINAR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
                 if (mainframe.esperarPantalla(MENSAJE_ELIMINAR_TAREA)) {
                     if (mainframe.enviarString(idTarea)) {
                         if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            if (mainframe.esperarPantalla(
-                                    MENSAJE_TAREA_NO_ENCONTRADA)) {
-                                if (mainframe.enviarComando(
-                                        MainframeAPI.COMANDO_ENTER)) {
-                                    if (mainframe.esperarPantalla(
-                                            MENU_TASKS2)) {
-                                        return CODIGO_ERROR.IDTAREA_INCORRECTO;
-                                    }
-                                }
-                            } else if (mainframe.esperarPantalla(
-                                    MENSAJE_CONFIRMAR_ELIMINAR)) {
-                                if (mainframe.enviarString(SI)) {
-                                    if (mainframe.enviarComando(
-                                            MainframeAPI.COMANDO_ENTER)) {
-                                        if (mainframe.enviarComando(
-                                                MainframeAPI.COMANDO_ENTER)) {
-                                            if (mainframe.esperarPantalla(
-                                                    MENU_TASKS2)) {
-                                                return CODIGO_ERROR.OK;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            codigo = auxiliarEliminarTarea();
+                        }
+                    }
+                }
+            }
+        }
+        return codigo;
+    }
+
+    /**
+     * Método auxiliar para eliminar la tarea.
+     *
+     * @param idTarea
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public CODIGO_ERROR auxiliarEliminarTarea()
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(MENSAJE_TAREA_NO_ENCONTRADA)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                    return CODIGO_ERROR.IDTAREA_INCORRECTO;
+                }
+            }
+        } else if (mainframe.esperarPantalla(MENSAJE_CONFIRMAR_ELIMINAR)) {
+            if (mainframe.enviarString(SI)) {
+                if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                    if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                        if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                            return CODIGO_ERROR.OK;
                         }
                     }
                 }
@@ -207,6 +246,7 @@ public class TasksJob implements TasksAPI {
      * Opción de tasks2 para buscar las tareas de una fecha concreta.
      *
      * @param fecha
+     * @return
      * @throws IOException
      * @throws InterruptedException
      */
@@ -244,9 +284,9 @@ public class TasksJob implements TasksAPI {
     /**
      * Opción de tasks2 para listar las tareas.
      *
+     * @return
      * @throws IOException
      * @throws InterruptedException
-     * @Override
      */
     @Override
     public List<Tarea> listarTareas()
@@ -312,9 +352,9 @@ public class TasksJob implements TasksAPI {
     /**
      * Opción de tasks2 para guardar las tareas.
      *
+     * @return
      * @throws IOException
      * @throws InterruptedException
-     * @Override
      */
     @Override
     public boolean guardarTareas()
@@ -336,8 +376,10 @@ public class TasksJob implements TasksAPI {
     /**
      * Termina la comunicación con la terminal s3270.
      *
+     * @param guardarTareas
      * @return
-     * @Override
+     * @throws IOException
+     * @throws InterruptedException
      */
     @Override
     public boolean salir(String guardarTareas)
