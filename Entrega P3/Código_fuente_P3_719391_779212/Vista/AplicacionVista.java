@@ -23,7 +23,8 @@ import java.beans.PropertyChangeListener;
 import P3.Control.OyenteVista;
 import P3.Modelo.Tupla;
 
-public class AplicacionVista implements ActionListener, PropertyChangeListener {
+public class AplicacionVista implements ActionListener,
+        PropertyChangeListener {
     private static final int ANCHO = 600;
     private static final int ALTO = 800;
     private static final int ANCHO_PANEL_BOTONES = 200;
@@ -32,11 +33,15 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final int ALTO_PANEL_TAREAS = 200;
     private static final int INDENT_TAREAS = 70;
     private static final int TAMANYO_NOMBRE_TAREA = 16;
+    private static final int TAMANYO_CAMPOS_INICIO_SESION = 16;
     private static final int TAMANYO_DESCRIPCION_TAREA = 32;
     private static final int TAMANYO_CAMPOS_TEXTO = 10;
 
     private static final String FORMATO_FECHA = "^[0-9]{2} [0-9]{2} [0-9]{4}$";
     private static final String PATRON_CADENA_DIGITOS = "^[0-9]+$";
+    private static final String RESPUESTA_SI = "y";
+    private static final String RESPUESTA_NO = "n";
+
 
     private OyenteVista oyenteVista;
     private static final String NUEVO_FICHERO = "Nuevo fichero";
@@ -55,39 +60,57 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private static final String ACCION_GUARDAR_TAREAS = "GUARDAR_TAREAS";
     private static final String ACCION_SALIR = "SALIR";
     private static final String TITULO_GUARDAR_SALIR = "Guardar y salir";
-    private static final String MENSAJE_GUARDAR_CAMBIOS = "¿Desea guardar los cambios?";
+    private static final String MENSAJE_GUARDAR_CAMBIOS =
+            "¿Desea guardar los cambios?";
 
-    private static final String TITULO_VENTANA_INICIAR_SESION = "Conexión con el mainframe";
-    private static final String[] CAMPOS_INICIAR_SESION = {"Host", "Usuario", "Contraseña"};
-    private static final String[] OPCIONES_INICIAR_SESION = {"Iniciar sesión", "Cancelar"};
+    private static final String TITULO_VENTANA_INICIAR_SESION =
+            "Conexión con el mainframe";
+    private static final String[] CAMPOS_INICIAR_SESION =
+            {"Host", "Usuario", "Contraseña"};
+    private static final String[] OPCIONES_INICIAR_SESION =
+            {"Iniciar sesión", "Cancelar"};
 
-    private static final String TITULO_VENTANA_ANYADIR_TAREA = "Añadir una tarea";
-    private static final String[] CAMPOS_ANYADIR_TAREA = {"Id", "Nombre", "Descripción", "Fecha"};
-    private static final String[] OPCIONES_ANYADIR_TAREA = {"Añadir", "Cancelar"};
+    private static final String TITULO_VENTANA_ANYADIR_TAREA =
+            "Añadir una tarea";
+    private static final String[] CAMPOS_ANYADIR_TAREA =
+            {"Id", "Nombre", "Descripción", "Fecha"};
+    private static final String[] OPCIONES_ANYADIR_TAREA =
+            {"Añadir", "Cancelar"};
 
     private static final String TITULO_VENTANA_BUSCAR_TAREAS = "Buscar tareas";
     private static final String[] CAMPOS_BUSCAR_TAREAS = {"Fecha"};
-    private static final String[] OPCIONES_BUSCAR_TAREAS = {"Buscar", "Cancelar"};
+    private static final String[] OPCIONES_BUSCAR_TAREAS =
+            {"Buscar", "Cancelar"};
 
-    private static final String TITULO_VENTANA_ELIMINAR_TAREA = "Eliminar tarea";
+    private static final String TITULO_VENTANA_ELIMINAR_TAREA =
+            "Eliminar tarea";
     private static final String[] CAMPOS_ELIMINAR_TAREA = {"Id"};
-    private static final String[] OPCIONES_ELIMINAR_TAREA = {"Eliminar", "Cancelar"};
+    private static final String[] OPCIONES_ELIMINAR_TAREA =
+            {"Eliminar", "Cancelar"};
 
 
-    private static final String ETIQUETA_VENTANA_ERROR_FECHA = "Fecha incorrecta";
-    private static final String MENSAJE_FECHA_INCORRECTA = "El formato de la fecha introducida no es correcto.\n" +
-            "Formato aceptado:\n" + "DD MM AAAA\n";
+    private static final String ETIQUETA_VENTANA_ERROR_FECHA =
+            "Fecha incorrecta";
+    private static final String MENSAJE_FECHA_INCORRECTA =
+            "El formato de la fecha introducida no es correcto.\n" +
+                    "Formato aceptado:\n" + "DD MM AAAA\n";
 
-    private static final String ETIQUETA_VENTANA_ID_INCORRECTO = "ID incorrecto";
-    private static final String MENSAJE_ID_INCORRECTO = "El id de una tarea debe contener únicamente números.";
+    private static final String ETIQUETA_VENTANA_ID_INCORRECTO =
+            "ID incorrecto";
+    private static final String MENSAJE_ID_INCORRECTO =
+            "El id de una tarea debe contener únicamente números.";
 
-    private static final String ETIQUETA_VENTANA_NOMBRE_INCORRECTO = "Nombre incorrecto";
-    private static final String MENSAJE_NOMBRE_INCORRECTO = "El nombre de la tarea debe tener menos de " +
-            TAMANYO_NOMBRE_TAREA + " caracteres.";
+    private static final String ETIQUETA_VENTANA_NOMBRE_INCORRECTO =
+            "Nombre incorrecto";
+    private static final String MENSAJE_NOMBRE_INCORRECTO =
+            "El nombre de la tarea debe tener menos de " +
+                    TAMANYO_NOMBRE_TAREA + " caracteres.";
 
-    private static final String ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA = "Descripción incorrecta";
-    private static final String MENSAJE_DESCRIPCION_INCORRECTA = "La descripción de la tarea debe tener menos de " +
-            TAMANYO_DESCRIPCION_TAREA + " caracteres.";
+    private static final String ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA =
+            "Descripción incorrecta";
+    private static final String MENSAJE_DESCRIPCION_INCORRECTA =
+            "La descripción de la tarea debe tener menos de " +
+                    TAMANYO_DESCRIPCION_TAREA + " caracteres.";
 
     private String[] datosInicioSesion;
 
@@ -102,17 +125,25 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private JTextPane areaTextoTareas;
 
     private enum CodigoRespuesta {
-        OK, ERROR_ID_TAREA, ERROR_LONG_NOMBRE, DATOS_VACIOS, ERROR_FECHA_INCORRECTA, ERROR_LONG_DESCRIPCION
+        OK, ERROR_ID_TAREA, ERROR_LONG_NOMBRE, DATOS_VACIOS,
+        ERROR_FECHA_INCORRECTA, ERROR_LONG_DESCRIPCION
     }
 
     /**
      * Constructor de la clase.
+     *
+     * @param oyenteVista
      */
     public AplicacionVista(OyenteVista oyenteVista) {
         datosInicioSesion = iniciarSesion();
         this.oyenteVista = oyenteVista;
     }
 
+    /**
+     * Devuelve los datos de inicio de sesión.
+     *
+     * @return
+     */
     public String[] obtenerDatosInicioSesion() {
         return datosInicioSesion;
     }
@@ -139,9 +170,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      */
     public JPanel crearPanelMostrarTareas() {
         panelTareas = new JPanel(new BorderLayout());
-        Border bordePanelTareas = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        Border bordePanelTareas =
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         panelTareas.setBorder(bordePanelTareas);
-        panelTareas.setPreferredSize(new Dimension(ANCHO_PANEL_TAREAS, ALTO_PANEL_TAREAS));
+        panelTareas.setPreferredSize(new Dimension(ANCHO_PANEL_TAREAS,
+                ALTO_PANEL_TAREAS));
 
         JScrollPane panelDeslizable = new JScrollPane();
         areaTextoTareas = new JTextPane();
@@ -172,10 +205,12 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
         JPanel layoutBotones = new JPanel(new GridBagLayout());
         layoutBotones.setBorder(new EmptyBorder(5, 5, 5, 5));
-        Border bordePanelBotones = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        Border bordePanelBotones =
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         layoutBotones.setBorder(bordePanelBotones);
 
-        JPanel contenedorBotones = new JPanel(new GridLayout(10, 1, 10, 20));
+        JPanel contenedorBotones =
+                new JPanel(new GridLayout(10, 1, 10, 20));
 
         contenedorBotones.add(botonNuevoFichero);
         contenedorBotones.add(botonAnyadirTarea);
@@ -185,9 +220,12 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
         contenedorBotones.add(botonGuardarTareas);
         contenedorBotones.add(botonSalir);
         layoutBotones.add(contenedorBotones);
-        layoutBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
-        panelBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
-        contenedorBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES, ALTO_PANEL_BOTONES));
+        layoutBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,
+                ALTO_PANEL_BOTONES));
+        panelBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,
+                ALTO_PANEL_BOTONES));
+        contenedorBotones.setPreferredSize(new Dimension(ANCHO_PANEL_BOTONES,
+                ALTO_PANEL_BOTONES));
         panelBotones.add(layoutBotones, BorderLayout.WEST);
 
         return panelBotones;
@@ -235,54 +273,67 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case ACCION_NUEVO_FICHERO:
-                oyenteVista.eventoProducido(OyenteVista.Evento.NUEVO_FICHERO, null);
+                oyenteVista.eventoProducido(OyenteVista.Evento.NUEVO_FICHERO,
+                        null);
                 break;
 
             case ACCION_ANYADIR_TAREA:
                 String[] datosAnyadirTarea = anyadirTarea();
                 if (datosAnyadirTarea != null) {
-                    Tupla<Tupla, Tupla> tupla = new Tupla(new Tupla(datosAnyadirTarea[0], datosAnyadirTarea[1]),
+                    Tupla<Tupla, Tupla> tupla = new Tupla(
+                            new Tupla(datosAnyadirTarea[0], datosAnyadirTarea[1]),
                             new Tupla(datosAnyadirTarea[2], datosAnyadirTarea[3]));
-                    oyenteVista.eventoProducido(OyenteVista.Evento.ANYADIR_TAREA, tupla);
+                    oyenteVista.eventoProducido(
+                            OyenteVista.Evento.ANYADIR_TAREA, tupla);
                 }
                 break;
 
             case ACCION_BUSCAR_TAREAS:
                 String[] datosBuscarTareas = buscarTareas();
                 if (datosBuscarTareas != null) {
-                    oyenteVista.eventoProducido(OyenteVista.Evento.BUSCAR_TAREA, datosBuscarTareas[0]);
+                    oyenteVista.eventoProducido(OyenteVista.Evento.BUSCAR_TAREA,
+                            datosBuscarTareas[0]);
                 }
                 break;
 
             case ACCION_SALIR:
-                int resp = JOptionPane.showConfirmDialog(null, MENSAJE_GUARDAR_CAMBIOS,
+                int resp = JOptionPane.showConfirmDialog(null,
+                        MENSAJE_GUARDAR_CAMBIOS,
                         TITULO_GUARDAR_SALIR, JOptionPane.YES_NO_OPTION);
                 if (resp == JOptionPane.YES_OPTION) {
-                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, "y");
+                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR,
+                            RESPUESTA_SI);
                 } else if (resp == JOptionPane.NO_OPTION) {
-                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR, "n");
+                    oyenteVista.eventoProducido(OyenteVista.Evento.SALIR,
+                            RESPUESTA_NO);
                 }
                 break;
 
             case ACCION_ELIMINAR_TAREA:
                 String[] datosEliminarTarea = obtenerDatosEliminarTarea();
                 if (datosEliminarTarea != null) {
-                    oyenteVista.eventoProducido(OyenteVista.Evento.ELIMINAR_TAREA, datosEliminarTarea[0]);
+                    oyenteVista.eventoProducido(
+                            OyenteVista.Evento.ELIMINAR_TAREA,
+                            datosEliminarTarea[0]);
                 }
                 break;
 
             case ACCION_LISTAR_TAREAS:
-                oyenteVista.eventoProducido(OyenteVista.Evento.LISTAR_TAREAS, null);
+                oyenteVista.eventoProducido(OyenteVista.Evento.LISTAR_TAREAS,
+                        null);
                 break;
 
             case ACCION_GUARDAR_TAREAS:
-                oyenteVista.eventoProducido(OyenteVista.Evento.GUARDAR_TAREAS, null);
+                oyenteVista.eventoProducido(OyenteVista.Evento.GUARDAR_TAREAS,
+                        null);
                 break;
         }
     }
 
     /**
      * Método para mostrar tareas en un mainframe.
+     *
+     * @param tareas
      */
     public void mostrarTareas(String tareas) {
         areaTextoTareas.setText("");
@@ -291,11 +342,16 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
 
     /**
      * Método para iniciar sesión en un mainframe.
+     *
+     * @return
      */
     private String[] iniciarSesion() {
-        ComplexDialoguePanel ventanaIniciarSesion = new ComplexDialoguePanel(TITULO_VENTANA_INICIAR_SESION,
-                CAMPOS_INICIAR_SESION, 16);
-        String[] datosInicioSesion = ventanaIniciarSesion.obtenerTextoCampos(OPCIONES_INICIAR_SESION);
+        ComplexDialoguePanel ventanaIniciarSesion =
+                new ComplexDialoguePanel(TITULO_VENTANA_INICIAR_SESION,
+                        CAMPOS_INICIAR_SESION, TAMANYO_CAMPOS_INICIO_SESION);
+        String[] datosInicioSesion =
+                ventanaIniciarSesion.obtenerTextoCampos(
+                        OPCIONES_INICIAR_SESION);
 
         return datosInicioSesion;
     }
@@ -308,9 +364,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private String[] anyadirTarea() {
         String[] datosAnyadirTarea = null;
 
-        ComplexDialoguePanel ventanaAnyadirTarea = new ComplexDialoguePanel(TITULO_VENTANA_ANYADIR_TAREA,
-                CAMPOS_ANYADIR_TAREA, TAMANYO_DESCRIPCION_TAREA);
-        datosAnyadirTarea = ventanaAnyadirTarea.obtenerTextoCampos(OPCIONES_ANYADIR_TAREA);
+        ComplexDialoguePanel ventanaAnyadirTarea = new ComplexDialoguePanel(
+                TITULO_VENTANA_ANYADIR_TAREA, CAMPOS_ANYADIR_TAREA,
+                TAMANYO_DESCRIPCION_TAREA);
+        datosAnyadirTarea = ventanaAnyadirTarea.obtenerTextoCampos(
+                OPCIONES_ANYADIR_TAREA);
 
         CodigoRespuesta codigo = verificarDatosTarea(datosAnyadirTarea);
 
@@ -319,23 +377,29 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
                 return datosAnyadirTarea;
 
             case ERROR_FECHA_INCORRECTA:
-                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_FECHA_INCORRECTA, ETIQUETA_VENTANA_ERROR_FECHA,
+                JOptionPane.showMessageDialog(new JFrame(),
+                        MENSAJE_FECHA_INCORRECTA, ETIQUETA_VENTANA_ERROR_FECHA,
                         JOptionPane.ERROR_MESSAGE);
                 break;
 
             case ERROR_ID_TAREA:
-                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_ID_INCORRECTO, ETIQUETA_VENTANA_ID_INCORRECTO,
+                JOptionPane.showMessageDialog(new JFrame(),
+                        MENSAJE_ID_INCORRECTO, ETIQUETA_VENTANA_ID_INCORRECTO,
                         JOptionPane.ERROR_MESSAGE);
                 break;
 
             case ERROR_LONG_NOMBRE:
-                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_NOMBRE_INCORRECTO,
-                        ETIQUETA_VENTANA_NOMBRE_INCORRECTO, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(),
+                        MENSAJE_NOMBRE_INCORRECTO,
+                        ETIQUETA_VENTANA_NOMBRE_INCORRECTO,
+                        JOptionPane.ERROR_MESSAGE);
                 break;
 
             case ERROR_LONG_DESCRIPCION:
-                JOptionPane.showMessageDialog(new JFrame(), MENSAJE_DESCRIPCION_INCORRECTA,
-                        ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(),
+                        MENSAJE_DESCRIPCION_INCORRECTA,
+                        ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA,
+                        JOptionPane.ERROR_MESSAGE);
                 break;
         }
         return null;
@@ -350,8 +414,11 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
     private CodigoRespuesta verificarDatosTarea(String[] datosTarea) {
         if (datosTarea != null) {
             if (datosTarea[0].matches(PATRON_CADENA_DIGITOS)) {
-                if ((datosTarea[1].length() > 0) && (datosTarea[1].length() <= TAMANYO_NOMBRE_TAREA)) {
-                    if ((datosTarea[2].length() > 0) && (datosTarea[2].length() <= TAMANYO_DESCRIPCION_TAREA)) {
+                if ((datosTarea[1].length() > 0) &&
+                        (datosTarea[1].length() <= TAMANYO_NOMBRE_TAREA)) {
+                    if ((datosTarea[2].length() > 0) &&
+                            (datosTarea[2].length() <=
+                                    TAMANYO_DESCRIPCION_TAREA)) {
                         if (datosTarea[3].matches(FORMATO_FECHA)) {
                             return CodigoRespuesta.OK;
                         } else {
@@ -376,22 +443,27 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @return
      */
     private String[] buscarTareas() {
-        ComplexDialoguePanel ventanaBuscarTareas = new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS,
-                CAMPOS_BUSCAR_TAREAS, TAMANYO_CAMPOS_TEXTO);
-        String[] datosBuscarTareas = ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_BUSCAR_TAREAS);
+        ComplexDialoguePanel ventanaBuscarTareas =
+                new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS,
+                        CAMPOS_BUSCAR_TAREAS, TAMANYO_CAMPOS_TEXTO);
+        String[] datosBuscarTareas =
+                ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_BUSCAR_TAREAS);
 
         return datosBuscarTareas;
     }
 
     /**
-     * Método para ELIMINAR una tarea.
+     * Método para eliminar una tarea.
      *
      * @return
      */
     private String[] obtenerDatosEliminarTarea() {
-        ComplexDialoguePanel ventanaEliminarTareas = new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
-                CAMPOS_ELIMINAR_TAREA, TAMANYO_CAMPOS_TEXTO);
-        String[] datoseliminarTareas = ventanaEliminarTareas.obtenerTextoCampos(OPCIONES_ELIMINAR_TAREA);
+        ComplexDialoguePanel ventanaEliminarTareas =
+                new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
+                        CAMPOS_ELIMINAR_TAREA, TAMANYO_CAMPOS_TEXTO);
+        String[] datoseliminarTareas =
+                ventanaEliminarTareas.obtenerTextoCampos(
+                        OPCIONES_ELIMINAR_TAREA);
 
         return datoseliminarTareas;
     }
@@ -403,7 +475,8 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @param mensaje
      */
     public void notificarMensajeError(String titulo, String mensaje) {
-        JOptionPane.showMessageDialog(new JFrame(), mensaje, titulo, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(new JFrame(), mensaje, titulo,
+                JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -413,7 +486,8 @@ public class AplicacionVista implements ActionListener, PropertyChangeListener {
      * @param mensaje
      */
     public void notificarMensajeConfirmacion(String titulo, String mensaje) {
-        JOptionPane.showMessageDialog(new JFrame(), mensaje, titulo, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(new JFrame(), mensaje, titulo,
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

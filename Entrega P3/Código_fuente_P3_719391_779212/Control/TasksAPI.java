@@ -37,7 +37,8 @@ public interface TasksAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea, String descripcionTarea, String fecha)
+    CODIGO_ERROR anyadirTarea(String idTarea, String nombreTarea,
+                              String descripcionTarea, String fecha)
             throws IOException, InterruptedException;
 
     /**
@@ -48,7 +49,8 @@ public interface TasksAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    CODIGO_ERROR eliminarTarea(String idTarea) throws IOException, InterruptedException;
+    CODIGO_ERROR eliminarTarea(String idTarea)
+            throws IOException, InterruptedException;
 
     /**
      * Método para buscar tareas.
@@ -58,7 +60,8 @@ public interface TasksAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    List<Tarea> buscarTareas(String fecha) throws IOException, InterruptedException;
+    List<Tarea> buscarTareas(String fecha)
+            throws IOException, InterruptedException;
 
     /**
      * Método para listar tareas.
@@ -86,6 +89,7 @@ public interface TasksAPI {
      * @throws IOException
      * @throws InterruptedException
      */
-    boolean salir(String guardarTareas) throws IOException, InterruptedException;
+    boolean salir(String guardarTareas)
+            throws IOException, InterruptedException;
 
 }
