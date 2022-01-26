@@ -155,17 +155,46 @@ public class Mainframe implements MainframeAPI {
             throws InterruptedException, IOException {
         if (esperarPantalla(PANTALLA_CONEXION)) {
             if (enviarComando(COMANDO_ENTER)) {
-                if (esperarPantalla(PANTALLA_LOGIN)) {
-                    if (enviarString(username)) {
-                        if (enviarComando(COMANDO_ENTER)) {
-                            if (enviarString(password)) {
-                                if (enviarComando(COMANDO_ENTER)) {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
+                if (enviarNombreUsuario(username) &&
+                        enviarContrasenya(password)) {
+                    return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para enviar el nombre de usuario al emulador.
+     *
+     * @param username
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean enviarNombreUsuario(String username)
+            throws IOException, InterruptedException {
+        if (esperarPantalla(PANTALLA_LOGIN)) {
+            if (enviarString(username)) {
+                if (enviarComando(COMANDO_ENTER)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para enviar la contraseña del usuario al emulador.
+     *
+     * @param password
+     * @return
+     * @throws IOException
+     */
+    private boolean enviarContrasenya(String password) throws IOException {
+        if (enviarString(password)) {
+            if (enviarComando(COMANDO_ENTER)) {
+                return true;
             }
         }
         return false;

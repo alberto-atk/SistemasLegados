@@ -33,19 +33,20 @@ public class TasksJob implements TasksAPI {
     private static final String TEXTO_ID_TAREA = "data: TASK NUMBER: ";
 
     private static final String MENU_TASKS2 = "**MENU**";
-    private static final String MENSAJE_NUEVO_FICHERO = "**NEW TASK FILE**";
+    private static final String PANTALLA_NUEVO_FICHERO_TAREAS =
+            "**NEW TASK FILE**";
     private static final String FICHERO_TAREAS_CREADO =
             "NEW TASK FILE HAS BEEN CREATED";
     private static final String MENSAJE_SALIDA = "BYE";
-    private static final String MENSAJE_GUARDAR_TAREAS = "SAVE TASKS";
-    private static final String MENSAJE_LISTAR_TAREAS = "**LIST TASK**";
+    private static final String PANTALLA_GUARDAR_TAREAS = "SAVE TASKS";
+    private static final String PANTALLA_LISTAR_TAREAS = "**LIST TASK**";
     private static final String TAREAS_GUARDADAS = "TASKS HAVE BEEN SAVED";
-    private static final String MENSAJE_FIN_LISTA = "**END**";
-    private static final String MENSAJE_BUSCAR_TAREAS = "**SEARCH TASK**";
+    private static final String FIN_LISTA = "**END**";
+    private static final String PANTALLA_BUSCAR_TAREAS = "**SEARCH TASK**";
     private static final String MENSAJE_CONFIRMAR_ELIMINAR = "CONFIRM (Y/N)";
-    private static final String MENSAJE_TAREA_NO_ENCONTRADA = "TASK NOT FOUND";
-    private static final String MENSAJE_ELIMINAR_TAREA = "**REMOVE TASK**";
-    private static final String MENSAJE_ANYADIR_TAREA = "**ADD TASK**";
+    private static final String PANTALLA_TAREA_NO_ENCONTRADA = "TASK NOT FOUND";
+    private static final String PANTALLA_ELIMINAR_TAREA = "**REMOVE TASK**";
+    private static final String PANTALLA_ANYADIR_TAREA = "**ADD TASK**";
 
     private Mainframe mainframe;
 
@@ -71,21 +72,48 @@ public class TasksJob implements TasksAPI {
             throws IOException, InterruptedException {
         if (mainframe.enviarString(NUEVO_FICHERO)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENSAJE_NUEVO_FICHERO)) {
-                    if (mainframe.enviarString(SI)) {
-                        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            if (mainframe
-                                    .esperarPantalla(FICHERO_TAREAS_CREADO)) {
-                                if (mainframe.enviarComando(
-                                        Mainframe.COMANDO_ENTER)) {
-                                    if (mainframe
-                                            .esperarPantalla(MENU_TASKS2)) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (enviarRespuestaConfirmacion() && ficheroTareasCreado()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para enviar al emulador la confirmación para crear un
+     * nuevo fichero de tareas.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean enviarRespuestaConfirmacion()
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(PANTALLA_NUEVO_FICHERO_TAREAS)) {
+            if (mainframe.enviarString(SI)) {
+                if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para esperar la pantalla de confirmación de la
+     * creación del fichero de tareas.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean ficheroTareasCreado()
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(FICHERO_TAREAS_CREADO)) {
+            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                    return true;
                 }
             }
         }
@@ -115,7 +143,7 @@ public class TasksJob implements TasksAPI {
 
         if (mainframe.enviarString(ANYADIR)) {
             if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENSAJE_ANYADIR_TAREA)) {
+                if (mainframe.esperarPantalla(PANTALLA_ANYADIR_TAREA)) {
                     codigo = auxiliarEnviarDatosTarea(idTarea, nombreTarea,
                             descripcionTarea, fecha);
 
@@ -137,34 +165,101 @@ public class TasksJob implements TasksAPI {
      * @throws InterruptedException
      */
     public CODIGO_ERROR auxiliarEnviarDatosTarea(
-            String idTarea, String nombreTarea, String descripcionTarea,
+            String idTarea, String nombreTarea, String
+            descripcionTarea,
             String fecha) throws IOException, InterruptedException {
-        if (mainframe.enviarString(idTarea)) {
-            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                if (mainframe.enviarString(nombreTarea)) {
-                    if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                        if (mainframe.enviarString(descripcionTarea)) {
-                            if (mainframe.enviarComando(
-                                    Mainframe.COMANDO_ENTER)) {
-                                if (mainframe.enviarString(fecha)) {
-                                    if (mainframe.enviarComando(
-                                            Mainframe.COMANDO_ENTER)) {
-                                        if (mainframe.enviarComando(
-                                                Mainframe.COMANDO_ENTER)) {
-                                            if (mainframe.esperarPantalla(
-                                                    MENU_TASKS2)) {
-                                                return CODIGO_ERROR.OK;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+        if (enviarIdTarea(idTarea) &&
+                enviarNombreTarea(nombreTarea) &&
+                enviarDescripcionTarea(descripcionTarea) &&
+                enviarFechaTarea(fecha)) {
+            if (esperarPantallaMenu()) {
+                return CODIGO_ERROR.OK;
             }
         }
         return CODIGO_ERROR.NOK;
+    }
+
+    /**
+     * Método auxiliar para enviar al emulador el ID de la tarea.
+     *
+     * @param idTarea
+     * @return
+     * @throws IOException
+     */
+    private boolean enviarIdTarea(String idTarea) throws IOException {
+        if (mainframe.enviarString(idTarea)) {
+            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para enviar al emulador el nombre de la tarea.
+     *
+     * @param nombreTarea
+     * @return
+     * @throws IOException
+     */
+    private boolean enviarNombreTarea(String nombreTarea) throws IOException {
+        if (mainframe.enviarString(nombreTarea)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para enviar al emulador la descripción de la tarea.
+     *
+     * @param descripcionTarea
+     * @return
+     * @throws IOException
+     */
+    private boolean enviarDescripcionTarea(String descripcionTarea)
+            throws IOException {
+        if (mainframe.enviarString(descripcionTarea)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para enviar al emulador la fecha de la tarea.
+     *
+     * @param fecha
+     * @return
+     * @throws IOException
+     */
+    private boolean enviarFechaTarea(String fecha) throws IOException {
+        if (mainframe.enviarString(fecha)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar para esperar la pantalla de menú de la aplicación
+     * legada.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarPantallaMenu()
+            throws IOException, InterruptedException {
+        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+            if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -198,18 +293,32 @@ public class TasksJob implements TasksAPI {
     public CODIGO_ERROR eliminarTarea(String idTarea)
             throws IOException, InterruptedException {
         CODIGO_ERROR codigo = CODIGO_ERROR.NOK;
-        if (mainframe.enviarString(ELIMINAR)) {
-            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENSAJE_ELIMINAR_TAREA)) {
-                    if (mainframe.enviarString(idTarea)) {
-                        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            codigo = auxiliarEliminarTarea();
-                        }
-                    }
-                }
+
+        if (esperarPantallaEliminar()) {
+            if (enviarIdTarea(idTarea)) {
+                codigo = auxiliarEliminarTarea();
             }
         }
         return codigo;
+    }
+
+    /**
+     * Método auxiliar que espera la pantalla de eliminación de una tarea.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarPantallaEliminar()
+            throws IOException, InterruptedException {
+        if (mainframe.enviarString(ELIMINAR)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                if (mainframe.esperarPantalla(PANTALLA_ELIMINAR_TAREA)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -222,24 +331,36 @@ public class TasksJob implements TasksAPI {
      */
     public CODIGO_ERROR auxiliarEliminarTarea()
             throws IOException, InterruptedException {
-        if (mainframe.esperarPantalla(MENSAJE_TAREA_NO_ENCONTRADA)) {
-            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENU_TASKS2)) {
-                    return CODIGO_ERROR.IDTAREA_INCORRECTO;
-                }
+        if (mainframe.esperarPantalla(PANTALLA_TAREA_NO_ENCONTRADA)) {
+            if (esperarPantallaMenu()) {
+                return CODIGO_ERROR.IDTAREA_INCORRECTO;
             }
-        } else if (mainframe.esperarPantalla(MENSAJE_CONFIRMAR_ELIMINAR)) {
+        } else if (esperarConfirmacionEliminar()) {
+            return CODIGO_ERROR.OK;
+        }
+        return CODIGO_ERROR.NOK;
+    }
+
+    /**
+     * Método auxiliar para esperar la confirmación de la eliminación de la
+     * tarea.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarConfirmacionEliminar()
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(MENSAJE_CONFIRMAR_ELIMINAR)) {
             if (mainframe.enviarString(SI)) {
                 if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                    if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                        if (mainframe.esperarPantalla(MENU_TASKS2)) {
-                            return CODIGO_ERROR.OK;
-                        }
+                    if (esperarPantallaMenu()) {
+                        return true;
                     }
                 }
             }
         }
-        return CODIGO_ERROR.NOK;
+        return false;
     }
 
     /**
@@ -254,32 +375,56 @@ public class TasksJob implements TasksAPI {
     public List<Tarea> buscarTareas(String fecha)
             throws IOException, InterruptedException {
         List<Tarea> tareas = new ArrayList();
-        if (mainframe.enviarString(BUSCAR)) {
-            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENSAJE_BUSCAR_TAREAS)) {
-                    if (mainframe.enviarString(fecha)) {
-                        if (mainframe.enviarComando(
-                                Mainframe.COMANDO_ENTER)) {
-                            if (mainframe.esperarPantalla(MENSAJE_FIN_LISTA)) {
-                                if (mainframe.enviarComando(
-                                        Mainframe.COMANDO_ASCII)) {
-                                    tareas = obtenerListaTareas();
-                                    if (mainframe.enviarComando(
-                                            Mainframe.COMANDO_ENTER)) {
-                                        if (mainframe.esperarPantalla(
-                                                MENU_TASKS2)) {
-                                            return tareas;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+        if (esperarPantallaBuscar()) {
+            if (enviarFechaTarea(fecha)) {
+                if (empezarLecturaTareas()) {
+                    tareas = obtenerListaTareas();
+                    if (esperarPantallaMenu()) {
+                        return tareas;
                     }
                 }
             }
         }
         return tareas;
     }
+
+    /**
+     * Método auxiliar que espera la pantalla de búsqueda de tareas.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarPantallaBuscar()
+            throws IOException, InterruptedException {
+        if (mainframe.enviarString(BUSCAR)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                if (mainframe.esperarPantalla(PANTALLA_BUSCAR_TAREAS)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar que empieza la lectura de las tareas de la aplicación
+     * legada.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean empezarLecturaTareas()
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(FIN_LISTA)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ASCII)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Opción de tasks2 para listar las tareas.
@@ -292,21 +437,36 @@ public class TasksJob implements TasksAPI {
     public List<Tarea> listarTareas()
             throws IOException, InterruptedException {
         List<Tarea> tareas = new ArrayList();
-        if (mainframe.enviarString(LISTAR)) {
-            if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENSAJE_LISTAR_TAREAS)) {
-                    if (mainframe.enviarComando(Mainframe.COMANDO_ASCII)) {
-                        tareas = obtenerListaTareas();
-                        if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
-                            if (mainframe.esperarPantalla(MENU_TASKS2)) {
-                                return tareas;
-                            }
-                        }
+        if (esperarPantallaListar()) {
+            if (mainframe.enviarComando(Mainframe.COMANDO_ASCII)) {
+                tareas = obtenerListaTareas();
+                if (mainframe.enviarComando(Mainframe.COMANDO_ENTER)) {
+                    if (mainframe.esperarPantalla(MENU_TASKS2)) {
+                        return tareas;
                     }
                 }
             }
         }
         return tareas;
+    }
+
+    /**
+     * Método auxiliar que espera la pantalla de listar tareas.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarPantallaListar()
+            throws IOException, InterruptedException {
+        if (mainframe.enviarString(LISTAR)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                if (mainframe.esperarPantalla(PANTALLA_LISTAR_TAREAS)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -384,24 +544,65 @@ public class TasksJob implements TasksAPI {
     @Override
     public boolean salir(String guardarTareas)
             throws IOException, InterruptedException {
-        if (mainframe.enviarString(Mainframe.COMANDO_EXIT)) {
+        if (esperarPantallaSalir()) {
+            if (realizarSalida()) {
+                return true;
+            } else if (esperarPantallaGuardar(guardarTareas)) {
+                if (realizarSalida()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar que espera la pantalla de salida de la aplicación
+     * legada.
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarPantallaSalir()
+            throws IOException, InterruptedException {
+        if (mainframe.enviarString(MainframeAPI.COMANDO_EXIT)) {
             if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                if (mainframe.esperarPantalla(MENSAJE_SALIDA)) {
-                    if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
-                        return true;
-                    }
-                } else if (mainframe.esperarPantalla(MENSAJE_GUARDAR_TAREAS)) {
-                    if (mainframe.enviarString(guardarTareas)) {
-                        if (mainframe.enviarComando(
-                                MainframeAPI.COMANDO_ENTER)) {
-                            if (mainframe.esperarPantalla(MENSAJE_SALIDA)) {
-                                if (mainframe.enviarComando(
-                                        MainframeAPI.COMANDO_ENTER)) {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método auxiliar que sale de la aplicación legada sin guardar cambios.
+     *
+     * @return
+     */
+    private boolean realizarSalida()
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(MENSAJE_SALIDA)) {
+            if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método que espera la pantalla de guardado de tareas.
+     *
+     * @param guardarTareas
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private boolean esperarPantallaGuardar(String guardarTareas)
+            throws IOException, InterruptedException {
+        if (mainframe.esperarPantalla(PANTALLA_GUARDAR_TAREAS)) {
+            if (mainframe.enviarString(guardarTareas)) {
+                if (mainframe.enviarComando(MainframeAPI.COMANDO_ENTER)) {
+                    return true;
                 }
             }
         }
