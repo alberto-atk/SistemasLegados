@@ -10,3 +10,7 @@ En el caso de que hayan transcurrido más de 10 segundos al iniciar sesión,
 puede que la máquina no esté respondiendo. Es un problema que ocurre de forma 
 aleatoria y tiene que ver con Forticlient VPN. Reiniciando Forticlient se puede
 arreglar el problema.
+
+PEOR CASO -> si no se consigue la conexión con la máquina 155.210.71.101:123, se
+puede probar con la máquina 155.210.71.101:723 que no requiere conexión a través 
+de Forticlient.
