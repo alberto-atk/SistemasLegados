@@ -1,0 +1,12 @@
+------------------- INSTALACIÓN LINUX -------------------
+
+Para máquinas con Linux, FortiClient se puede instalar mediante los siguientes 
+comandos:
+
+wget -O - https://repo.fortinet.com/repo/6.4/ubuntu/DEB-GPG-KEY | sudo apt-key add -
+
+deb [arch=amd64] https://repo.fortinet.com/repo/6.4/ubuntu/ /bionic multiverse
+
+sudo apt-get update
+
+sudo apt install forticlient
