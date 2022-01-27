@@ -10,7 +10,7 @@ package P3.Control;
 import java.io.IOException;
 
 public interface MainframeAPI {
-    String TERMINAL_SIN_PANTALLA = "s3270";
+    String TERMINAL_SIN_PANTALLA = "./s3270";
     Long TIEMPO_EJEC_MAXIMO = 5000L;
     String COMANDO_ENTER = "enter";
     String COMANDO_EXIT = "exit";

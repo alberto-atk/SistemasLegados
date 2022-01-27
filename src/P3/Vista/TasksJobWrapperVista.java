@@ -19,12 +19,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import P3.Control.OyenteVista;
 import P3.Modelo.Tupla;
 
 public class TasksJobWrapperVista implements ActionListener,
         PropertyChangeListener {
+    private static final String TITULO_CONEXION_PERDIDA = "Conexión perdida";
     private static final int ANCHO = 600;
     private static final int ALTO = 800;
     private static final int ANCHO_PANEL_BOTONES = 200;
@@ -38,7 +42,6 @@ public class TasksJobWrapperVista implements ActionListener,
     private static final int TAMANYO_CAMPOS_TEXTO = 10;
     private static final int DELAY_TIMER = 1000;
 
-    private static final String FORMATO_FECHA = "^[0-9]{2} [0-9]{2} [0-9]{4}$";
     private static final String PATRON_CADENA_DIGITOS = "^[0-9]+$";
     private static final String RESPUESTA_SI = "y";
     private static final String RESPUESTA_NO = "n";
@@ -46,6 +49,10 @@ public class TasksJobWrapperVista implements ActionListener,
             "espere" +
             ".\nTiempo transcurrido: ";
     private static final String TITULO_VENTANA_ESPERA = "Procesando";
+    private static final int MAX_TIEMPO_ESPERA = 15;
+    private static final String MENSAJE_TIEMPO_ESPERA_EXCEDIDO =
+            "Se ha excedido el tiempo máximo de espera.";
+    public static final String DD_MM_YYYY = "dd MM yyyy";
 
     private OyenteVista oyenteVista;
     private static final String NUEVO_FICHERO = "Nuevo fichero";
@@ -68,21 +75,21 @@ public class TasksJobWrapperVista implements ActionListener,
             "¿Desea guardar los cambios?";
 
     private static final String TITULO_VENTANA_INICIAR_SESION =
-            "Inicio sesión";
+            "Iniciar sesión";
     private static final String[] CAMPOS_INICIAR_SESION =
             {"Host", "Usuario", "Contraseña"};
     private static final String[] OPCIONES_INICIAR_SESION =
             {"Iniciar sesión", "Cancelar"};
 
     private static final String TITULO_VENTANA_ANYADIR_TAREA =
-            "Añadir una tarea";
+            "Añadir tarea";
     private static final String[] CAMPOS_ANYADIR_TAREA =
-            {"Id", "Nombre", "Descripción", "Fecha"};
+            {"Id", "Nombre", "Descripción", "Fecha (DD MM AAAA)"};
     private static final String[] OPCIONES_ANYADIR_TAREA =
             {"Añadir", "Cancelar"};
 
     private static final String TITULO_VENTANA_BUSCAR_TAREAS = "Buscar tareas";
-    private static final String[] CAMPOS_BUSCAR_TAREAS = {"Fecha"};
+    private static final String[] CAMPOS_BUSCAR_TAREAS = {"Fecha (DD MM AAAA)"};
     private static final String[] OPCIONES_BUSCAR_TAREAS =
             {"Buscar", "Cancelar"};
 
@@ -114,6 +121,8 @@ public class TasksJobWrapperVista implements ActionListener,
     private static final String MENSAJE_DESCRIPCION_INCORRECTA =
             "La descripción de la tarea debe tener menos de " +
                     TAMANYO_DESCRIPCION_TAREA + " caracteres.";
+    private static final String MENSAJE_FECHA_INVALIDA = "La fecha " +
+            "introducida no es una fecha válida del calendario.";
 
     private String[] datosInicioSesion;
     private int tiempoTranscurrido = 0;
@@ -288,10 +297,13 @@ public class TasksJobWrapperVista implements ActionListener,
                 String[] datosAnyadirTarea = anyadirTarea();
                 if (datosAnyadirTarea != null) {
                     Tupla<Tupla, Tupla> tupla = new Tupla(
-                        new Tupla(datosAnyadirTarea[0], datosAnyadirTarea[1]),
-                        new Tupla(datosAnyadirTarea[2], datosAnyadirTarea[3]));
+                            new Tupla(datosAnyadirTarea[0],
+                                    datosAnyadirTarea[1]),
+                            new Tupla(datosAnyadirTarea[2],
+                                    datosAnyadirTarea[3]));
                     oyenteVista.eventoProducido(
                             OyenteVista.Evento.ANYADIR_TAREA, tupla);
+
                 }
                 break;
 
@@ -354,10 +366,12 @@ public class TasksJobWrapperVista implements ActionListener,
      */
     private String[] iniciarSesion() {
         ComplexDialoguePanel ventanaIniciarSesion =
-                new ComplexDialoguePanel(TITULO_VENTANA_INICIAR_SESION,
+                new ComplexDialoguePanel("",
                         CAMPOS_INICIAR_SESION, TAMANYO_CAMPOS_INICIO_SESION);
         String[] datosInicioSesion =
                 ventanaIniciarSesion.obtenerTextoCampos(
+                        TITULO_VENTANA_INICIAR_SESION + " --- " +
+                                TASKSJOB_WRAPPER,
                         OPCIONES_INICIAR_SESION);
 
         return datosInicioSesion;
@@ -372,9 +386,11 @@ public class TasksJobWrapperVista implements ActionListener,
         String[] datosAnyadirTarea = null;
 
         ComplexDialoguePanel ventanaAnyadirTarea = new ComplexDialoguePanel(
-                TITULO_VENTANA_ANYADIR_TAREA, CAMPOS_ANYADIR_TAREA,
+                "", CAMPOS_ANYADIR_TAREA,
                 TAMANYO_DESCRIPCION_TAREA);
         datosAnyadirTarea = ventanaAnyadirTarea.obtenerTextoCampos(
+                TITULO_VENTANA_ANYADIR_TAREA + " --- " +
+                        TASKSJOB_WRAPPER,
                 OPCIONES_ANYADIR_TAREA);
 
         CodigoRespuesta codigo = verificarDatosTarea(datosAnyadirTarea);
@@ -384,29 +400,23 @@ public class TasksJobWrapperVista implements ActionListener,
                 return datosAnyadirTarea;
 
             case ERROR_FECHA_INCORRECTA:
-                JOptionPane.showMessageDialog(new JFrame(),
-                        MENSAJE_FECHA_INCORRECTA, ETIQUETA_VENTANA_ERROR_FECHA,
-                        JOptionPane.ERROR_MESSAGE);
+                notificarMensajeError(ETIQUETA_VENTANA_ERROR_FECHA,
+                        MENSAJE_FECHA_INVALIDA);
                 break;
 
             case ERROR_ID_TAREA:
-                JOptionPane.showMessageDialog(new JFrame(),
-                        MENSAJE_ID_INCORRECTO, ETIQUETA_VENTANA_ID_INCORRECTO,
-                        JOptionPane.ERROR_MESSAGE);
+                notificarMensajeError(ETIQUETA_VENTANA_ID_INCORRECTO,
+                        MENSAJE_ID_INCORRECTO);
                 break;
 
             case ERROR_LONG_NOMBRE:
-                JOptionPane.showMessageDialog(new JFrame(),
-                        MENSAJE_NOMBRE_INCORRECTO,
-                        ETIQUETA_VENTANA_NOMBRE_INCORRECTO,
-                        JOptionPane.ERROR_MESSAGE);
+                notificarMensajeError(ETIQUETA_VENTANA_NOMBRE_INCORRECTO,
+                        MENSAJE_NOMBRE_INCORRECTO);
                 break;
 
             case ERROR_LONG_DESCRIPCION:
-                JOptionPane.showMessageDialog(new JFrame(),
-                        MENSAJE_DESCRIPCION_INCORRECTA,
-                        ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA,
-                        JOptionPane.ERROR_MESSAGE);
+                notificarMensajeError(ETIQUETA_VENTANA_DESCRIPCION_INCORRECTA,
+                        MENSAJE_DESCRIPCION_INCORRECTA);
                 break;
         }
         return null;
@@ -426,7 +436,7 @@ public class TasksJobWrapperVista implements ActionListener,
                     if ((datosTarea[2].length() > 0) &&
                             (datosTarea[2].length() <=
                                     TAMANYO_DESCRIPCION_TAREA)) {
-                        if (datosTarea[3].matches(FORMATO_FECHA)) {
+                        if (fechaValida(datosTarea[3])) {
                             return CodigoRespuesta.OK;
                         } else {
                             return CodigoRespuesta.ERROR_FECHA_INCORRECTA;
@@ -451,10 +461,13 @@ public class TasksJobWrapperVista implements ActionListener,
      */
     private String[] buscarTareas() {
         ComplexDialoguePanel ventanaBuscarTareas =
-                new ComplexDialoguePanel(TITULO_VENTANA_BUSCAR_TAREAS,
+                new ComplexDialoguePanel("",
                         CAMPOS_BUSCAR_TAREAS, TAMANYO_CAMPOS_TEXTO);
         String[] datosBuscarTareas =
-                ventanaBuscarTareas.obtenerTextoCampos(OPCIONES_BUSCAR_TAREAS);
+                ventanaBuscarTareas.obtenerTextoCampos(
+                        TITULO_VENTANA_BUSCAR_TAREAS + " --- " +
+                                TASKSJOB_WRAPPER,
+                        OPCIONES_BUSCAR_TAREAS);
 
         return datosBuscarTareas;
     }
@@ -466,10 +479,12 @@ public class TasksJobWrapperVista implements ActionListener,
      */
     private String[] obtenerDatosEliminarTarea() {
         ComplexDialoguePanel ventanaEliminarTareas =
-                new ComplexDialoguePanel(TITULO_VENTANA_ELIMINAR_TAREA,
+                new ComplexDialoguePanel("",
                         CAMPOS_ELIMINAR_TAREA, TAMANYO_CAMPOS_TEXTO);
         String[] datoseliminarTareas =
                 ventanaEliminarTareas.obtenerTextoCampos(
+                        TITULO_VENTANA_ELIMINAR_TAREA + " --- " +
+                                TASKSJOB_WRAPPER,
                         OPCIONES_ELIMINAR_TAREA);
 
         return datoseliminarTareas;
@@ -482,26 +497,36 @@ public class TasksJobWrapperVista implements ActionListener,
         tiempoTranscurrido = 0;
         ventanaEspera = new JOptionPane(
                 MENSAJE_ESPERA + tiempoTranscurrido + "s",
-                        JOptionPane.INFORMATION_MESSAGE,
-                        JOptionPane.DEFAULT_OPTION, null, new Object[]{},
-                        null);
+                JOptionPane.INFORMATION_MESSAGE,
+                JOptionPane.DEFAULT_OPTION, null, new Object[]{},
+                null);
         ventanaEspera.revalidate();
         dialogoEspera = new JDialog();
         dialogoEspera.setModal(false);
         dialogoEspera.setLocationRelativeTo(null);
         dialogoEspera.setTitle(TITULO_VENTANA_ESPERA);
         dialogoEspera.setContentPane(ventanaEspera);
-        dialogoEspera.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialogoEspera.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialogoEspera.setResizable(false);
         dialogoEspera.pack();
 
         temporizador = new Timer(DELAY_TIMER, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tiempoTranscurrido++;
-                ventanaEspera
-                        .setMessage(MENSAJE_ESPERA + tiempoTranscurrido + "s");
+                if (tiempoTranscurrido < MAX_TIEMPO_ESPERA) {
+                    tiempoTranscurrido++;
+                    ventanaEspera.setMessage(MENSAJE_ESPERA +
+                            tiempoTranscurrido + "s");
+                } else {
+                    temporizador.stop();
+                    tiempoTranscurrido = 0;
+                    notificarMensajeError(TITULO_CONEXION_PERDIDA,
+                            MENSAJE_TIEMPO_ESPERA_EXCEDIDO);
+                    System.exit(0);
+                }
             }
         });
+
         temporizador.start();
         dialogoEspera.setVisible(true);
     }
@@ -513,6 +538,25 @@ public class TasksJobWrapperVista implements ActionListener,
         ventanaEspera.setVisible(false);
         temporizador.stop();
         dialogoEspera.dispose();
+    }
+
+    /**
+     * Valida la fecha introducida.
+     *
+     * @param date
+     * @return
+     */
+    public boolean fechaValida(String date) {
+        try {
+            SimpleDateFormat formatoFecha =
+                    new SimpleDateFormat(TasksJobWrapperVista.DD_MM_YYYY,
+                            Locale.getDefault());
+            formatoFecha.setLenient(false);
+            formatoFecha.parse(date);
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
     }
 
     /**

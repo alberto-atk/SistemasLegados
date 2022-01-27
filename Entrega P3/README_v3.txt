@@ -15,6 +15,8 @@ Después de conectarse, se puede ejecutar TasksJobWrapper. Para su ejecución
 hace falta Java 11.0.14.
 Se ejecuta desde línea de comando con "java -jar TasksJobWrapper.jar".
 
+IMPORTANTE! SE DEBE EJECUTAR EN LA MISMA CARPTETA QUE EL PROGRAMA "s3270".
+
 ------------------- FEEDBACK y ERRORES -------------------
 
 El programa proporciona el feedback necesario en los casos de error más comunes.

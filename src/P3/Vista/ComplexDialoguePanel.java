@@ -7,9 +7,7 @@
  */
 package P3.Vista;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
@@ -19,7 +17,6 @@ import javax.swing.*;
  * por teclado.
  */
 public class ComplexDialoguePanel extends JPanel {
-    private static final String ETIQUETA_VENTANA = "Introducir información";
     private static final String ETIQUETA_CONTRASEÑA = "Contraseña";
     private String[] etiquetasDatos;
     private Map<String, JTextField> camposTexto = new HashMap<>();
@@ -109,7 +106,7 @@ public class ComplexDialoguePanel extends JPanel {
      * @param opciones
      * @return
      */
-    public String[] obtenerTextoCampos(String[] opciones) {
+    public String[] obtenerTextoCampos(String titulo, String[] opciones) {
         int respuesta = -1;
         int numDatos = this.etiquetasDatos.length;
         boolean datosIncorrectos = true;
@@ -122,7 +119,7 @@ public class ComplexDialoguePanel extends JPanel {
             Object valorInicial = opciones[0];
 
             respuesta = JOptionPane.showOptionDialog(null,
-                    this, ETIQUETA_VENTANA,
+                    this, titulo,
                     tipoOpcion, tipoMensaje, icono,
                     opciones, valorInicial);
 
